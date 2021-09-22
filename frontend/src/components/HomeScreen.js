@@ -10,9 +10,9 @@ const HomeScreen = (props) =>{
     
     // Viewport settings
     const INITIAL_VIEW_STATE = {
-        longitude: -122.41669,
-        latitude: 37.7853,
-        zoom: 13,
+        longitude: -98.35,
+        latitude: 39.50,
+        zoom: 3,
         pitch: 0,
         bearing: 0
     };
