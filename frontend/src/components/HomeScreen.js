@@ -7,7 +7,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Selection } from 'reactstrap';
 
 
-let data = require('../maryland.json');
+let preccintData = require('../maryland.json');
+let districtData = require('../bad.json');
+
 // console.log(data, 'the json obj');
 
 const HomeScreen = (props) =>{
@@ -28,9 +30,19 @@ const HomeScreen = (props) =>{
     //     {sourcePosition: [-122.41669, 37.7853], targetPosition: [-122.41669, 37.781]}
     // ];
 
-    const Base = new GeoJsonLayer({
+    // var groupBy = function(xs, key) {
+    //   return xs.reduce(function(rv, x) {
+    //     (rv[x[key]] = rv[x[key]] || []).push(x);
+    //     return rv;
+    //   }, {});
+    // };
+
+    // var temp = groupBy(data["features"], "districtID");
+    // console.log(temp);
+    
+    const base = new GeoJsonLayer({
       id: 'geojson-layer',
-      data,
+      data : districtData,
       pickable: true,
       stroked: false,
       filled: true,
@@ -44,23 +56,50 @@ const HomeScreen = (props) =>{
       getLineWidth: 1,
       getElevation: 30
     });
-    console.log(Base);
+
+    console.log(districtData);
+    console.log(preccintData);
+
+    const district = [];
+
+    districtData["features"].forEach(element => {
+      district.push(new GeoJsonLayer({
+        id: 'geojson-layer',
+        data : element,
+        pickable: true,
+        stroked: false,
+        filled: true,
+        extruded: false,
+        pointType: 'circle',
+        lineWidthScale: 20,
+        lineWidthMinPixels: 2,
+        getFillColor: [Math.random()*256, Math.random()*256, Math.random()*256],
+        getLineColor: [80, 80, 80],
+        getPointRadius: 100,
+        getLineWidth: 5,
+        getElevation: 30
+      }))
+    });
 
     const preccint = []
 
-    // data["features"].forEach(element => {
-    //   preccint.push(new GeoJsonLayer({
-    //     id: 'geojson-layer',
-    //     data: element,
-    //     pickable: true,
-    //     stroked: false,
-    //     filled: true,
-    //     extruded: true,
-    //     pointType: 'circle',
-    //     lineWidthScale: 20,
-    //     lineWidthMinPixels: 2,
-    //   }))
-    // })
+    preccintData["features"].forEach(element => {
+      preccint.push(new GeoJsonLayer({
+        id: 'geojson-layer',
+        data : element,
+        pickable: true,
+        stroked: false,
+        filled: true,
+        extruded: false,
+        pointType: 'circle',
+        lineWidthScale: 20,
+        lineWidthMinPixels: 2,
+        getFillColor: [Math.random()*256, Math.random()*256, Math.random()*256],
+        getPointRadius: 100,
+        getLineWidth: 1,
+        getElevation: 30
+      }));
+    })
    
     // preccint.push(new GeoJsonLayer({
     //   id: 'geojson-layer',
@@ -87,7 +126,7 @@ const HomeScreen = (props) =>{
     //   getLineColor: [80, 80, 80],
     // }))
 
-    console.log(preccint);
+    // console.log(preccint);
     // const layer = new PolygonLayer({
     //   id: 'polygon-layer',
     //   data,
@@ -103,6 +142,10 @@ const HomeScreen = (props) =>{
     //   getLineWidth: 1
     // });
 
+    const layers = [
+      // ...district,
+      ...preccint
+    ]
     return (
       <>
       <div>
@@ -113,7 +156,7 @@ const HomeScreen = (props) =>{
           <DeckGL
           initialViewState={INITIAL_VIEW_STATE}
           controller={true}
-          layers={Base}
+          layers={layers}
           getTooltip={({object}) => object && (object.properties.name || object.properties.station)}
         >
           <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
