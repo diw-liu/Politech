@@ -3,6 +3,9 @@ import DeckGL from '@deck.gl/react';
 import {LineLayer} from '@deck.gl/layers';
 import {StaticMap} from 'react-map-gl';
 
+import React, { useRef, useEffect, useState } from 'react';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Selection } from 'reactstrap';
+
 
 const HomeScreen = (props) =>{
    // Set your mapbox access token here
@@ -10,12 +13,12 @@ const HomeScreen = (props) =>{
     
     // Viewport settings
     const INITIAL_VIEW_STATE = {
-        longitude: -122.41669,
-        latitude: 37.7853,
-        zoom: 13,
-        pitch: 0,
-        bearing: 0
-    };
+      longitude: -98.35,
+      latitude: 39.50,
+      zoom: 4.5,
+      pitch: 0,
+      bearing: 0
+  };
 
     // Data to be used by the LineLayer
     const data = [
@@ -27,13 +30,22 @@ const HomeScreen = (props) =>{
     ];
 
     return (
-        <DeckGL
+      <>
+      <div>
+        <div classname="sidebar">
+          wrytuyifegrjiouewoi
+        </div>
+        <div>
+          <DeckGL
           initialViewState={INITIAL_VIEW_STATE}
           controller={true}
           layers={layers}
         >
           <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
         </DeckGL>
+        </div>
+      </div>
+      </>
       );
 }
 export default HomeScreen;
