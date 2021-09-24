@@ -7,6 +7,7 @@ import React, { useRef, useEffect, useState } from 'react';
 // import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Selection } from 'reactstrap';
 
 import Dropdown from './Dropdown';
+import InfoMenu from './InfoMenu';
 import Map from './Map';
 
 
@@ -162,6 +163,9 @@ const HomeScreen = (props) =>{
           <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
         </DeckGL> */}
           
+        </div>
+        <div>
+          <InfoMenu/>
         </div>
         <Map />
       </div>
