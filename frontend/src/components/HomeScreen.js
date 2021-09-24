@@ -1,21 +1,19 @@
-import React, { useRef, useEffect, useState } from 'react';
 
+import React, { useRef, useEffect, useState } from 'react';
 import StateSelector from './StateSelector';
+import InfoMenu from './InfoMenu';
 import Map from './Map';
 
-const initialState = {
-  stateSelected: null
-}
-
 const HomeScreen = (props) =>{
-
     return (
       <div>
         <div>
-          <StateSelector data={initialState}/>
-          <Map />
+          <StateSelector />     
         </div>
-        
+        <div>
+          <InfoMenu/>
+        </div>
+        <Map />
       </div>
       );
 }

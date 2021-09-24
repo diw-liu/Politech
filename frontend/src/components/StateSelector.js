@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Selection } from 'reactstrap';
 
+import '../css/StateSelector.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.js';
+
 export default function StateSelector(data) {
   console.log(data);
   const [stateSelected, setStateSelected] = useState(data);
@@ -19,7 +23,7 @@ export default function StateSelector(data) {
     //     Click me
     //   </button> */}
     // </Dropdown>
-    <div className='StateDropdown'>
+    <div className='StateSelector'>
       State
       <hr/>
       <select>
