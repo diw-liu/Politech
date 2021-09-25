@@ -4,7 +4,7 @@ import {PolygonLayer} from '@deck.gl/layers';
 import {StaticMap} from 'react-map-gl';
 import { useState } from 'react';
 
-let preccintData = require('../maryland.json');
+let precintData = require('../maryland.json');
 let districtData = require('../bad.json');
 
 const Map = (props) => {
@@ -25,6 +25,10 @@ const Map = (props) => {
         longitude: -98.35,
         latitude: 39.50,
         zoom: 4,
+        // Following coordinates are for my own record
+        // longitude:-76.44,
+        // latitude: 39,
+        // zoom: 7.5,
         pitch: 0,
         bearing: 0
     };
@@ -58,9 +62,9 @@ const Map = (props) => {
       getLineColor: [0,0,0],
     })
 
-    const preccint = new GeoJsonLayer({
+    const precint = new GeoJsonLayer({
       id: 'geojson-layer',
-      data : preccintData,
+      data : precintData,
       pickable: true,
       stroked: true,
       filled: true,
@@ -74,12 +78,11 @@ const Map = (props) => {
     })
 
     // console.log(districtData)
-    // console.log(preccintData)
+    // console.log(precintData)
 
     const layers = [
-      preccint,
+      precint,
       district
-      
     ]
 
     return(

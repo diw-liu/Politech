@@ -4,14 +4,22 @@ import StateSelector from './StateSelector';
 import InfoMenu from './InfoMenu';
 import Map from './Map';
 
+const values = {
+  stateSelected: null,
+  dropdownTitle: "Select State"
+}
+
+// const [variableData, setVariableData] = useState(initialState);
+
 const HomeScreen = (props) =>{
     return (
       <div>
         <div>
-          <StateSelector />     
+          <StateSelector data={values}/>     
         </div>
         <div>
-          <InfoMenu/>
+          {values.stateSelected && <InfoMenu/>}
+          
         </div>
         <Map />
       </div>
