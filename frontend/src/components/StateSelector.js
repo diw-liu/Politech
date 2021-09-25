@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Selection, DropdownButton } from 'react-bootstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Selection, DropdownButton, Button } from 'react-bootstrap';
 
 import { DataContext, useData } from '../contexts/DataContext';
 
@@ -8,7 +8,7 @@ import '../css/StateSelector.css';
 // import 'bootstrap/dist/js/bootstrap.js';
 
 export default function StateSelector({ props }) {
-  let [data, /*dispatch*/setData] = useData(DataContext);
+  let [data, /*dispatch*/setData] = useData(/*DataContext*/);
 
   const handleStateSelect = (newState) => {
     console.log(newState);
@@ -17,7 +17,7 @@ export default function StateSelector({ props }) {
   }
 
   return (
-    // <div className='StateSelector'>
+    <div className='StateSelector'>
       <DropdownButton
             className="StateSelector"
             size="sm"
@@ -34,7 +34,10 @@ export default function StateSelector({ props }) {
             Maryland
           </Dropdown.Item>
           </>
-        </DropdownButton>
-    // </div>
+      </DropdownButton>
+      <Button>
+        Test
+      </Button>
+    </div>
   );
 }
