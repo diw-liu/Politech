@@ -1,9 +1,8 @@
+import '../css/StateSelector.css';
 import React, { useState, useEffect, useContext } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Selection, DropdownButton, Button } from 'react-bootstrap';
-
 import { DataContext, useData } from '../contexts/DataContext';
 
-import '../css/StateSelector.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.js';
 
