@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import StateSelector from './StateSelector';
 import InfoMenu from './InfoMenu';
+import LeftBar from './LeftBar';
 import Map from './Map';
+import StateSelector from './StateSelector';
 import { DataContext, useData } from '../contexts/DataContext';
+
 
 // const values = {
 //   stateSelected: null,
@@ -17,7 +19,7 @@ const HomeScreen = (props) =>{
           <StateSelector data={info}/>     
         </div>
         <div>
-          {info.stateSelected && <InfoMenu/>}
+          {info.stateSelected && (<div><InfoMenu/><LeftBar/></div>)} {/* conditional rendering of InfoMenu and LeftBar */}
         </div>
         <Map />
       </div>

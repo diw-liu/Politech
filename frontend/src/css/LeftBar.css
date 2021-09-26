@@ -1,0 +1,12 @@
+.LeftBar {
+    z-index: 1; 
+    background: white; 
+    border-radius: 16px;
+    margin: 8px;
+    padding: 8px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 85%;
+    width: 25%;
+}

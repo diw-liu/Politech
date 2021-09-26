@@ -16,7 +16,6 @@ export default function StateSelector({ props }) {
   }
 
   return (
-    <div className='StateSelector'>
       <DropdownButton
             className="StateSelector"
             size="sm"
@@ -34,9 +33,5 @@ export default function StateSelector({ props }) {
           </Dropdown.Item>
           </>
       </DropdownButton>
-      <Button>
-        Test
-      </Button>
-    </div>
   );
 }
