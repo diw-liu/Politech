@@ -9,18 +9,17 @@ let districtMI = require('../data/MIdistrict.json');
 let precintPA = require('../data/pennsylvania.json');
 let districtPA = require('../data/PAdistrict.json');
 
-export const Districts = [districtMD, districtMI, districtPA]
+export const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZGl3bGl1IiwiYSI6ImNrdHQ1M3hjdTFuZWcycXBxczAyYnRud3EifQ.WUk5cILDRQQNOaae60Hb9A";
 
-const Precint = [precintMD, precintMI, precintPA]
+export const DISTRICT = [districtMD, districtMI, districtPA]
+
+export const PRECINT = [precintMD, precintMI, precintPA]
 
 export const showState = (index) =>{
     var map = {};
-    var precintData = Precint[index]
-    var districtData = Districts[index]
-
-    console.log("Shows")
-    console.log(precintData)
-    console.log(districtData)
+    
+    var precintData = PRECINT[index]
+    var districtData = DISTRICT[index]
 
     const districtMap = (Id) => {
         if(Id in map ){

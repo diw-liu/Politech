@@ -1,37 +1,54 @@
 import '../css/StateSelector.css';
-import React, { useState, useEffect, useContext } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Selection, DropdownButton, Button } from 'react-bootstrap';
-import { DataContext, useData } from '../contexts/DataContext';
+import React, { useState } from 'react';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.js';
+import { Dropdown, DropdownButton, } from 'react-bootstrap';
+import { INITIAL_VIEW_STATE } from './ViewState'
 
-export default function StateSelector({ props }) {
-  let [data, /*dispatch*/setData] = useData(/*DataContext*/);
+const StateSelector = (props) => {
+  const [selected, setSelected] = useState();
 
-  const handleStateSelect = (newState) => {
-    console.log(newState);
-    // return dispatch({type: "SELECT_STATE", payload: newState});
-    return setData({...data, stateSelected: newState, dropdownTitle: newState});
+  const handleStateSelect = (key) => {
+    props.showClick(key)
+    setSelected(key)
+  }
+  const handleReset = () => {
+    props.setShowInfo(false)
+    props.setView(INITIAL_VIEW_STATE)
   }
 
   return (
+    <>
       <DropdownButton
             className="StateSelector"
             size="sm"
             variant="outline-secondary"
             id="dropdown-basic-button"
-            title={data.dropdownTitle}
+            title={selected}
             onSelect={handleStateSelect}
         >
           <>
           <Dropdown.Item 
             key={"Maryland"}
-            eventKey={"Maryland"}
+            eventKey={[0]}
           >
             Maryland
           </Dropdown.Item>
+          <Dropdown.Item 
+            key={"Michigan"}
+            eventKey={1}
+          >
+            Michigan
+          </Dropdown.Item>
+          <Dropdown.Item 
+            key={"Pennsylvania"}
+            eventKey={2}
+          >
+            Pennsylvania
+          </Dropdown.Item>
           </>
       </DropdownButton>
+      <button type="button" className="btn btn-primary z-index" onClick={handleReset}>Reset</button>
+    </>
   );
 }
+export default StateSelector;

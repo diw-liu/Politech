@@ -9,3 +9,8 @@
     width: 25%;
     display: inline-block;
 }
+.z-index {
+    z-index: 2;
+    position: absolute;
+    margin-left: 200px;
+}

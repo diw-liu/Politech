@@ -1,29 +1,12 @@
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import { StaticMap } from 'react-map-gl';
-import { useState } from 'react';
-import { Districts, showState } from './preprocess'
+import { DISTRICT, MAPBOX_ACCESS_TOKEN } from './Preprocess'
 
-const districts = Districts
-
-const INITIAL_VIEW_STATE = {
-  longitude: -98.35,
-  latitude: 39.50,
-  zoom: 4,
-  // Following coordinates are for my own record
-  // longitude:-76.44,
-  // latitude: 39,
-  // zoom: 7.5,
-  pitch: 0,
-  bearing: 0
-};
+const districts = DISTRICT
 
 const Map = (props) => {
     // Set your mapbox access token here
-    
-    const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZGl3bGl1IiwiYSI6ImNrdHQ1M3hjdTFuZWcycXBxczAyYnRud3EifQ.WUk5cILDRQQNOaae60Hb9A";
-    const [showDistrict, setShowDistrict] = useState(false)
-    const [state, setState] = useState([])
     var base = [];
 
     for(var i = 0; i < districts.length; i++){
@@ -43,18 +26,17 @@ const Map = (props) => {
         getLineWidth: 1,
         getElevation: 30,
         onClick: (info) => { 
-          setShowDistrict(!showDistrict) 
-          setState(showState(info.layer.id-1))
+          props.showClick(info.layer.id-1)
         }
       }));
     }
     
-    const layers = showDistrict ?  state
-                                :  base
+    const layers = props.showInfo ?  props.state
+                                  :  base
 
     return(
         <DeckGL
-          initialViewState={INITIAL_VIEW_STATE}
+          initialViewState={props.view}
           controller={true}
           layers={layers}
           // getTooltip={({object}) => object && (object.properties.name || object.properties.station)}
