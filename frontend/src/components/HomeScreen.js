@@ -32,7 +32,7 @@ const HomeScreen = (props) =>{
           />     
         { showInfo && (
           <div>
-            <InfoMenu/>
+            <InfoMenu stateName={stateName}/>
             <LeftBar stateName={stateName}/>
           </div>)
         } 

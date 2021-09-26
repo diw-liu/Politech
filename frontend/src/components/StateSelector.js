@@ -8,17 +8,20 @@ import { NAMES } from './HomeScreen'
 const defaultOption = 'Select a state...'
 
 const StateSelector = (props) => {
-  const [selected, setSelected] = useState(defaultOption);
+  console.log("StateSelector");
+  console.log(props);
+  // const [selected, setSelected] = useState(props.stateName);
 
   const handleStateSelect = (key) => {
     props.setStateName(key)
     props.showClick(key)
-    setSelected(NAMES[key])
+    // setSelected(NAMES[key])
   }
   const handleReset = () => {
+    props.setStateName("")
     props.setShowInfo(false)
     props.setView(INITIAL_VIEW_STATE)
-    setSelected(defaultOption)
+    // setSelected(defaultOption)
   }
 
   return (
@@ -27,7 +30,7 @@ const StateSelector = (props) => {
           size="sm"
           variant="outline-secondary"
           id="dropdown-basic-button"
-          title={selected}
+          title={props.stateName ? props.stateName : defaultOption}
           onSelect={handleStateSelect}
       >
         <>

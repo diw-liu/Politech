@@ -9,8 +9,10 @@ import 'bootstrap/dist/js/bootstrap.js';
 class InfoMenu extends Component {
     constructor(props){
       super(props);
+      console.log("Informenu props");
+      console.log(props);
       this.state = {            
-          usState: 'Maryland'   
+          usState: props.stateName   
       };
     }
 
@@ -18,7 +20,7 @@ class InfoMenu extends Component {
         return (
           <div className='InfoMenu'>
             <div class='container'>
-              <p> { this.state.usState } </p>
+              <p> { /*this.state.usState*/ this.props.stateName } </p>
               <ul class='nav nav-pills' role='tablist'>
                 <li class='nav-item' role='presentation'>
                   <button class='nav-link' data-bs-toggle='tab' data-bs-target='#enacted' role='tab' type='button' aria-selected='true'> Enacted </button>
