@@ -5,7 +5,7 @@ import {StaticMap} from 'react-map-gl';
 import { useState } from 'react';
 
 let preccintData = require('../maryland.json');
-let districtData = require('../bad.json');
+let districtData = require('../MDdistrict.json');
 
 const Map = (props) => {
     // Set your mapbox access token here
