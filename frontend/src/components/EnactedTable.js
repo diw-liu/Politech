@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import districts from '../data/mock.js';
 
-class PlanTable extends Component {
+class EnactedTable extends Component {
 
     constructor(props){
         super(props);
@@ -26,10 +26,8 @@ class PlanTable extends Component {
                         districts.map(district => (
                             <tr key={district.id} align="start">
                               <td className="number" style={{ textAlign: 'left' }}>{district.number}</td>
-                              <td className="population" style={{ textAlign: 'right' }}>{district.population.toLocaleString('en-US')}</td>
-                              <td className="minorities" style={{ textAlign: 'right' }}>{
-                                Math.round((district.population - district.whites)/district.population * 10000, 4)/100
-                              }</td>
+                              <td className="population" style={{ textAlign: 'right' }}>{district.population}</td>
+                              <td className="minorities" style={{ textAlign: 'right' }}>{Math.round((district.population - district.whites)/district.population * 10000, 4)/100}</td>
                               <td className="deviation" style={{ textAlign: 'right' }}>{district.deviation}</td>
                             </tr>
                         ))
@@ -38,4 +36,4 @@ class PlanTable extends Component {
             </div>
         );
     }
-} export default PlanTable;
+} export default EnactedTable;
