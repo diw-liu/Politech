@@ -4,8 +4,8 @@ import {PolygonLayer} from '@deck.gl/layers';
 import {StaticMap} from 'react-map-gl';
 import { useState } from 'react';
 
-let precintData = require('../maryland.json');
-let districtData = require('../bad.json');
+let precintData = require('../data/maryland.json');
+let districtData = require('../data/bad.json');
 
 const Map = (props) => {
     // Set your mapbox access token here

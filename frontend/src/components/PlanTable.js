@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import districts from '../data/districts.js';
+import districts from '../data/mock.js';
 
 class PlanTable extends Component {
 
@@ -36,6 +36,4 @@ class PlanTable extends Component {
             </div>
         );
     }
-  }
-  
-  export default PlanTable;
+} export default PlanTable;
