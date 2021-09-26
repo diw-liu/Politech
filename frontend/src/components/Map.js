@@ -1,131 +1,56 @@
 import DeckGL from '@deck.gl/react';
-import {GeoJsonLayer} from '@deck.gl/layers';
-import {PolygonLayer} from '@deck.gl/layers';
-import {StaticMap} from 'react-map-gl';
+import { GeoJsonLayer } from '@deck.gl/layers';
+import { StaticMap } from 'react-map-gl';
 import { useState } from 'react';
+import { Districts, showState } from './preprocess'
 
-let preccintMD = require('../maryland.json');
-let districtMD = require('../MDdistrict.json');
+const districts = Districts
 
-let preccintMI = require('../michigan.json');
-let districtMI = require('../MIdistrict.json');
-
-let preccintPA = require('../pennsylvania.json');
-let districtPA = require('../PAdistrict.json');
+const INITIAL_VIEW_STATE = {
+  longitude: -98.35,
+  latitude: 39.50,
+  zoom: 4,
+  // Following coordinates are for my own record
+  // longitude:-76.44,
+  // latitude: 39,
+  // zoom: 7.5,
+  pitch: 0,
+  bearing: 0
+};
 
 const Map = (props) => {
     // Set your mapbox access token here
-    var map = {};
+    
     const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZGl3bGl1IiwiYSI6ImNrdHQ1M3hjdTFuZWcycXBxczAyYnRud3EifQ.WUk5cILDRQQNOaae60Hb9A";
     const [showDistrict, setShowDistrict] = useState(false)
+    const [state, setState] = useState([])
+    var base = [];
 
-    const districtMap = (Id) => {
-      if(Id in map ){
-        return map[Id]
-      }
-      var temp = [Math.random()*256, Math.random()*256, Math.random()*256];
-      map[Id] = temp;
-      return temp
+    for(var i = 0; i < districts.length; i++){
+      base.push(new GeoJsonLayer({
+        id: i+1,
+        data : districts[i],
+        pickable: true,
+        stroked: false,
+        filled: true,
+        extruded: true,
+        pointType: 'circle',
+        lineWidthScale: 20,
+        lineWidthMinPixels: 2,
+        getFillColor: [160, 160, 180, 200],
+        getLineColor: [80, 80, 80],
+        getPointRadius: 100,
+        getLineWidth: 1,
+        getElevation: 30,
+        onClick: (info) => { 
+          setShowDistrict(!showDistrict) 
+          setState(showState(info.layer.id-1))
+        }
+      }));
     }
-
-    const INITIAL_VIEW_STATE = {
-        longitude: -98.35,
-        latitude: 39.50,
-        zoom: 4,
-        // Following coordinates are for my own record
-        // longitude:-76.44,
-        // latitude: 39,
-        // zoom: 7.5,
-        pitch: 0,
-        bearing: 0
-    };
     
-    const base1 = new GeoJsonLayer({
-      id: 'geojson-layer',
-      data : districtMD,
-      pickable: true,
-      stroked: false,
-      filled: true,
-      extruded: true,
-      pointType: 'circle',
-      lineWidthScale: 20,
-      lineWidthMinPixels: 2,
-      getFillColor: [160, 160, 180, 200],
-      getLineColor: [80, 80, 80],
-      getPointRadius: 100,
-      getLineWidth: 1,
-      getElevation: 30,
-      onClick: () => { setShowDistrict(!showDistrict) }
-    });
-
-    const base2 = new GeoJsonLayer({
-      id: 'geojson-layer',
-      data : districtMI,
-      pickable: true,
-      stroked: false,
-      filled: true,
-      extruded: true,
-      pointType: 'circle',
-      lineWidthScale: 20,
-      lineWidthMinPixels: 2,
-      getFillColor: [160, 160, 180, 200],
-      getLineColor: [80, 80, 80],
-      getPointRadius: 100,
-      getLineWidth: 1,
-      getElevation: 30,
-      onClick: () => { setShowDistrict(!showDistrict) }
-    });
-
-    const base3 = new GeoJsonLayer({
-      id: 'geojson-layer',
-      data : districtPA,
-      pickable: true,
-      stroked: false,
-      filled: true,
-      extruded: true,
-      pointType: 'circle',
-      lineWidthScale: 20,
-      lineWidthMinPixels: 2,
-      getFillColor: [160, 160, 180, 200],
-      getLineColor: [80, 80, 80],
-      getPointRadius: 100,
-      getLineWidth: 1,
-      getElevation: 30,
-      onClick: () => { setShowDistrict(!showDistrict) }
-    });
-
-    const district = new GeoJsonLayer({
-      id: 'geojson-layer',
-      data : districtData,
-      stroked: true,
-      filled: false,
-      extruded: false,
-      lineWidthScale: 20,
-      lineWidthMinPixels: 3,
-      getFillColor: d => districtMap(d.properties.districtID),
-      getLineColor: [0,0,0],
-    })
-
-    const preccint = new GeoJsonLayer({
-      id: 'geojson-layer',
-      data : preccintData,
-      pickable: true,
-      stroked: true,
-      filled: true,
-      extruded: false,
-      pointType: 'circle',
-      lineWidthScale: 20,
-      lineWidthMinPixels: 2,
-      getFillColor: d => districtMap(d.properties.districtID),
-      getLineColor: [228,220,220],
-      getLineWidth: 1,
-    })
-
-    // console.log(districtData)
-    // console.log(precintData)
-
-    const layers = showDistrict ?  [ preccint, district ]
-                                :  [ base1, base2, base3 ]
+    const layers = showDistrict ?  state
+                                :  base
 
     return(
         <DeckGL
