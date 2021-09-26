@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
 export default function InfoMenu() {
-
   return (
     <div className='InfoMenu'>
       <div class='container'>

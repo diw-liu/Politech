@@ -1,0 +1,10 @@
+.StateSelector {
+    z-index: 1; 
+    background: white; 
+    border-radius: 16px;
+    margin: 8px;
+    padding: 16px;
+    position: absolute;
+    left: 0;
+    display: inline-block;
+}

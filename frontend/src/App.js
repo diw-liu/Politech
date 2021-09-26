@@ -1,10 +1,13 @@
 import HomeScreen from "./components/HomeScreen";
+import DataProvider from "./contexts/DataContext";
 
 function App() {
   return (
-    <div className="App">
+    <DataProvider>
+      <div className="App">
         <HomeScreen />
-    </div>
+      </div>
+    </DataProvider>
   );
 }
 
