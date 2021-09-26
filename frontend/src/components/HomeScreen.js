@@ -11,25 +11,29 @@ import { INITIAL_VIEW_STATE, getView } from './ViewState'
 //   dropdownTitle: "Select State"
 // }
 
+export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
+
 const HomeScreen = (props) =>{
   const [showInfo, setShowInfo] = useState(false)
   const [state, setState] = useState([])
-  const [view, setView] = useState(INITIAL_VIEW_STATE);
+  const [stateName, setStateName] = useState('')
+  const [view, setView] = useState(INITIAL_VIEW_STATE)
 
   const showClick = ( id ) =>{
     setShowInfo(true) 
     setState(showState(id))
+    setStateName(NAMES[id])
     setView(getView(id))
   }
     return (
       <div>
         <StateSelector setShowInfo={setShowInfo} showClick={showClick}
-          setView={setView}
+          setView={setView} stateName={stateName} setStateName={setStateName}
           />     
         { showInfo && (
           <div>
             <InfoMenu/>
-            <LeftBar/>
+            <LeftBar stateName={stateName}/>
           </div>)
         } 
         <Map showInfo={showInfo} state={state} 

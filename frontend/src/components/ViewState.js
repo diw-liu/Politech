@@ -21,8 +21,8 @@ export const PA_STATE = {
     bearing: 0
 }
 export const MI_STATE = {
-    longitude:-76.44,
-    latitude: 39,
+    longitude:-85.60,
+    latitude: 44.31,
     zoom: 7.5,
     pitch: 0,
     bearing: 0

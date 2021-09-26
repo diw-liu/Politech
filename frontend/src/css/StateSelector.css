@@ -1,5 +1,5 @@
 .StateSelector {
-    z-index: 1; 
+    z-index: 2; 
     background: white; 
     border-radius: 16px;
     margin: 8px;
@@ -7,10 +7,12 @@
     position: absolute;
     left: 0;
     width: 25%;
-    display: inline-block;
+    height: 10%;
+    display: flex;
 }
-.z-index {
+.reset {
     z-index: 2;
-    position: absolute;
-    margin-left: 200px;
+    margin-left: 16px;
+    height: 36px;
+    float: right;
 }
