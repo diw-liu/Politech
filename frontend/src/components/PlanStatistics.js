@@ -4,8 +4,7 @@ class PlanStatistics extends Component {
     constructor(props){
         super(props);
         this.state = {
-          plan: 'Enacted',
-          effgap: 2039
+          plan: 'Enacted'
         };
     }
 
@@ -16,27 +15,15 @@ class PlanStatistics extends Component {
               <table style={{ width: '100%' }}>
                 <tr>
                   <td> Population Equality (%) </td>
-                  <td style={{ textAlign: 'right' }}> 80 </td> 
-                </tr> 
-                <tr>
-                  <td> Racial Deviation (%) </td>
-                  <td style={{ textAlign: 'right' }}> 36 </td> 
-                </tr> 
-                <tr>
-                  <td> Majority-minority districts </td>
-                  <td style={{ textAlign: 'right' }}> 3 </td> 
-                </tr> 
-                <tr>
-                  <td> Efficiency gap </td>
-                  <td style={{ textAlign: 'right' }}> { this.state.effgap.toLocaleString('en-US') } </td> 
+                  <td> 80 </td> 
                 </tr> 
                 <tr>
                   <td> Split counties </td>
-                  <td style={{ textAlign: 'right' }}> 7 </td> 
+                  <td> 8 </td> 
                 </tr> 
                 <tr>
-                  <td> Graph Compactness </td>
-                  <td style={{ textAlign: 'right' }}> 0.307 </td> 
+                  <td> Deviation </td>
+                  <td> 8 </td> 
                 </tr> 
               </table>
             </div>

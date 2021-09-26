@@ -18,7 +18,6 @@ class LeftBar extends Component {
           <div className='LeftBar'>
             <div class='container'>
               <h2> {this.state.usState} </h2>
-              <hr/>
               <PlanStatistics/>
             </div>
           </div>
