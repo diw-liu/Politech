@@ -12,8 +12,8 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 const InfoMenu = (props) =>{
 
-  const [parts, setParties] = useState(parties);
-  const [demos, setDemos] = useState(demographics);
+  const [parts, setParties] = useState(parties)
+  const [demos, setDemos] = useState(demographics)
 
     return (
       <div className='InfoMenu'>
@@ -23,8 +23,14 @@ const InfoMenu = (props) =>{
             <li class='nav-item' role='presentation'>
               <button class='nav-link' data-bs-toggle='tab' data-bs-target='#enacted' role='tab' type='button' aria-selected='true'> Enacted Plan </button>
             </li>
-            <li class='nav-item' role='presentation'>
-              <button class='nav-link' data-bs-toggle='tab' data-bs-target='#generated' role='tab' type='button' aria-selected='false'> Generated Plans </button>
+            <li class='nav-item' role='presentation'>   
+              { (props.generated && 
+                  <button class='nav-link' data-bs-toggle='tab' data-bs-target='#generated' role='tab' type='button' aria-selected='false'> Generated Plans </button>)
+              }
+              {
+                (!props.generated && 
+                  <button class='nav-link' className='btn btn-light' style={{color:'gray'}} disabled data-bs-toggle='tab' data-bs-target='#generated' role='tab' type='button' aria-selected='false'> Generated Plans </button>)
+              } 
             </li>
             <li class='nav-item' role='presentation'>
               <button class='nav-link' data-bs-toggle='tab' data-bs-target='#saved' role='tab' type='button' aria-selected='false'> Saved Plans </button>

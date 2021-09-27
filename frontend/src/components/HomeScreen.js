@@ -16,6 +16,9 @@ const HomeScreen = (props) =>{
   const [stateName, setStateName] = useState('')
   const [view, setView] = useState(INITIAL_VIEW_STATE)
   const [plan, setPlan] = useState('Enacted')
+
+  const [gen, setGen] = useState(false)
+
   // const []
   const showClick = ( id ) =>{
     setShowInfo(true) 
@@ -24,15 +27,24 @@ const HomeScreen = (props) =>{
     setView(getView(id))
   }
 
+  const generate = () => {
+    setGen(true)
+  }
+
+  const clearGenerate = () => {
+    setGen(false)
+  }
+
   return (
     <div>
       <StateSelector setShowInfo={setShowInfo} showClick={showClick}
         setView={setView} stateName={stateName} setStateName={setStateName}
+        clearGenerate={clearGenerate}
         />     
       { showInfo && (
         <div>
-          <InfoMenu stateName={stateName}/>
-          <LeftBar stateName={stateName}/>
+          <InfoMenu stateName={stateName} generated={gen}/>
+          <LeftBar stateName={stateName} generated={gen} generate={generate}/>
         </div>)
       } 
       <Map showInfo={showInfo} state={state} 
