@@ -28,10 +28,19 @@ const HomeScreen = (props) =>{
     setView(getView(id))
   }
 
+  const generate = () => {
+    setGen(true)
+  }
+
+  const clearGenerate = () => {
+    setGen(false)
+  }
+
   return (
     <div>
       <StateSelector setShowInfo={setShowInfo} showClick={showClick}
         setView={setView} stateName={stateName} setStateName={setStateName}
+        clearGenerate={clearGenerate}
         />     
       { showInfo && (
         <div>

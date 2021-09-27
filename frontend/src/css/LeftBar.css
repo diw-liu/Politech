@@ -1,4 +1,4 @@
-.LeftBar {
+.left-bar {
     z-index: 1; 
     background: white; 
     border-radius: 16px;
@@ -9,4 +9,10 @@
     bottom: 0;
     height: 85%;
     width: 25%;
+}
+
+.gen-slider {
+    width: 10%;
+    height: 25px;
+    cursor: pointer;
 }
