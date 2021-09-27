@@ -28,7 +28,7 @@ class GeneratedTable extends Component {
                     <tr className="item" >
                       <th style={{ textAlign: 'left' }}>Plan #</th>
                       <th style={{ textAlign: 'right' }}>Population Equality</th>
-                      <th style={{ textAlign: 'right' }}>Number of Majority Minority Districts</th>
+                      <th style={{ textAlign: 'right' }}>Majority Minority Districts</th>
                       <th style={{ textAlign: 'right' }}>Graph Compactness %</th>
                       <th style={{ textAlign: 'right' }}>Racial Deviation %</th>
                     </tr>

@@ -7,9 +7,17 @@ class EnactedTable extends Component {
     constructor(props){
         super(props);
         this.state = {            
-            districts: districts            
+            districts: districts,
+            highLight: Number             
         };
     }
+
+    toggleActive(id) {
+        this.setState({
+            highLight: id,
+        });
+        console.log(this.state.highLight)
+      }
 
     render() {
         const {districts} = this.state;
@@ -24,7 +32,9 @@ class EnactedTable extends Component {
                     </tr>
                     {
                         districts.map(district => (
-                            <tr key={district.id} align="start">
+                            <tr key={district.id} align="start" onClick={() => this.toggleActive(district.id)} 
+                                style={{background: this.state.highLight == district.id ? '#00afec' : 'white',
+                                color: this.state.highLight == district.id ? 'white' : 'black'}}>
                               <td className="number" style={{ textAlign: 'left' }}>{district.number}</td>
                               <td className="population" style={{ textAlign: 'right' }}>{district.population.toLocaleString('en-US')}</td>
                               <td className="minorities" style={{ textAlign: 'right' }}>{Math.round((district.population - district.whites)/district.population * 10000, 4)/100}</td>
