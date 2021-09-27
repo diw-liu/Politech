@@ -41,7 +41,52 @@ export const showState = (index) =>{
         getFillColor: d => districtMap(d.properties.districtID),
         getLineColor: [0,0,0],
     })
-  
+    // var precint = []
+
+    // precintData["features"].foreach(element => {
+    //     precint.push(new GeoJsonLayer({
+    //         id: 'geojson-layer',
+    //         data : element,
+    //         pickable: true,
+    //         stroked: true,
+    //         filled: true,
+    //         extruded: false,
+    //         pointType: 'circle',
+    //         lineWidthScale: 20,
+    //         lineWidthMinPixels: 2,
+    //         getFillColor: d => districtMap(d.properties.districtID),
+    //         getLineColor: [228,220,220],
+    //         getLineWidth: 1,
+    //         onClick: (info) => { 
+    //             console.log(info)
+    //             // props.showClick(info.layer.id-1)
+    //         }
+    //     }))
+    // })
+
+    // const precint = []
+
+    // precintData["features"].forEach(element => {
+    //   precint.push(new GeoJsonLayer({
+    //     id: 'geojson-layer',
+    //     data: element,
+    //     pickable: true,
+    //     stroked: true,
+    //     filled: true,
+    //     extruded: false,
+    //     pointType: 'circle',
+    //     lineWidthScale: 20,
+    //     lineWidthMinPixels: 2,
+    //     getFillColor: d => districtMap(d.properties.districtID),
+    //     getLineColor: [228,220,220],
+    //     getLineWidth: 1,
+    //     onClick: (info) => { 
+    //         console.log(info)
+    //         // props.showClick(info.layer.id-1)
+    //     }
+    //   }))
+    // })
+
     const precint = new GeoJsonLayer({
         id: 'geojson-layer',
         data : precintData,
@@ -55,6 +100,10 @@ export const showState = (index) =>{
         getFillColor: d => districtMap(d.properties.districtID),
         getLineColor: [228,220,220],
         getLineWidth: 1,
+        onClick: (info) => { 
+            console.log(info)
+            // props.showClick(info.layer.id-1)
+        }
     })
 
     return [ precint, district ]

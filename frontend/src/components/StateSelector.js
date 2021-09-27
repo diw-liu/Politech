@@ -3,13 +3,12 @@ import React, { useState } from 'react';
 
 import { Dropdown, DropdownButton, } from 'react-bootstrap';
 import { INITIAL_VIEW_STATE } from './ViewState'
-import { NAMES } from './HomeScreen'
 
 const defaultOption = 'Select a state...'
 
 const StateSelector = (props) => {
-  console.log("StateSelector");
-  console.log(props);
+  // console.log("StateSelector");
+  // console.log(props);
   // const [selected, setSelected] = useState(props.stateName);
 
   const handleStateSelect = (key) => {
@@ -27,7 +26,6 @@ const StateSelector = (props) => {
   return (
     <div className="StateSelector">
       <DropdownButton
-          size="sm"
           variant="outline-secondary"
           id="dropdown-basic-button"
           title={props.stateName ? props.stateName : defaultOption}

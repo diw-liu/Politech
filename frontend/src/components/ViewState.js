@@ -9,21 +9,21 @@ export const INITIAL_VIEW_STATE = {
 export const MD_STATE = {
     longitude:-76.44,
     latitude: 39,
-    zoom: 7.5,
+    zoom: 6,
     pitch: 0,
     bearing: 0
 }
 export const PA_STATE = {
     longitude:-77.19,
     latitude: 40.83,
-    zoom: 7.5,
+    zoom: 6,
     pitch: 0,
     bearing: 0
 }
 export const MI_STATE = {
     longitude:-85.60,
     latitude: 44.31,
-    zoom: 7.5,
+    zoom: 6,
     pitch: 0,
     bearing: 0
 }

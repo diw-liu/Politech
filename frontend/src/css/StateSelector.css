@@ -2,17 +2,12 @@
     z-index: 2; 
     background: white; 
     border-radius: 16px;
-    margin: 8px;
+    margin-left: 10px;
     padding: 16px;
     position: absolute;
-    left: 0;
-    width: 25%;
-    height: 10%;
     display: flex;
 }
 .reset {
     z-index: 2;
-    margin-left: 16px;
-    height: 36px;
     float: right;
 }
