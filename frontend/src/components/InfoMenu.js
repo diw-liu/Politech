@@ -102,7 +102,7 @@ const InfoMenu = (props) =>{
               </Tabs>
             </div>
             <div class='tab-pane fade' id='generated' role='tabpanel' aria-labelledby='generated-tab'>
-              <GeneratedTable/>
+              <GeneratedTable setPlan={props.setPlan}/>
             </div>
             <div class='tab-pane fade' id='saved' role='tabpanel' aria-labelledby='saved-tab'>
               <div>

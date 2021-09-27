@@ -6,6 +6,9 @@ import StateSelector from './StateSelector';
 
 import { showState } from './Preprocess'
 import { INITIAL_VIEW_STATE, getView } from './ViewState'
+import '../css/StateSelector.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.js';
 
 export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
 
@@ -16,7 +19,8 @@ const HomeScreen = (props) =>{
   const [stateName, setStateName] = useState('')
   const [view, setView] = useState(INITIAL_VIEW_STATE)
   const [plan, setPlan] = useState('Enacted')
-  // const []
+  const [gen, setGen] = useState(false);
+
   const showClick = ( id ) =>{
     setShowInfo(true) 
     setState(showState(id))
@@ -31,10 +35,14 @@ const HomeScreen = (props) =>{
         />     
       { showInfo && (
         <div>
-          <InfoMenu stateName={stateName}/>
-          <LeftBar stateName={stateName}/>
+          <InfoMenu stateName={stateName} setPlan={setPlan}/>
+          <LeftBar stateName={stateName} plan={plan} setGen={setGen}/>
         </div>)
       } 
+      {
+        gen != true ? <div></div>
+                    : <div className="spinner-border spinner-border-sm text-info reset" style={{width: "15rem",height: "15rem",position: 'absolute', left: '40%', top: '40%' }}></div>
+      }
       <Map showInfo={showInfo} state={state} 
           view={view} showClick={showClick}
           />

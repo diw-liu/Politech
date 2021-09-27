@@ -1,4 +1,4 @@
-const districts = [
+const Districts = [
     {
         "id" : 1,
         "number" : 1, 
@@ -57,4 +57,4 @@ const districts = [
     }, 
 ];
 
-export default districts;
+export default Districts;

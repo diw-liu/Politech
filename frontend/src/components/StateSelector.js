@@ -7,9 +7,6 @@ import { INITIAL_VIEW_STATE } from './ViewState'
 const defaultOption = 'Select a state...'
 
 const StateSelector = (props) => {
-  // console.log("StateSelector");
-  // console.log(props);
-  // const [selected, setSelected] = useState(props.stateName);
 
   const handleStateSelect = (key) => {
     props.setStateName(key)
