@@ -19,11 +19,6 @@ const LeftBar = (props) => {
           <hr/>
           <PlanStatistics/>
           <hr/>
-          {
-            props.plan == "Enacted" ? <div></div>
-                                    : <button> Redistrict </button>
-          }
-          
           <RedistrictMenu numDistricts={numDistricts}/>
         </div>
       </div>
