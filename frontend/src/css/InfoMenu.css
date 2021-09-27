@@ -1,4 +1,4 @@
-.InfoMenu {
+.info-menu {
     z-index: 1; 
     background: white; 
     border-radius: 16px;
@@ -7,4 +7,8 @@
     position: absolute;
     right: 0;
     width: 40%;
+}
+
+.table-responsive {
+    max-height: 800px;
 }

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import InfoMenu from './InfoMenu';
-import LeftBar from './LeftBar';
-import Map from './Map';
-import StateSelector from './StateSelector';
+import InfoMenu from './InfoMenu/InfoMenu';
+import LeftBar from './LeftBar/LeftBar';
+import Map from './Map/Map';
+import StateSelector from './Map/StateSelector';
 
-import { showState } from './Preprocess'
-import { INITIAL_VIEW_STATE, getView } from './ViewState'
+import { showState } from './Map/Preprocess'
+import { INITIAL_VIEW_STATE, getView } from './Map/ViewState'
 import '../css/StateSelector.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -28,24 +28,15 @@ const HomeScreen = (props) =>{
     setView(getView(id))
   }
 
-  const generate = () => {
-    setGen(true)
-  }
-
-  const clearGenerate = () => {
-    setGen(false)
-  }
-
   return (
     <div>
       <StateSelector setShowInfo={setShowInfo} showClick={showClick}
         setView={setView} stateName={stateName} setStateName={setStateName}
-        clearGenerate={clearGenerate}
         />     
       { showInfo && (
         <div>
           <InfoMenu stateName={stateName} setPlan={setPlan}/>
-          <LeftBar stateName={stateName} plan={plan} setGen={setGen}/>
+          <LeftBar stateName={stateName} plan={plan} />
         </div>)
       } 
       {

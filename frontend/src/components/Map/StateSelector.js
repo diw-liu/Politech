@@ -1,4 +1,4 @@
-import '../css/StateSelector.css';
+import '../../css/StateSelector.css';
 import React, { useState } from 'react';
 
 import { Dropdown, DropdownButton, } from 'react-bootstrap';
@@ -17,7 +17,6 @@ const StateSelector = (props) => {
     props.setStateName("")
     props.setShowInfo(false)
     props.setView(INITIAL_VIEW_STATE)
-    props.clearGenerate()
     // setSelected(defaultOption)
   }
 

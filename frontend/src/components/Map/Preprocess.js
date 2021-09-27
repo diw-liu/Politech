@@ -1,13 +1,13 @@
 import { GeoJsonLayer } from '@deck.gl/layers';
 
-let precintMD = require('../data/maryland.json');
-let districtMD = require('../data/MDdistrict.json');
+let precintMD = require('../../data/maryland.json');
+let districtMD = require('../../data/MDdistrict.json');
 
-let precintMI = require('../data/michigan.json');
-let districtMI = require('../data/MIdistrict.json');
+let precintMI = require('../../data/michigan.json');
+let districtMI = require('../../data/MIdistrict.json');
 
-let precintPA = require('../data/pennsylvania.json');
-let districtPA = require('../data/PAdistrict.json');
+let precintPA = require('../../data/pennsylvania.json');
+let districtPA = require('../../data/PAdistrict.json');
 
 export const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZGl3bGl1IiwiYSI6ImNrdHQ1M3hjdTFuZWcycXBxczAyYnRud3EifQ.WUk5cILDRQQNOaae60Hb9A";
 

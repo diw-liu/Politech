@@ -4,9 +4,9 @@ import Tabs from "react-bootstrap/Tabs";
 
 import EnactedTable from './EnactedTable';
 import GeneratedTable from './GeneratedTable';
-import parties from '../data/mockState.js';
-import demographics from '../data/mockPop.js';
-import '../css/InfoMenu.css';
+import parties from '../../data/mockState.js';
+import demographics from '../../data/mockPop.js';
+import '../../css/InfoMenu.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
@@ -16,7 +16,7 @@ const InfoMenu = (props) =>{
   const [demos, setDemos] = useState(demographics)
 
     return (
-      <div className='InfoMenu'>
+      <div className='info-menu'>
         <div class='container'>
           <h1> { props.stateName } </h1>
           <ul class='nav nav-pills' role='tablist'>
@@ -24,13 +24,7 @@ const InfoMenu = (props) =>{
               <button class='nav-link' data-bs-toggle='tab' data-bs-target='#enacted' role='tab' type='button' aria-selected='true'> Enacted Plan </button>
             </li>
             <li class='nav-item' role='presentation'>   
-              { (props.generated && 
-                  <button class='nav-link' data-bs-toggle='tab' data-bs-target='#generated' role='tab' type='button' aria-selected='false'> Generated Plans </button>)
-              }
-              {
-                (!props.generated && 
-                  <button class='nav-link' className='btn btn-light' style={{color:'gray'}} disabled data-bs-toggle='tab' data-bs-target='#generated' role='tab' type='button' aria-selected='false'> Generated Plans </button>)
-              } 
+              <button class='nav-link' data-bs-toggle='tab' data-bs-target='#generated' role='tab' type='button' aria-selected='false'> Generated Plans </button>
             </li>
             <li class='nav-item' role='presentation'>
               <button class='nav-link' data-bs-toggle='tab' data-bs-target='#saved' role='tab' type='button' aria-selected='false'> Saved Plans </button>

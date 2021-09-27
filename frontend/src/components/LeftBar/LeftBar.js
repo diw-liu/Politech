@@ -1,20 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 // import { slide as Menu } from "react-burger-menu";
 
-import '../css/LeftBar.css';
+import '../../css/LeftBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
-import GenerateMenu from './GenerateMenu';
+import RedistrictMenu from './RedistrictMenu';
 import PlanStatistics from './PlanStatistics';
 
 const LeftBar = (props) => {
-    
-
-    const handleGen = () =>{
-      props.setGen(true)
-      setTimeout(() => props.setGen(false), 5000)
-      
-    } 
     const [numDistricts, setNumDistricts] = useState('7')
     return (
       <div className='left-bar'>
@@ -28,10 +21,10 @@ const LeftBar = (props) => {
           <hr/>
           {
             props.plan == "Enacted" ? <div></div>
-                                    : <button onClick={handleGen}> Generate </button>
+                                    : <button> Redistrict </button>
           }
           
-          <GenerateMenu generate={props.generate} numDistricts={numDistricts}/>
+          <RedistrictMenu numDistricts={numDistricts}/>
         </div>
       </div>
     );
