@@ -26,7 +26,7 @@ class EnactedTable extends Component {
                         districts.map(district => (
                             <tr key={district.id} align="start">
                               <td className="number" style={{ textAlign: 'left' }}>{district.number}</td>
-                              <td className="population" style={{ textAlign: 'right' }}>{district.population}</td>
+                              <td className="population" style={{ textAlign: 'right' }}>{district.population.toLocaleString('en-US')}</td>
                               <td className="minorities" style={{ textAlign: 'right' }}>{Math.round((district.population - district.whites)/district.population * 10000, 4)/100}</td>
                               <td className="deviation" style={{ textAlign: 'right' }}>{district.deviation}</td>
                             </tr>
