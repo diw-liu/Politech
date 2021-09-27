@@ -20,16 +20,16 @@ class InfoMenu extends Component {
         return (
           <div className='InfoMenu'>
             <div class='container'>
-              <p> { /*this.state.usState*/ this.props.stateName } </p>
+              <h1> { /*this.state.usState*/ this.props.stateName } </h1>
               <ul class='nav nav-pills' role='tablist'>
                 <li class='nav-item' role='presentation'>
-                  <button class='nav-link' data-bs-toggle='tab' data-bs-target='#enacted' role='tab' type='button' aria-selected='true'> Enacted </button>
+                  <button class='nav-link' data-bs-toggle='tab' data-bs-target='#enacted' role='tab' type='button' aria-selected='true'> Enacted Plan </button>
                 </li>
                 <li class='nav-item' role='presentation'>
-                  <button class='nav-link' data-bs-toggle='tab' data-bs-target='#generated' role='tab' type='button' aria-selected='false'> Generated </button>
+                  <button class='nav-link' data-bs-toggle='tab' data-bs-target='#generated' role='tab' type='button' aria-selected='false'> Generated Plans </button>
                 </li>
                 <li class='nav-item' role='presentation'>
-                  <button class='nav-link' data-bs-toggle='tab' data-bs-target='#saved' role='tab' type='button' aria-selected='false'> Saved Plan </button>
+                  <button class='nav-link' data-bs-toggle='tab' data-bs-target='#saved' role='tab' type='button' aria-selected='false'> Saved Plans </button>
                 </li>
               </ul>
               <div class='tab-content' id='pills-tabContent'>
