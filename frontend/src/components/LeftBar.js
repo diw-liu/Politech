@@ -15,6 +15,7 @@ const LeftBar = (props) => {
       setTimeout(() => props.setGen(false), 5000)
       
     } 
+    const [numDistricts, setNumDistricts] = useState('7')
     return (
       <div className='left-bar'>
         {/* <Menu>
