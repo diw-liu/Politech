@@ -14,6 +14,10 @@ const RedistrictMenu = (props) => {
     const [effGap, setEffGap] = useState(0.5)
     const [compactness, setCompactness] = useState(0.5)
 
+    const loading = () =>{
+      props.setGen(true)
+      setTimeout(() => props.setGen(false), 5000)
+    }
     return (
       <div className='redistrict-menu'>
           <h2>Redistrict </h2>
@@ -38,7 +42,7 @@ const RedistrictMenu = (props) => {
           <span>Graph compactness: {Math.round(compactness * 100)/100}</span>
           <Slider style={{width:'100%'}} axis='x' x={compactness} xmax={1} xstep={0.01} onChange={ ({x}) => setCompactness(x) }/>
           </div>
-          <button style={{marginTop:'16px'}} className='btn btn-primary'> Redistrict </button>
+          <button style={{marginTop:'16px'}} className='btn btn-primary' onClick={loading} > Redistrict </button>
       </div>
     );
 } 

@@ -35,8 +35,8 @@ const HomeScreen = (props) =>{
         />     
       { showInfo && (
         <div>
-          <InfoMenu stateName={stateName} setPlan={setPlan}/>
-          <LeftBar stateName={stateName} plan={plan} />
+          <InfoMenu stateName={stateName}/>
+          <LeftBar stateName={stateName} plan={plan} setGen={setGen}/>
         </div>)
       } 
       {
