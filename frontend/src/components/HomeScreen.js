@@ -18,8 +18,9 @@ const HomeScreen = (props) =>{
   const [state, setState] = useState([])
   const [stateName, setStateName] = useState('')
   const [view, setView] = useState(INITIAL_VIEW_STATE)
-  const [plan, setPlan] = useState('Enacted')
+  const [plan, setPlan] = useState(0)
   const [gen, setGen] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   const showClick = ( id ) =>{
     setShowInfo(true) 
@@ -35,8 +36,8 @@ const HomeScreen = (props) =>{
         />     
       { showInfo && (
         <div>
-          <InfoMenu stateName={stateName}/>
-          <LeftBar stateName={stateName} plan={plan} setGen={setGen}/>
+          <InfoMenu stateName={stateName} setPlan={setPlan} setSaved={setSaved} saved={saved}/>
+          <LeftBar stateName={stateName} plan={plan} setGen={setGen} setSaved={setSaved} saved={saved}/>
         </div>)
       } 
       {

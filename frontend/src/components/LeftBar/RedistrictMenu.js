@@ -8,13 +8,14 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 const RedistrictMenu = (props) => {
     const [stateName, setStateName] = useState(50)
-    const [popEq, setPopEq] = useState(0.07)
+    const [popEq, setPopEq] = useState(0.7/2)
     const [racDev, setRacDev] = useState(50)
     const [majMin, setMajMin] = useState(4)
     const [effGap, setEffGap] = useState(0.5)
     const [compactness, setCompactness] = useState(0.5)
 
     const loading = () =>{
+      props.setSaved(true);
       props.setGen(true)
       setTimeout(() => props.setGen(false), 5000)
     }
@@ -23,8 +24,8 @@ const RedistrictMenu = (props) => {
           <h2>Redistrict </h2>
           <hr/>
           <div>
-          <span>Population Equality (%): {popEq}</span>
-          <Slider style={{width:'100%'}} axis='x' x={popEq} xmax={0.1} xstep={0.01} onChange={ ({x}) => setPopEq(x) }/>
+          <span>Population Equality (%): {Math.round(popEq * 100)/100}</span>
+          <Slider style={{width:'100%'}} axis='x' x={popEq} xmax={0.7} xstep={0.001} onChange={ ({x}) => setPopEq(x) }/>
           </div>
           <div>
           {/* <span>Racial Deviation (%): {racDev}</span>
@@ -35,7 +36,7 @@ const RedistrictMenu = (props) => {
           <Slider style={{width:'100%'}} axis='x' x={majMin} xmax={props.numDistricts} onChange={ ({x}) => setMajMin(x) }/>
           </div>
           <div>
-          <span>Efficiency gap: {effGap}</span>
+          <span>Efficiency gap: {Math.round(effGap * 100)/100}</span>
           <Slider style={{width:'100%'}} axis='x' x={effGap} xmax={1} xstep={0.01} onChange={ ({x}) => setEffGap(x) }/>
           </div>
           <div>

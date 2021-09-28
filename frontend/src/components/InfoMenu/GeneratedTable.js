@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 
 import Districts from '../../data/mock2.js';
 import '../../css/InfoMenu.css'
+import Plans from '../../data/mockGenerated.js';
 
 const GeneratedTable = (props) => {
 
     const [highLight, setHighLight] = useState();
-    var districts = Districts
+    var districts = Districts;
+    var plans = Plans;
 
     const toggleActive = (id) =>{
         setHighLight(id)
@@ -28,20 +30,20 @@ const GeneratedTable = (props) => {
                 </thead>
                 <tbody>
                 {
-                    // districts.map(district => (
-                    //     <tr key={district.id} align="start" onClick = {() => toggleActive(district.id)}
-                    //         style={{background: highLight == district.id ? '#00afec' : 'white',
-                    //         color: highLight == district.id ? 'white' : 'black'}}
-                    //         > 
-                    //         <td className="PlanNumber" style={{ textAlign: 'left' }}>{district.plan}</td>
-                    //         <td className="PopulationEquality" style={{ textAlign: 'right' }}>{district.population}</td>
-                    //         <td className="MajorityMinorityDistrictsNumber" style={{ textAlign: 'right' }}>{district.majorityMinority}</td>
-                    //         <td className="GraphCompactness" style={{ textAlign: 'right' }}>{district.graphCompactness}</td>
-                    //         <td className="RacialDeviation" style={{ textAlign: 'right' }}>{district.racialDeviation}</td>
-                    //     </tr>
-                    // ))
+                    plans.map(plan => (
+                        <tr key={plan.id} align="start" onClick = {() => toggleActive(plan.id)}
+                            style={{background: highLight == plan.id ? '#00afec' : 'white',
+                            color: highLight == plan.id ? 'white' : 'black'}}
+                            > 
+                            <td className="PlanNumber" style={{ textAlign: 'left' }}>{plan.id}</td>
+                            <td className="PopulationEquality" style={{ textAlign: 'right' }}>{plan.pop_eq}</td>
+                            <td className="MajorityMinorityDistrictsNumber" style={{ textAlign: 'right' }}>{plan.maj_min}</td>
+                            <td className="GraphCompactness" style={{ textAlign: 'right' }}>{plan.compactness}</td>
+                            <td className="RacialDeviation" style={{ textAlign: 'right' }}>{plan.dev}</td>
+                        </tr>
+                    ))
                 }
-                {
+                {/* {
                     Array.from({length: 30}, (elem, index) => elem = index + 1).map((i) => (
                         <tr key={i} align="start" onClick = {() => toggleActive(i)}
                             style={{background: highLight == i ? '#00afec' : 'white',
@@ -54,7 +56,7 @@ const GeneratedTable = (props) => {
                             <td className="RacialDeviation" style={{ textAlign: 'right' }}>{Math.round(Math.random()*100)}</td>
                         </tr>
                     ))
-                }
+                } */}
                 {
                     // districts.map(district => (
                     //     <tr key={district.id} align="start" onClick={toggleActive(district.id)} 

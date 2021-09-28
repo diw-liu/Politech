@@ -15,11 +15,11 @@ const LeftBar = (props) => {
           in case we want to make the left bar collapseable https://github.com/negomi/react-burger-menu#styling
         </Menu> */}
         <div class='container'>
-          <h2> {props.stateName} {props.plan}</h2>
+          <h2> {props.stateName} {(props.plan == 0) ? 'Enacted' : props.plan }</h2>
           <hr/>
-          <PlanStatistics/>
+          <PlanStatistics props={props}/>
           <hr/>
-          <RedistrictMenu numDistricts={numDistricts} setGen={props.setGen}/>
+          <RedistrictMenu numDistricts={numDistricts} setGen={props.setGen} saved={props.saved} setSaved={props.setSaved}/>
         </div>
       </div>
     );

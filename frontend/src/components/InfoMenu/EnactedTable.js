@@ -16,7 +16,7 @@ const EnactedTable = (props) => {
                     <th>Deviation</th>
                 </tr>
                 {
-                    Array.from({length: numDistricts}, (elem, index) => elem = index + 1).map((i) => (
+                    Array.from({length: numDistricts - 1}, (elem, index) => elem = index + 1).map((i) => (
                         <tr key={i} style={{ textAlign: 'right' }} align="start">
                             <td className="number" style={{ width: '15%' }}>{i}</td>
                             <td className="population">{(200000 + Math.round(Math.random()*50000)).toLocaleString('en-US')}</td>

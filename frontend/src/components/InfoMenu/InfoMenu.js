@@ -12,6 +12,9 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 const InfoMenu = (props) =>{
 
+  console.log("InfoMenu");
+  console.log(props);
+
   const [parts, setParties] = useState(parties)
   const [demos, setDemos] = useState(demographics)
 
@@ -105,8 +108,9 @@ const InfoMenu = (props) =>{
               <GeneratedTable setPlan={props.setPlan}/>
             </div>
             <div class='tab-pane fade' id='saved' role='tabpanel' aria-labelledby='saved-tab'>
-              <div>
-              </div>
+              {props.saved && <div>
+                Plan 1
+              </div>}
             </div>
           </div>
         </div>
