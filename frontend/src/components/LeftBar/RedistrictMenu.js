@@ -8,10 +8,10 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 const RedistrictMenu = (props) => {
     const [stateName, setStateName] = useState(50)
-    const [popEq, setPopEq] = useState(50)
+    const [popEq, setPopEq] = useState(0.07)
     const [racDev, setRacDev] = useState(50)
     const [majMin, setMajMin] = useState(4)
-    const [effGap, setEffGap] = useState(50)
+    const [effGap, setEffGap] = useState(0.5)
     const [compactness, setCompactness] = useState(0.5)
 
     return (
@@ -20,11 +20,11 @@ const RedistrictMenu = (props) => {
           <hr/>
           <div>
           <span>Population Equality (%): {popEq}</span>
-          <Slider style={{width:'100%'}}axis='x' x={popEq} onChange={ ({x}) => setPopEq(x) }/>
+          <Slider style={{width:'100%'}} axis='x' x={popEq} xmax={0.1} xstep={0.01} onChange={ ({x}) => setPopEq(x) }/>
           </div>
           <div>
-          <span>Racial Deviation (%): {racDev}</span>
-          <Slider style={{width:'100%'}} axis='x' x={racDev} onChange={ ({x}) => setRacDev(x) }/>
+          {/* <span>Racial Deviation (%): {racDev}</span>
+          <Slider style={{width:'100%'}} axis='x' x={racDev} onChange={ ({x}) => setRacDev(x) }/> */}
           </div>
           <div>
           <span style={{width:'100%'}}>Majority-minority districts: {majMin}</span>
@@ -32,7 +32,7 @@ const RedistrictMenu = (props) => {
           </div>
           <div>
           <span>Efficiency gap: {effGap}</span>
-          <Slider style={{width:'100%'}} axis='x' x={effGap} onChange={ ({x}) => setEffGap(x) }/>
+          <Slider style={{width:'100%'}} axis='x' x={effGap} xmax={1} xstep={0.01} onChange={ ({x}) => setEffGap(x) }/>
           </div>
           <div>
           <span>Graph compactness: {Math.round(compactness * 100)/100}</span>
