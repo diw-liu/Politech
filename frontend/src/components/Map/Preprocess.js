@@ -16,6 +16,10 @@ export const DISTRICT = [districtMD, districtMI, districtPA]
 export const PRECINT = [precintMD, precintMI, precintPA]
 
 export const showState = (index) =>{
+    fetch("/api/1")
+    .then(response => response.json())
+    .then(data => console.log(data));
+
     var map = {};
     
     var precintData = PRECINT[index]
