@@ -1,14 +1,18 @@
 import { GeoJsonLayer } from '@deck.gl/layers';
+import { precintMD, districtMD, precintMI, districtMI, precintPA, districtPA } from './FetchData'
 
-let precintMD = require('../../data/maryland.json');
-// let districtMD = require('../../data/MDdistrict.json');
-var districtMD
+// let precintMD = require('../../data/maryland.json');
+// let districtMD = require('../../data/MDdistricts.json');
 
-let precintMI = require('../../data/michigan.json');
-let districtMI = require('../../data/MIdistrict.json');
+// let precintMI = require('../../data/michigan.json');
 
-let precintPA = require('../../data/pennsylvania.json');
-let districtPA = require('../../data/PAdistrict.json');
+// let districtMI = require('../../data/MIdistrict.json');
+
+// let precintPA = require('../../data/pennsylvania.json');
+// let districtPA = require('../../data/PAdistrict.json');
+
+
+
 
 export const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZGl3bGl1IiwiYSI6ImNrdHQ1M3hjdTFuZWcycXBxczAyYnRud3EifQ.WUk5cILDRQQNOaae60Hb9A";
 
@@ -17,18 +21,7 @@ export const DISTRICT = [districtMD, districtMI, districtPA]
 export const PRECINT = [precintMD, precintMI, precintPA]
 
 export const showState = (index) =>{
-    // fetch("/api/1")
-    // .then(response => response.json())
-    // .then(data => console.log(data));
-    fetch("/api/1", {
-      headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       }
 
-    })
-        .then(response => response.json())
-        .then(data => districtMD = data);
     var map = {};
     
     var precintData = PRECINT[index]

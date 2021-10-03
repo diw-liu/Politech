@@ -23,18 +23,22 @@ import org.json.simple.parser.ParseException;
 @RestController
 @RequestMapping("/api")
 class MapController{
-    String[] DISTRICT = {"MDdistricts", "districtMI", "districtPA"};
-    File folder = new File("../data/MDdistricts.json");
-    String dummy = "src/main/data/MDdistricts.json";
-
+    //String[] DISTRICT = {"MDdistricts", "districtMI", "districtPA"};
+    //File folder = new File("../data/MDdistricts.json");
+    String districtMD = "backend/src/main/data/MDdistricts.json";
+    String precintMD = "backend/src/main/data/maryland.json";
+    String districtMI = "backend/src/main/data/MIdistrict.json";
+    String precintMI = "backend/src/main/data/michigan.json";
+    String districtPA = "backend/src/main/data/PAdistrict.json";
+    String precintPA = "backend/src/main/data/pennsylvania.json";
+    String[] DISTRICT = {districtMD,precintMD,districtMI,precintMI,districtPA,precintPA};
     @GetMapping("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getStateMap(@PathVariable int id) throws FileNotFoundException, IOException, ParseException{
 
-        folder = new File(dummy);
-
+        //File folder = new File(DISTRICT[id]);
         JSONParser parser = new JSONParser();
-        Object obj = parser.parse(new FileReader(dummy));
+        Object obj = parser.parse(new FileReader(DISTRICT[id]));
         JSONObject jsonObject = (JSONObject)obj;
 
         return jsonObject.toString();
