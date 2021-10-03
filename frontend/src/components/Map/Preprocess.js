@@ -1,7 +1,8 @@
 import { GeoJsonLayer } from '@deck.gl/layers';
 
 let precintMD = require('../../data/maryland.json');
-let districtMD = require('../../data/MDdistrict.json');
+// let districtMD = require('../../data/MDdistrict.json');
+var districtMD
 
 let precintMI = require('../../data/michigan.json');
 let districtMI = require('../../data/MIdistrict.json');
@@ -27,7 +28,7 @@ export const showState = (index) =>{
 
     })
         .then(response => response.json())
-        .then(data => console.log(data));
+        .then(data => districtMD = data);
     var map = {};
     
     var precintData = PRECINT[index]
