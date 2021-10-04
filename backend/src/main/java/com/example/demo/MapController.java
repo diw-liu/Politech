@@ -24,14 +24,22 @@ import org.json.simple.parser.ParseException;
 @RequestMapping("/api")
 class MapController{
     //String[] DISTRICT = {"MDdistricts", "districtMI", "districtPA"};
-    //File folder = new File("../data/MDdistricts.json");
-    String districtMD = "backend/src/main/data/MDdistricts.json";
-    String precintMD = "backend/src/main/data/maryland.json";
-    String districtMI = "backend/src/main/data/MIdistrict.json";
-    String precintMI = "backend/src/main/data/michigan.json";
-    String districtPA = "backend/src/main/data/PAdistrict.json";
-    String precintPA = "backend/src/main/data/pennsylvania.json";
-    String[] DISTRICT = {districtMD,precintMD,districtMI,precintMI,districtPA,precintPA};
+    // File folder = new File("../data/MDdistricts.json");
+    // String districtMD = "src/main/data/MDdistricts.json";
+    // String precintMD = "src/main/data/maryland.json";
+    // String districtMI = "src/main/data/MIdistrict.json";
+    // String precintMI = "src/main/data/michigan.json";
+    // String districtPA = "src/main/data/PAdistrict.json";
+    // String precintPA = "src/main/data/pennsylvania.json";
+    // String[] DISTRICT = {districtMD,precintMD,districtMI,precintMI,districtPA,precintPA};
+    String districtMD = "src/main/data/MDdistricts.json";
+    String precinctMD = "src/main/data/maryland.json";
+    String districtMI = "src/main/data/MIdistrict.json";
+    String precinctMI = "src/main/data/michigan.json";
+    String districtPA = "src/main/data/PAdistrict.json";
+    String precinctPA = "src/main/data/pennsylvania.json";
+    String[] DISTRICT = {districtMD,districtMI,districtPA};
+    String[] PRECINCT = {precinctMD,precinctMI,precinctPA};
     @GetMapping("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getStateMap(@PathVariable int id) throws FileNotFoundException, IOException, ParseException{
@@ -41,7 +49,12 @@ class MapController{
         Object obj = parser.parse(new FileReader(DISTRICT[id]));
         JSONObject jsonObject = (JSONObject)obj;
 
-        return jsonObject.toString();
+        Object obj2 = parser.parse(new FileReader(PRECINCT[id]));
+        JSONObject jsonObject2 = (JSONObject)obj2;
+
+        String res = "[" + jsonObject.toString() + "," + jsonObject2.toString() + "]";
+
+        return res;
 
         // if(folder.isFile()){
         //     return "ok";

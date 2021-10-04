@@ -12,20 +12,21 @@ import { precintMD, districtMD, precintMI, districtMI, precintPA, districtPA } f
 // let districtPA = require('../../data/PAdistrict.json');
 
 
-
-
 export const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZGl3bGl1IiwiYSI6ImNrdHQ1M3hjdTFuZWcycXBxczAyYnRud3EifQ.WUk5cILDRQQNOaae60Hb9A";
+
+
 
 export const DISTRICT = [districtMD, districtMI, districtPA]
 
-export const PRECINT = [precintMD, precintMI, precintPA]
+export const PRECINCT = [precintMD, precintMI, precintPA]
 
 export const showState = (index) =>{
 
     var map = {};
-    
-    var precintData = PRECINT[index]
+    var precintData = PRECINCT[index]
     var districtData = DISTRICT[index]
+    
+    console.log(districtData)
 
     const districtMap = (Id) => {
         if(Id in map ){
