@@ -4,11 +4,10 @@ import { StaticMap } from 'react-map-gl';
 import { DISTRICT, MAPBOX_ACCESS_TOKEN } from './Preprocess'
 
 const districts = DISTRICT
-
+  
 const Map = (props) => {
     // Set your mapbox access token here
     var base = [];
-
     for(var i = 0; i < districts.length; i++){
       base.push(new GeoJsonLayer({
         id: i+1,
@@ -31,18 +30,18 @@ const Map = (props) => {
       }));
     }
     
-    const layers = props.showInfo ?  props.state
-                                  :  base
+    const layers = props.showInfo ? props.state : base;
 
     return(
-        <DeckGL
-          initialViewState={props.view}
-          controller={true}
-          layers={layers}
-          // getTooltip={({object}) => object && (object.properties.name || object.properties.station)}
-        >
-          <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
-        </DeckGL>
-    )
+      <DeckGL
+        initialViewState={props.view}
+        controller={true}
+        layers={layers}
+        // getTooltip={({object}) => object && (object.properties.name || object.properties.station)}
+      >
+        <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
+      </DeckGL>
+  )
+
 }
 export default Map;

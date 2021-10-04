@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,6 +71,28 @@ class MapController{
         // return listOfFiles[id];
         // return Collections.singletonMap("response", dummy);
         // return folder.getAbsolutePath();
+    }
+
+    @GetMapping("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseEntity<Object> getAll() throws FileNotFoundException, IOException, ParseException{
+
+        JSONParser parser = new JSONParser();
+
+        JSONObject combined = new JSONObject();
+        // for(String key : JSONObject.getNames(Obj2))
+        // {
+        //      merged.put(key, Obj2.get(key));
+        // }
+        for(int i = 0; i<DISTRICT.length; i++){
+            JSONObject disObject = (JSONObject)parser.parse(new FileReader(DISTRICT[i]));
+            combined.put(i, disObject);
+        }
+
+        // JSONObject preObject = (JSONObject)parser.parse(new FileReader(PRECINT[id]));
+
+        // String bothJson = "["+disObject+","+preObject+"]"; //Put both objects in an array of 2 elements
+        return ResponseEntity.ok(combined);
     }
 
     // @GetMapping("/all")

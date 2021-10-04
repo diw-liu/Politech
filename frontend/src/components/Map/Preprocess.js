@@ -25,8 +25,6 @@ export const showState = (index) =>{
     var map = {};
     var precintData = PRECINCT[index]
     var districtData = DISTRICT[index]
-    
-    console.log(districtData)
 
     const districtMap = (Id) => {
         if(Id in map ){
