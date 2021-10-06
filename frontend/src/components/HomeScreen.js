@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InfoMenu from './InfoMenu/InfoMenu';
 import LeftBar from './LeftBar/LeftBar';
 import Map from './Map/Map';
@@ -22,12 +22,31 @@ const HomeScreen = (props) =>{
   const [gen, setGen] = useState(false);
   const [saved, setSaved] = useState(false);
 
+  const [all, setAll] = useState([])
+
+  useEffect(() =>{
+    fetch("/api/all",{
+      method: 'GET',
+      headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+    })
+      .then(res => res.json()) 
+      .then(message => {
+
+        console.log(message)
+        for(var i = 0; i < message.length; i++){
+          console.log(JSON.parse(message[i]))
+        }
+       
+      })
+  },[])
+
   const showClick = ( id ) =>{
     setShowInfo(true) 
     setState(showState(id))
     setStateName(NAMES[id])
     setView(getView(id))
   }
+
 
   return (
     <div>
@@ -46,6 +65,7 @@ const HomeScreen = (props) =>{
       }
       <Map showInfo={showInfo} state={state} 
           view={view} showClick={showClick}
+          all={all}
           />
     </div>
     );
