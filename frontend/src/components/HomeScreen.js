@@ -22,8 +22,8 @@ const HomeScreen = (props) =>{
   const [gen, setGen] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const [all, setAll] = useState([])
-
+  const [all, setAll] = useState([]);
+     
   useEffect(() =>{
     fetch("/api/all",{
       method: 'GET',
