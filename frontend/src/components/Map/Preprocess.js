@@ -1,26 +1,13 @@
 import { GeoJsonLayer } from '@deck.gl/layers';
-// import { precintMD, districtMD, precintMI, districtMI, precintPA, districtPA } from './FetchData'
-// import { getState } from './FetchData'
-// let precintMD = require('../../data/maryland.json');
-// let districtMD = require('../../data/MDdistricts.json');
 
-// let precintMI = require('../../data/michigan.json');
-
-// let districtMI = require('../../data/MIdistrict.json');
-
-// let precintPA = require('../../data/pennsylvania.json');
-// let districtPA = require('../../data/PAdistrict.json');
-
-
-
-
-export const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZGl3bGl1IiwiYSI6ImNrdHQ1M3hjdTFuZWcycXBxczAyYnRud3EifQ.WUk5cILDRQQNOaae60Hb9A";
-
-// export const DISTRICT = [districtMD, districtMI, districtPA]
-
-// export const PRECINT = [precintMD, precintMI, precintPA]
-
-export const showState = async (index) =>{
+export const showState = async (name) =>{
+    console.log(name)
+    fetch("/api/"+name,{
+        method: 'GET',
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+      }) 
+      .then(res => res.json()) 
+      .then(message => console.log(message))
 //     var map = {};
 
 //     const temp = await getState("/api/0");

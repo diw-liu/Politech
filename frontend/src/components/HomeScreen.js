@@ -25,26 +25,31 @@ const HomeScreen = (props) =>{
   const [all, setAll] = useState([]);
      
   useEffect(() =>{
-    fetch("/api/all",{
-      method: 'GET',
-      headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-    })
-      .then(res => res.json()) 
-      .then(message => {
-
-        console.log(message)
-        for(var i = 0; i < message.length; i++){
-          console.log(JSON.parse(message[i]))
-        }
-       
+    if (localStorage.getItem("All") == null){
+      console.log("Fetch all state")
+      fetch("/api/all",{
+        method: 'GET',
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'}
       })
+        .then(res => res.json()) 
+        .then(message => {
+          localStorage.setItem("All",JSON.stringify(message));
+          var result = message.map(x => JSON.parse(x));
+          setAll(result)
+        })
+    }else{
+      console.log("Get from local")
+      var result = JSON.parse(localStorage.getItem("All")).map(x => JSON.parse(x));
+      setAll(result)
+    }
   },[])
 
-  const showClick = ( id ) =>{
+  const showClick = ( name ) =>{
     setShowInfo(true) 
-    setState(showState(id))
-    setStateName(NAMES[id])
-    setView(getView(id))
+    showState(name)
+    // setState(showState(name))
+    // setStateName(NAMES[name])
+    // setView(getView(name))
   }
 
 
