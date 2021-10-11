@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InfoMenu from './InfoMenu/InfoMenu';
 import LeftBar from './LeftBar/LeftBar';
 import Map from './Map/Map';
@@ -22,12 +22,36 @@ const HomeScreen = (props) =>{
   const [gen, setGen] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const showClick = ( id ) =>{
+  const [all, setAll] = useState([]);
+     
+  useEffect(() =>{
+    if (localStorage.getItem("All") == null){
+      console.log("Fetch all state")
+      fetch("/api/all",{
+        method: 'GET',
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+        .then(res => res.json()) 
+        .then(message => {
+          localStorage.setItem("All",JSON.stringify(message));
+          var result = message.map(x => JSON.parse(x));
+          setAll(result)
+        })
+    }else{
+      console.log("Get from local")
+      var result = JSON.parse(localStorage.getItem("All")).map(x => JSON.parse(x));
+      setAll(result)
+    }
+  },[])
+
+  const showClick = ( name ) =>{
     setShowInfo(true) 
-    setState(showState(id))
-    setStateName(NAMES[id])
-    setView(getView(id))
+    //showState(name)
+    setState(showState(name))
+    setStateName(NAMES[name])
+    setView(getView(name))
   }
+
 
   return (
     <div>
@@ -46,6 +70,7 @@ const HomeScreen = (props) =>{
       }
       <Map showInfo={showInfo} state={state} 
           view={view} showClick={showClick}
+          all={all}
           />
     </div>
     );
