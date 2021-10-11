@@ -46,10 +46,10 @@ const HomeScreen = (props) =>{
 
   const showClick = ( name ) =>{
     setShowInfo(true) 
-    showState(name)
-    // setState(showState(name))
-    // setStateName(NAMES[name])
-    // setView(getView(name))
+    //showState(name)
+    setState(showState(name))
+    setStateName(NAMES[name])
+    setView(getView(name))
   }
 
 
