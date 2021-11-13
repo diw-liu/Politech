@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import com.example.demo.model.data.*;
+
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -8,7 +11,7 @@ import java.util.List;
 @Entity
 public class District {
     private int districtId;
-    private Demographics demographics;
+    private Demographic demographics;
     private List<Election> elections;
     private List<Integer> neighbors;
     private List<Precinct> precincts;
