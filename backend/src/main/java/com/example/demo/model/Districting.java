@@ -1,5 +1,7 @@
 package com.example.demo.model;
+
 import com.example.demo.algo.*;
+import com.example.demo.model.data.*;
 
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import java.util.List;
 @Entity
 public class Districting {
     private int districtingId;
-    private Demographics demographics;
+    private Demographic demographics;
     private List<District> districts;
     private Measures measures;
 

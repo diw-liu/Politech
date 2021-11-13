@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.model.data.*;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.List;
 
 public class Precinct {
     private int precinctId;
-    private Demographics demographics;
+    private Demographic demographics;
     private District parentDistrict;
     private List<Election> elections;
     private List<Precinct> neighbors;
