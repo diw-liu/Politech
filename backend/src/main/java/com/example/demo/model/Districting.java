@@ -1,4 +1,5 @@
 package com.example.demo.model;
+import com.example.demo.algo.*;
 
 import javax.persistence.*;
 
@@ -28,6 +29,14 @@ public class Districting {
 
     public void setDistricts(List<District> districts) {
         this.districts = districts;
+    }
+
+    public Measures getMeasures() {
+        return measures;
+    }
+
+    public void setMeasures(Measures measures) {
+        this.measures = measures;
     }
 
 
