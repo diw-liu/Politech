@@ -51,29 +51,29 @@ public class Districting {
     }
 
     //TODO
-    public Measures recalculateMeasures(){
+    // public Measures recalculateMeasures(){
         
-    }
+    // }
 
     //TODO
-    public List<Precincts> getChangedPrecincts(){
+    // public List<Precinct> getChangedPrecincts(){
         
-    }
+    // }
 
     //TODO
-    public boxWhiskerPoints[] getBoxAndWhiskerPoints(BoxAndWhiskerBasis){
+    // public boxWhiskerPoints[] getBoxAndWhiskerPoints(BoxAndWhiskerBasis){
 
-    }
+    // }
     
     //TODO
-    public DistrictingInfo getDistrictingSummary(){
+    // public DistrictingInfo getDistrictingSummary(){
 
-    }
+    // }
 
     //TODO
-    public List<CensusBlock> getCensusBlocksByDistrict(List<District>){
+    // public List<CensusBlock> getCensusBlocksByDistrict(List<District>){
 
-    }
+    // }
 
     @Override
     public String toString() {

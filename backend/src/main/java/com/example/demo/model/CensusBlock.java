@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Polygon;
+
 public class CensusBlock {
     private int censusBlockId;
     private Demographic demographics;
@@ -26,8 +28,8 @@ public class CensusBlock {
     }
 
     //TODO
-    public CensusBlock findDistrictNeighbor(District d){
+    // public CensusBlock findDistrictNeighbor(District d){
 
-    }
+    // }
 
 }

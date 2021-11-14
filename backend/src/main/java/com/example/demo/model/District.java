@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Polygon;
 
 @Entity
 public class District {
@@ -30,19 +31,19 @@ public class District {
         this.districtId = districtId;
     }
 
-    //TODO
-    public CensusBlock selectRandomBlock(){
+    // //TODO
+    // public CensusBlock selectRandomBlock(){
 
-    }
+    // }
 
     //TODO
     public void giveBlock(District givenTo, CensusBlock toGive){
 
     }
 
-    //TODO
-    public List<Precincts> getChangedPrecincts(){
+    // //TODO
+    // public List<Precinct> getChangedPrecincts(){
 
-    }
+    // }
     
 }

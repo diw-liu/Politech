@@ -2,6 +2,7 @@ package com.example.demo.model.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Polygon;
 
 public class DisplayInfo{
     private StateInfo stateInfo;
@@ -9,8 +10,8 @@ public class DisplayInfo{
     private List<Polygon> precinctGeometry;
 
     //TODO
-    public DisplayInfo(StateInfo stateInfo, DistrictInfo[] districtInfo,  List<Polygon> precintGeo){
-        Measure(districtInfo);
-    }
+    // public DisplayInfo(StateInfo stateInfo, DistrictInfo[] districtInfo,  List<Polygon> precintGeo){
+    //     Measure(districtInfo);
+    // }
 
 }
