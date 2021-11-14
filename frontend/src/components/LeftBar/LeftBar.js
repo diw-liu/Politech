@@ -19,7 +19,7 @@ const LeftBar = (props) => {
           <hr/>
           <PlanStatistics props={props}/>
           <hr/>
-          <RedistrictMenu numDistricts={numDistricts} setGen={props.setGen} saved={props.saved} setSaved={props.setSaved}/>
+          {props.plan != 0 && <RedistrictMenu numDistricts={numDistricts} setGen={props.setGen} saved={props.saved} setSaved={props.setSaved}/>}
         </div>
       </div>
     );
