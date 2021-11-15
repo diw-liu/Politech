@@ -1,11 +1,11 @@
-import React, { Component, useState} from 'react';
+import React, { useEffect, Component, useState} from 'react';
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
 import EnactedTable from './EnactedTable';
 import GeneratedTable from './GeneratedTable';
-import parties from '../../data/mockState.js';
-import demographics from '../../data/mockPop.js';
+// import parties from '../../data/mockState.js';
+// import demographics from '../../data/mockPop.js';
 import '../../css/InfoMenu.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -15,8 +15,27 @@ const InfoMenu = (props) =>{
   console.log("InfoMenu");
   console.log(props);
 
-  const [parts, setParties] = useState(parties)
-  const [demos, setDemos] = useState(demographics)
+  // const [parts, setParties] = useState(parties)
+  // const [demos, setDemos] = useState(demographics)
+
+  const [parts, setParties] = useState([]);
+  const [demos, setDemos] = useState([]);
+
+  useEffect(() =>{
+    fetch("/api/voting")
+    .then(res => res.json())
+    .then(function(data) {
+        console.log(data);
+        setParties(data);
+    });
+
+    fetch("/api/demographic")
+    .then(res => res.json())
+    .then(function(data) {
+        console.log(data);
+        setDemos(data);
+    });
+  })
 
     return (
       <div className='info-menu'>

@@ -86,4 +86,20 @@ class MapController{
         String result = new String(Files.readAllBytes(Paths.get(dir)));
         return result;
     }
+
+    @GetMapping("/voting")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ResponseBody public String getVoting() throws FileNotFoundException, IOException, ParseException{
+        String dir = "src/main/Data/mockState.json";
+        String result = new String(Files.readAllBytes(Paths.get(dir)));
+        return result;
+    }
+
+    @GetMapping("/demographic")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ResponseBody public String getDemographic() throws FileNotFoundException, IOException, ParseException{
+        String dir = "src/main/Data/mockPop.json";
+        String result = new String(Files.readAllBytes(Paths.get(dir)));
+        return result;
+    }
 }
