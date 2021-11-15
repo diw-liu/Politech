@@ -78,4 +78,12 @@ class MapController{
         } 
         return result;
     }
+
+    @GetMapping("/plan")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ResponseBody public String getPlan() throws FileNotFoundException, IOException, ParseException{
+        String dir = "src/main/Data/mockGenerated.json";
+        String result = new String(Files.readAllBytes(Paths.get(dir)));
+        return result;
+    }
 }

@@ -8,8 +8,9 @@ const GeneratedTable = (props) => {
 
     const [highLight, setHighLight] = useState();
     var districts = Districts;
-    var plans = Plans;
-
+    // var plans = Plans;
+    var plans = fetch("/api/plan").then(res => res.json()).then(function(data) {return (data)});
+    plans = JSON.parse(plans);
     const toggleActive = (id) =>{
         setHighLight(id)
         props.setPlan(id)
