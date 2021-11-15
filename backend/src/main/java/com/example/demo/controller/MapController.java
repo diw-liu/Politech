@@ -84,7 +84,6 @@ class MapController{
     @ResponseBody public String getPlan() throws FileNotFoundException, IOException, ParseException{
         String dir = "src/main/Data/mockGenerated.json";
         String result = new String(Files.readAllBytes(Paths.get(dir)));
-        System.out.println("hekp");
         return result;
     }
 }

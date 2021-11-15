@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Districts from '../../data/mock2.js';
 import '../../css/InfoMenu.css'
-import Plans from '../../data/mockGenerated.js';
+
 
 const GeneratedTable = (props) => {
+
+    const [plans, setPlans] = useState([]);
 
     // const request = async () => {
     //     const response = await fetch("/api/plan");
@@ -16,60 +18,21 @@ const GeneratedTable = (props) => {
 
     const [highLight, setHighLight] = useState();
     var districts = Districts;
-    // console.log(Plans);
-    // var plans = json;
-    // fetch("/api/plan").then(res => res.json())
-    //     .then(function(data) {
-    //         plans = data;
-    //         console.log(plans);
-    //     });
-    // console.log(plans);
-    // plans = JSON.parse(plans);
+
     const toggleActive = (id) =>{
         setHighLight(id)
         props.setPlan(id)
         console.log(id)
     }
 
-    var plans = Plans;
-
-    function populateTable() {
-        fetch("/api/plan").then(res => res.json())
+    useEffect(() =>{
+        fetch("/api/plan")
+        .then(res => res.json())
         .then(function(data) {
             console.log(data);
-            return (data.map(plan => (
-                <tr key={plan.id} align="start" onClick = {() => toggleActive(plan.id)}
-                    style={{background: highLight == plan.id ? '#00afec' : 'white',
-                    color: highLight == plan.id ? 'white' : 'black'}}
-                    > 
-                    <td className="PlanNumber" style={{ textAlign: 'left' }}>{plan.id}</td>
-                    <td className="PopulationEquality" style={{ textAlign: 'right' }}>{plan.pop_eq}</td>
-                    <td className="MajorityMinorityDistrictsNumber" style={{ textAlign: 'right' }}>{plan.maj_min}</td>
-                    <td className="GraphCompactness" style={{ textAlign: 'right' }}>{plan.compactness}</td>
-                    <td className="RacialDeviation" style={{ textAlign: 'right' }}>{plan.dev}</td>
-                </tr>
-            )))
-            // pleaseWork(data);
+            setPlans(data);
         });
-    }
-
-    function pleaseWork(plans) {
-        console.log(plans);
-        return (plans.map(plan => (
-            <tr key={plan.id} align="start" onClick = {() => toggleActive(plan.id)}
-                style={{background: highLight == plan.id ? '#00afec' : 'white',
-                color: highLight == plan.id ? 'white' : 'black'}}
-                > 
-                <td className="PlanNumber" style={{ textAlign: 'left' }}>{plan.id}</td>
-                <td className="PopulationEquality" style={{ textAlign: 'right' }}>{plan.pop_eq}</td>
-                <td className="MajorityMinorityDistrictsNumber" style={{ textAlign: 'right' }}>{plan.maj_min}</td>
-                <td className="GraphCompactness" style={{ textAlign: 'right' }}>{plan.compactness}</td>
-                <td className="RacialDeviation" style={{ textAlign: 'right' }}>{plan.dev}</td>
-            </tr>
-        )))
-    }
-    // console.log(populateTable());
-    // var plans = populateTable();
+    })
 
     return(
         <div class='table-responsive overflow-scroll'>
@@ -97,7 +60,6 @@ const GeneratedTable = (props) => {
                             <td className="RacialDeviation" style={{ textAlign: 'right' }}>{plan.dev}</td>
                         </tr>
                     ))
-                    // populateTable()
                 }
                 {/* {
                     Array.from({length: 30}, (elem, index) => elem = index + 1).map((i) => (
