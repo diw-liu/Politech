@@ -32,7 +32,7 @@ const GeneratedTable = (props) => {
             console.log(data);
             setPlans(data);
         });
-    })
+    },[])
 
     return(
         <div class='table-responsive overflow-scroll'>

@@ -28,14 +28,18 @@ const InfoMenu = (props) =>{
         console.log(data);
         setParties(data);
     });
+  }, []);
 
+
+  useEffect(() =>{
     fetch("/api/demographic")
     .then(res => res.json())
     .then(function(data) {
         console.log(data);
         setDemos(data);
     });
-  })
+  }, []);
+
 
     return (
       <div className='info-menu'>
