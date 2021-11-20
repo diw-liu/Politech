@@ -9,46 +9,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name="Districtings")
 public class Districting {
-    private int districtingId;
-    private Demographic demographics;
+    private int id;
+    private State state;
     private List<District> districts;
-    private Measures measures;
 
     @Id
-    @GeneratedValue
-    public int getDistrictingId() {
-        return districtingId;
-    }
+    @Column(name="id")
+    public int getId() { return this.id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setDistrictingId(int districtingId) {
-        this.districtingId = districtingId;
-    }
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="stateId")
+    public State getState() { return this.state; }
+    public void setState(State s) { this.state = s; }
 
-    @OneToMany(mappedBy = "districting", cascade = {CascadeType.ALL})
-    public List<District> getDistricts() {
-        return districts;
-    }
+//    @ElementCollection
+//    @CollectionTable(
+//            name="Districts",
+//            joinColumns=@JoinColumn(name="districtingId"))
+    @OneToMany(mappedBy="id")
+    public List<District> getDistricts() { return this.districts; }
+    public void setDistricts(List<District> districts) { this.districts = districts; }
 
-    public void setDistricts(List<District> districts) {
-        this.districts = districts;
-    }
+//    private Demographic demographics;
+//    private Measures measures;
 
-    public Measures getMeasures() {
-        return measures;
-    }
-
-    public void setMeasures(Measures measures) {
-        this.measures = measures;
-    }
-
-    public Districting cloneDistricting(){
-        Districting clone = new Districting();
-        clone.setDistrictingId(this.districtingId);
-        clone.setDistricts(this.districts);
-        clone.setMeasures(this.measures);
-        return clone;
-    }
+//    @OneToMany(mappedBy = "districting", cascade = {CascadeType.ALL})
+//    public List<District> getDistricts() {
+//        return districts;
+//    }
+//
+//    public void setDistricts(List<District> districts) {
+//        this.districts = districts;
+//    }
+//
+//    public Measures getMeasures() {
+//        return measures;
+//    }
+//
+//    public void setMeasures(Measures measures) {
+//        this.measures = measures;
+//    }
+//
+//    public Districting cloneDistricting(){
+//        Districting clone = new Districting();
+//        clone.setDistrictingId(this.districtingId);
+//        clone.setDistricts(this.districts);
+//        clone.setMeasures(this.measures);
+//        return clone;
+//    }
 
     //TODO
     // public Measures recalculateMeasures(){
@@ -75,12 +86,12 @@ public class Districting {
 
     // }
 
-    @Override
-    public String toString() {
-        return "Districting{" +
-                "districtingId: " + districtingId +
-                ", districts: " + districts +
-                ", measures: " + measures +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Districting{" +
+//                "districtingId: " + districtingId +
+//                ", districts: " + districts +
+//                ", measures: " + measures +
+//                '}';
+//    }
 }

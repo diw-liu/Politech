@@ -6,6 +6,7 @@ import java.util.List;
 public class BoxAndWhisker{
     private String state;
     private Statistics[] summary;
+    private double[] points;
 
     // //TODO
     // public List<Integer> fetchIntermediate(String name){

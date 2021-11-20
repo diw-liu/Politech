@@ -11,6 +11,9 @@ import java.util.*;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.example.demo.model.State;
+import com.example.demo.model.StateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +30,15 @@ import org.json.simple.parser.ParseException;
 @RestController
 @RequestMapping("/api")
 class MapController{
+//    @Autowired
+//    private StateRepository stateRepository;
     // String districtMD = "src/main/data/MDdistricts.json";
     // String precinctMD = "src/main/data/maryland.json";
     // String districtMI = "src/main/data/MIdistrict.json";
     // String precinctMI = "src/main/data/michigan.json";
     // String districtPA = "src/main/data/PAdistrict.json";
     // String precinctPA = "src/main/data/pennsylvania.json";
+
     Map<String, String> DISTRICT = Map.of(
         "MD", "MDdistricts.json",
         "MI", "MIdistrict.json",
@@ -59,7 +65,7 @@ class MapController{
             ex.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error reading file",ex);
         }
-        return result;        
+        return result;
     }
 
     @GetMapping("/all")
@@ -102,4 +108,13 @@ class MapController{
         String result = new String(Files.readAllBytes(Paths.get(dir)));
         return result;
     }
+
+//    @GetMapping("/instance")
+//    @Produces({MediaType.APPLICATION_JSON})
+//    @ResponseBody public String instantiateTest() throws FileNotFoundException, IOException, ParseException{
+//        State s = new State();
+//        s.setId("MD");
+//        stateRepository.save(s);
+//        return "Saved";
+//    }
 }

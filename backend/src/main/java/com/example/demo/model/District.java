@@ -8,28 +8,38 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Polygon;
+//import org.locationtech.jts.geom.Geometry;
 
 @Entity
+@Table(name="Districts")
 public class District {
-    private int districtId;
-    private Demographic demographics;
-    private List<Election> elections;
-    private List<Integer> neighbors;
+    private int id;
+    private Districting districting;
+    private Polygon geometry;
     private List<Precinct> precincts;
-    private List<CensusBlock> censusBlocks;
-    private List<CensusBlock> borderBlocks;
-    private Polygon districtGeometry;
-    private double[] boxWhiskerPoints;
+//    private Demographic demographics;
+//    private List<Election> elections;
+//    private List<Integer> neighbors;
+//    private List<CensusBlock> censusBlocks;
+//    private List<CensusBlock> borderBlocks;
 
     @Id
-    @GeneratedValue
-    public int getDistrictId() {
-        return districtId;
-    }
+    @Column(name="id")
+    public int getId() { return id; }
+    public void setId(int districtId) { this.id = districtId; }
 
-    public void setDistrictId(int districtId) {
-        this.districtId = districtId;
-    }
+    @ManyToOne
+    @JoinColumn(name="districtingId")
+    public Districting getDistricting() { return this.districting; }
+    public void setDistricting(Districting d) { this.districting = d; }
+
+    @Column(name="geometry")
+    public Polygon getGeometry() { return this.geometry; }
+    public void setGeometry(Polygon p) { this.geometry = p; }
+
+    @OneToMany(mappedBy="id", cascade=CascadeType.ALL)
+    public List<Precinct> getPrecincts() { return this.precincts; }
+    public void setPrecincts(List<Precinct> precincts) { this.precincts = precincts; }
 
     // //TODO
     // public CensusBlock selectRandomBlock(){
@@ -37,13 +47,13 @@ public class District {
     // }
 
     //TODO
-    public void giveBlock(District givenTo, CensusBlock toGive){
-
-    }
+//    public void giveBlock(District givenTo, CensusBlock toGive){
+//
+//    }
 
     // //TODO
     // public List<Precinct> getChangedPrecincts(){
 
     // }
-    
+
 }

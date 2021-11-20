@@ -8,24 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.Polygon;
 
+@Entity
+@Table(name="CensusBlocks")
 public class CensusBlock {
-    private int censusBlockId;
-    private Demographic demographics;
-    private District parentDistrict;
-    private List<Election> elections;
-    private Precinct precinct;
-    private Polygon blockGeometry;
-    private Boolean isBorder;
+    private int id;
+//    private Demographic demographics;
+//    private District district;
+//    private List<Election> elections;
+//    private Precinct precinct;
+//    private Polygon geometry;
+//    private Boolean isBorder;
 
     @Id
-    @GeneratedValue
-    public int getCensusBlockId() {
-        return censusBlockId;
-    }
-
-    public void setCensusBlockId(int censusBlockId) {
-        this.censusBlockId = censusBlockId;
-    }
+    public int getId() { return this.id; }
+    public void setId(int id) { this.id = id; }
 
     //TODO
     // public CensusBlock findDistrictNeighbor(District d){
