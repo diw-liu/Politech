@@ -1,13 +1,13 @@
 package com.example.demo.algo;
 
 public class Measures {
-    double populationEquality;
-    double racialDeviation;
-    double efficiencyGap;
-    double partisanSymmertry;
-    double graphCompactness;
-    double objectiveFunction;
-    int opportunityDistricts;
+    private double populationEquality;
+    private double racialDeviation;
+    private double efficiencyGap;
+    private double partisanSymmetry;
+    private double graphCompactness;
+    private double objectiveFunction;
+    private int opportunityDistricts;
 
     public double getPopulationEquality() {
         return this.populationEquality;
@@ -18,8 +18,8 @@ public class Measures {
     public double getEfficiencyGap() {
         return this.efficiencyGap;
     }
-    public double getPartisanSymmertry() {
-        return this.partisanSymmertry;
+    public double getPartisanSymmetry() {
+        return this.partisanSymmetry;
     }
     public double getGraphCompactness() {
         return this.graphCompactness;
@@ -40,8 +40,8 @@ public class Measures {
     public void setEfficiencyGap(double efficiencyGap) {
         this.efficiencyGap = efficiencyGap;
     }
-    public void setPartisanSymmertry(double partisanSymmertry) {
-        this.partisanSymmertry = partisanSymmertry;
+    public void setPartisanSymmetry(double partisanSymmetry) {
+        this.partisanSymmetry = partisanSymmetry;
     }
     public void setGraphCompactness(double graphCompactness) {
         this.graphCompactness = graphCompactness;

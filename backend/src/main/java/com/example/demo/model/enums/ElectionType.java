@@ -1,6 +1,7 @@
 package com.example.demo.model.enums;
 
-enum ElectionType {
+public enum ElectionType {
     PRESIDENTIAL,
-    CONGRESSIONAL
+    CONGRESSIONAL,
+    GUBERNATORIAL;
 }

@@ -17,11 +17,8 @@ public class State {
     private Districting redistricted;
     private Polygon outline;
     private List<Districting> districtings;
-//    private Demographic demographic;
-//    List<Districting> districtings;
-//    StateOutline stateOutline;
-//    Demographic demographic;
-//    List<Election> elections;
+    private List<Population> populations;
+    private List<Election> elections;
 //    BoxAndWhisker[] boxAndWhiskerBatch;
 
     @Id
@@ -62,9 +59,27 @@ public class State {
         this.outline = p;
     }
 
-    @OneToMany(mappedBy="id", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="state", cascade=CascadeType.ALL)
     public List<Districting> getDistrictings() { return this.districtings; }
     public void setDistrictings(List<Districting> seawulfDistrictings) {
         this.districtings = seawulfDistrictings;
     }
+
+    @OneToMany
+    @JoinTable(
+            name="StatePopulations",
+            joinColumns = @JoinColumn(name="stateId"),
+            inverseJoinColumns = @JoinColumn(name="populationId")
+    )
+    public List<Population> getPopulations() { return this.populations; }
+    public void setPopulations(List<Population> p) { populations = p; }
+
+    @OneToMany
+    @JoinTable(
+            name="StateElections",
+            joinColumns = @JoinColumn(name="stateId"),
+            inverseJoinColumns = @JoinColumn(name="electionId")
+    )
+    public List<Election> getElections() { return this.elections; }
+    public void setElections(List<Election> e) { elections = e; }
 }

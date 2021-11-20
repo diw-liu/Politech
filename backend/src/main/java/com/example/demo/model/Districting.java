@@ -14,6 +14,7 @@ public class Districting {
     private int id;
     private State state;
     private List<District> districts;
+    private List<Population> populations;
 
     @Id
     @Column(name="id")
@@ -25,16 +26,58 @@ public class Districting {
     public State getState() { return this.state; }
     public void setState(State s) { this.state = s; }
 
+    @OneToMany(mappedBy="districting")
+    public List<District> getDistricts() { return this.districts; }
+    public void setDistricts(List<District> districts) { this.districts = districts; }
+
+    @OneToMany
+    @JoinTable(
+            name="DistrictingPopulations",
+            joinColumns = @JoinColumn(name="districtingId"),
+            inverseJoinColumns = @JoinColumn(name="populationId")
+    )
+    public List<Population> getPopulations() { return this.populations; }
+    public void setPopulations(List<Population> p) { populations = p; }
+
+//    private Measures measures;
+
+
+
+
+
 //    @ElementCollection
 //    @CollectionTable(
 //            name="Districts",
 //            joinColumns=@JoinColumn(name="districtingId"))
-    @OneToMany(mappedBy="id")
-    public List<District> getDistricts() { return this.districts; }
-    public void setDistricts(List<District> districts) { this.districts = districts; }
 
-//    private Demographic demographics;
-//    private Measures measures;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //    @OneToMany(mappedBy = "districting", cascade = {CascadeType.ALL})
 //    public List<District> getDistricts() {

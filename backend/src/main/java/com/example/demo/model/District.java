@@ -17,10 +17,10 @@ public class District {
     private Districting districting;
     private Polygon geometry;
     private List<Precinct> precincts;
-//    private Demographic demographics;
-//    private List<Election> elections;
-//    private List<Integer> neighbors;
-//    private List<CensusBlock> censusBlocks;
+    private List<Population> populations;
+    private List<Election> elections;
+    private List<District> neighbors;
+    private List<CensusBlock> censusBlocks;
 //    private List<CensusBlock> borderBlocks;
 
     @Id
@@ -37,9 +37,58 @@ public class District {
     public Polygon getGeometry() { return this.geometry; }
     public void setGeometry(Polygon p) { this.geometry = p; }
 
-    @OneToMany(mappedBy="id", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="district", cascade=CascadeType.ALL)
     public List<Precinct> getPrecincts() { return this.precincts; }
     public void setPrecincts(List<Precinct> precincts) { this.precincts = precincts; }
+
+    @OneToMany
+    @JoinTable(
+            name="DistrictPopulations",
+            joinColumns = @JoinColumn(name="districtId"),
+            inverseJoinColumns = @JoinColumn(name="populationId")
+    )
+    public List<Population> getPopulations() { return this.populations; }
+    public void setPopulations(List<Population> p) { populations = p; }
+
+    @OneToMany
+    @JoinTable(
+            name="DistrictElections",
+            joinColumns = @JoinColumn(name="districtId"),
+            inverseJoinColumns = @JoinColumn(name="electionId")
+    )
+    public List<Election> getElections() { return this.elections; }
+    public void setElections(List<Election> e) { elections = e; }
+
+    @OneToMany(mappedBy = "id")
+    public List<District> getNeighbors() { return neighbors; }
+    public void setNeighbors(List<District> n) { neighbors = n; }
+
+    @OneToMany(mappedBy="district", cascade=CascadeType.ALL)
+    public List<CensusBlock> getCensusBlocks() { return this.censusBlocks; }
+    public void setCensusBlocks(List<CensusBlock> cb) { this.censusBlocks = cb; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // //TODO
     // public CensusBlock selectRandomBlock(){

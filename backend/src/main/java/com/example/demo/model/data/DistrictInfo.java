@@ -1,5 +1,7 @@
 package com.example.demo.model.data;
 
+import com.example.demo.model.Election;
+
 import java.util.List;
 //import com.example.demo.model.Precinct;
 
