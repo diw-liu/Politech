@@ -10,6 +10,9 @@ import java.util.*;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.example.demo.model.State;
+import com.example.demo.repositories.StateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.simple.parser.ParseException;
+import java.awt.Polygon;
 
 @RestController
 @RequestMapping("/api")
 class MapController{
-//    @Autowired
-//    private StateRepository stateRepository;
+    @Autowired
+    private StateRepository stateRepository;
     // String districtMD = "src/main/data/MDdistricts.json";
     // String precinctMD = "src/main/data/maryland.json";
     // String districtMI = "src/main/data/MIdistrict.json";
@@ -105,7 +109,9 @@ class MapController{
 //    @Produces({MediaType.APPLICATION_JSON})
 //    @ResponseBody public String instantiateTest() throws FileNotFoundException, IOException, ParseException{
 //        State s = new State();
-//        s.setId("MD");
+//        s.setName("Maryland");
+////        Polygon p;
+//        s.setId(24L);
 //        stateRepository.save(s);
 //        return "Saved";
 //    }

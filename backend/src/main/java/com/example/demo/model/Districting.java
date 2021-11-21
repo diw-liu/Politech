@@ -52,33 +52,6 @@ public class Districting {
     public Measures getMeasures() { return measures; }
     public void setMeasures(Measures m) { measures = m; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //    @OneToMany(mappedBy = "districting", cascade = {CascadeType.ALL})
 //    public List<District> getDistricts() {
 //        return districts;

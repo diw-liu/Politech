@@ -78,7 +78,7 @@ const InfoMenu = (props) =>{
                 <Tab eventKey="State" title="State">
                   <div>
                   <h5>Voting Data</h5>
-                  (Total Votes: 2,618,519)
+                  (Total Votes: 2,960,006)
                   <table style={{ width: '100%' }}>
                       <tr className="item">
                         <th style={{ textAlign: 'left' }}>Party</th>
@@ -130,11 +130,11 @@ const InfoMenu = (props) =>{
             <div class='tab-pane fade' id='generated' role='tabpanel' aria-labelledby='generated-tab'>
               <GeneratedTable setPlan={props.setPlan}/>
             </div>
-            <div class='tab-pane fade' id='saved' role='tabpanel' aria-labelledby='saved-tab'>
+            {/* <div class='tab-pane fade' id='saved' role='tabpanel' aria-labelledby='saved-tab'>
               {props.saved && <div>
                 Plan 1
               </div>}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

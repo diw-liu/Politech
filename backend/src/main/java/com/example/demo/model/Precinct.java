@@ -61,21 +61,6 @@ public class Precinct {
     public Boolean getHasChanged() { return hasChanged; }
     public void setHasChanged(Boolean b) { hasChanged = b; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //    //TODO
 //    public void changeBoundary(Polygon blockGeometry){
 //

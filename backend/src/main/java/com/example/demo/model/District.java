@@ -79,29 +79,6 @@ public class District {
     public List<CensusBlock> getBorderBlocks() { return borderBlocks; }
     public void setBorderBlocks(List<CensusBlock> b) { borderBlocks = b; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // //TODO
     // public CensusBlock selectRandomBlock(){
 
