@@ -1,16 +1,14 @@
 package com.example.demo.model;
-import com.example.demo.model.data.*;
 
 import javax.persistence.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="States")
 public class State {
-    private String id;
+    private Long id;
     private String name;
     private Districting enacted;
     private Districting current;
@@ -19,12 +17,11 @@ public class State {
     private List<Districting> districtings;
     private List<Population> populations;
     private List<Election> elections;
-//    BoxAndWhisker[] boxAndWhiskerBatch;
 
     @Id
     @Column(name="id")
-    public String getId() { return this.id; }
-    public void setId(String id) {
+        public Long getId() { return this.id; }
+    public void setId(Long id) {
         this.id = id;
     }
 

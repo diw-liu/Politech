@@ -1,11 +1,8 @@
 package com.example.demo.model;
 
-import com.example.demo.model.data.*;
-
 
 import javax.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.Polygon;
 //import org.locationtech.jts.geom.Geometry;
@@ -21,7 +18,7 @@ public class District {
     private List<Election> elections;
     private List<District> neighbors;
     private List<CensusBlock> censusBlocks;
-//    private List<CensusBlock> borderBlocks;
+    private List<CensusBlock> borderBlocks;
 
     @Id
     @Column(name="id")
@@ -59,13 +56,28 @@ public class District {
     public List<Election> getElections() { return this.elections; }
     public void setElections(List<Election> e) { elections = e; }
 
-    @OneToMany(mappedBy = "id")
+//    @OneToMany(mappedBy = "id")
+    @OneToMany
+    @JoinTable(
+            name="DistrictNeighbors",
+            joinColumns = @JoinColumn(name="districtId"),
+            inverseJoinColumns = @JoinColumn(name="neighborId")
+    )
     public List<District> getNeighbors() { return neighbors; }
     public void setNeighbors(List<District> n) { neighbors = n; }
 
     @OneToMany(mappedBy="district", cascade=CascadeType.ALL)
     public List<CensusBlock> getCensusBlocks() { return this.censusBlocks; }
     public void setCensusBlocks(List<CensusBlock> cb) { this.censusBlocks = cb; }
+
+    @OneToMany
+    @JoinTable(
+            name="DistrictBorderBlocks",
+            joinColumns = @JoinColumn(name="districtId"),
+            inverseJoinColumns = @JoinColumn(name="borderBlockId")
+    )
+    public List<CensusBlock> getBorderBlocks() { return borderBlocks; }
+    public void setBorderBlocks(List<CensusBlock> b) { borderBlocks = b; }
 
 
 

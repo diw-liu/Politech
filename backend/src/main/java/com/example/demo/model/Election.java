@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.example.demo.model.enums.ElectionType;
+import com.example.demo.enums.ElectionType;
 
 import javax.persistence.*;
 

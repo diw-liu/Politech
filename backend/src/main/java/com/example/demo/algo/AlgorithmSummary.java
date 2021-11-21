@@ -1,5 +1,7 @@
 package com.example.demo.algo;
 
+import com.example.demo.model.Measures;
+
 public class AlgorithmSummary {
     Measures measures;
     int algorithmCycles;

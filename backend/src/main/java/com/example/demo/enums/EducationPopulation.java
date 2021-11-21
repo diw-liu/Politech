@@ -1,4 +1,4 @@
-package com.example.demo.model.enums;
+package com.example.demo.enums;
 
 enum EducationPopulation {
     LESS_NINTH_GRADE,

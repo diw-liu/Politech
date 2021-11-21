@@ -1,10 +1,7 @@
 package com.example.demo.model;
 
-import com.example.demo.model.data.*;
-
 import javax.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.Polygon;
 
@@ -14,10 +11,11 @@ public class CensusBlock {
     private int id;
     private District district;
     private Precinct precinct;
+    private List<CensusBlock> neighbors;
     private List<Population> populations;
     private Polygon geometry;
     private List<Election> elections;
-//    private Boolean isBorder;
+    private boolean border;
 
     @Id
     @Column(name="id")
@@ -36,8 +34,17 @@ public class CensusBlock {
 
     @OneToMany
     @JoinTable(
+            name="CensusBlockNeighbors",
+            joinColumns = @JoinColumn(name="blockId"),
+            inverseJoinColumns = @JoinColumn(name="neighborId")
+    )
+    public List<CensusBlock> getNeighbors() { return neighbors; }
+    public void setNeighbors(List<CensusBlock> n) { neighbors = n; }
+
+    @OneToMany
+    @JoinTable(
             name="CensusBlockPopulations",
-            joinColumns = @JoinColumn(name="censusBlockId"),
+            joinColumns = @JoinColumn(name="blockId"),
             inverseJoinColumns = @JoinColumn(name="populationId"))
     public List<Population> getPopulations() { return this.populations; }
     public void setPopulations(List<Population> p) { populations = p; }
@@ -49,10 +56,14 @@ public class CensusBlock {
     @OneToMany
     @JoinTable(
             name="CensusBlockElections",
-            joinColumns = @JoinColumn(name="censusBlockId"),
+            joinColumns = @JoinColumn(name="blockId"),
             inverseJoinColumns = @JoinColumn(name="electionId"))
     public List<Election> getElections() { return this.elections; }
     public void setElections(List<Election> e) { elections = e; }
+
+    @Column(name="borderStatus")
+    public boolean getBorder() { return border; }
+    public void setBorder(boolean b) { border = b; }
 
 
 

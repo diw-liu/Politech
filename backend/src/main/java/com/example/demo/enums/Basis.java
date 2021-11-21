@@ -1,6 +1,6 @@
-package com.example.demo.model.enums;
+package com.example.demo.enums;
 
-enum BoxWhiskerBasis {
+public enum Basis {
     DEMOCRATIC,
     REPUBLICAN,
     WHITE,

@@ -1,5 +1,6 @@
-package com.example.demo.model;
+package com.example.demo.repositories;
 
+import com.example.demo.model.State;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

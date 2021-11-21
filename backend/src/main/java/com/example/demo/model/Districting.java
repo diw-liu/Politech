@@ -1,11 +1,7 @@
 package com.example.demo.model;
 
-import com.example.demo.algo.*;
-import com.example.demo.model.data.*;
-
 import javax.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +11,8 @@ public class Districting {
     private State state;
     private List<District> districts;
     private List<Population> populations;
+    private List<BoxAndWhisker> plots;
+    private Measures measures;
 
     @Id
     @Column(name="id")
@@ -39,18 +37,20 @@ public class Districting {
     public List<Population> getPopulations() { return this.populations; }
     public void setPopulations(List<Population> p) { populations = p; }
 
-//    private Measures measures;
+    @OneToMany(mappedBy="districting", cascade=CascadeType.ALL)
+    public List<BoxAndWhisker> getPlots() { return this.plots; }
+    public void setPlots(List<BoxAndWhisker> p) {
+        this.plots = p;
+    }
 
-
-
-
-
-//    @ElementCollection
-//    @CollectionTable(
-//            name="Districts",
-//            joinColumns=@JoinColumn(name="districtingId"))
-
-
+    @OneToOne
+    @JoinTable(
+            name="DistrictingMeasures",
+            joinColumns = @JoinColumn(name="districtingId"),
+            inverseJoinColumns = @JoinColumn(name="measuresId")
+    )
+    public Measures getMeasures() { return measures; }
+    public void setMeasures(Measures m) { measures = m; }
 
 
 

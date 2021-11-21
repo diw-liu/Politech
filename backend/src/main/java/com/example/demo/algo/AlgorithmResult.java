@@ -3,6 +3,7 @@ package com.example.demo.algo;
 import java.util.List;
 
 import com.example.demo.model.Districting;
+import com.example.demo.model.Measures;
 
 public class AlgorithmResult {
     Districting updatedRedistricting;

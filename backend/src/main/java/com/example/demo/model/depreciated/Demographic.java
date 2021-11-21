@@ -1,4 +1,4 @@
-package com.example.demo.model.data;
+package com.example.demo.model.depreciated;
 
 public class Demographic{
     private int[] racePopulation;

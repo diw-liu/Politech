@@ -1,20 +1,20 @@
 package com.example.demo.model;
 
-import com.example.demo.model.enums.PopulationType;
+import com.example.demo.enums.PopulationType;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="Populations")
 public class Population {
-    private int id;
+    private Long id;
     private PopulationType type;
     private Long population;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     @Enumerated(EnumType.STRING)
     @Column(name="type")

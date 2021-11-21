@@ -1,10 +1,7 @@
 package com.example.demo.model;
 
-import com.example.demo.model.data.*;
-
 import javax.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.Polygon;
 
@@ -20,6 +17,7 @@ public class Precinct {
     private Boolean hasChanged;
 
     @Id
+    @Column(name="id")
     public int getPrecinctId() { return id; }
     public void setPrecinctId(int id) { this.id = id; }
 

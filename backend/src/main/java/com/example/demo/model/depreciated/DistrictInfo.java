@@ -1,4 +1,4 @@
-package com.example.demo.model.data;
+package com.example.demo.model.depreciated;
 
 import com.example.demo.model.Election;
 
