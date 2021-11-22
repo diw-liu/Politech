@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name="States")
 public class State {
-    private Long id;
+    private String id;
     private String name;
     private Districting enacted;
     private Districting current;
@@ -20,8 +20,8 @@ public class State {
 
     @Id
     @Column(name="id")
-    public Long getId() { return this.id; }
-    public void setId(Long id) {
+    public String getId() { return this.id; }
+    public void setId(String id) {
         this.id = id;
     }
 

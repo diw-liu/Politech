@@ -8,7 +8,7 @@ import java.awt.Polygon;
 @Entity
 @Table(name="Precincts")
 public class Precinct {
-    private int id;
+    private String id;
     private Polygon geometry;
     private District district;
     private List<Population> populations;
@@ -18,8 +18,8 @@ public class Precinct {
 
     @Id
     @Column(name="id")
-    public int getPrecinctId() { return id; }
-    public void setPrecinctId(int id) { this.id = id; }
+    public String getPrecinctId() { return id; }
+    public void setPrecinctId(String id) { this.id = id; }
 
     @Column(name="geometry")
     public Polygon getGeometry() { return geometry; }

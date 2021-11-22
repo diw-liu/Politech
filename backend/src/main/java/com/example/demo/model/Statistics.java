@@ -13,6 +13,7 @@ public class Statistics {
     private double upperQuartile;
     private double lowerQuartile;
     private double median;
+    private double point;
 
     @Id
     @Column(name="id")
@@ -43,4 +44,8 @@ public class Statistics {
     @Column(name="median")
     public double getMedian() { return median; }
     public void setMedian(double median) { this.median = median; }
+
+    @Column(name="point")
+    public double getPoint() { return point; }
+    public void setPoint(double median) { this.point = point; }
 }

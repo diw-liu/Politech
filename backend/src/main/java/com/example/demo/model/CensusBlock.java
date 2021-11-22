@@ -8,7 +8,7 @@ import java.awt.Polygon;
 @Entity
 @Table(name="CensusBlocks")
 public class CensusBlock {
-    private int id;
+    private String id;
     private District district;
     private Precinct precinct;
     private List<CensusBlock> neighbors;
@@ -19,8 +19,8 @@ public class CensusBlock {
 
     @Id
     @Column(name="id")
-    public int getId() { return this.id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return this.id; }
+    public void setId(String id) { this.id = id; }
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="districtId")

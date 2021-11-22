@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name="Districtings")
 public class Districting {
-    private int id;
+    private String id;
     private State state;
     private List<District> districts;
     private List<Population> populations;
@@ -16,8 +16,8 @@ public class Districting {
 
     @Id
     @Column(name="id")
-    public int getId() { return this.id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return this.id; }
+    public void setId(String id) { this.id = id; }
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="stateId")

@@ -11,14 +11,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.example.demo.model.State;
+import com.example.demo.projections.StateDisplayProjection;
+import com.example.demo.repositories.DistrictRepository;
+import com.example.demo.repositories.DistrictingRepository;
+import com.example.demo.repositories.PrecinctRepository;
 import com.example.demo.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.simple.parser.ParseException;
 import java.awt.Polygon;
@@ -28,6 +28,12 @@ import java.awt.Polygon;
 class MapController{
     @Autowired
     private StateRepository stateRepository;
+    @Autowired
+    private DistrictingRepository districtingRepository;
+    @Autowired
+    private DistrictRepository districtRepository;
+    @Autowired
+    private PrecinctRepository precinctRepository;
     // String districtMD = "src/main/data/MDdistricts.json";
     // String precinctMD = "src/main/data/maryland.json";
     // String districtMI = "src/main/data/MIdistrict.json";
@@ -62,6 +68,13 @@ class MapController{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error reading file",ex);
         }
         return result;
+    }
+
+    @GetMapping("/state")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody StateDisplayProjection getStateByName(@RequestParam String name) {
+        State selected = stateRepository.findByName(name, State.class);
+        return stateRepository.findByName(name, StateDisplayProjection.class);
     }
 
     @GetMapping("/all")

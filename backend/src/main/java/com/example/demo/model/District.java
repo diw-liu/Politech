@@ -10,7 +10,7 @@ import java.awt.Polygon;
 @Entity
 @Table(name="Districts")
 public class District {
-    private int id;
+    private String id;
     private Districting districting;
     private Polygon geometry;
     private List<Precinct> precincts;
@@ -22,8 +22,8 @@ public class District {
 
     @Id
     @Column(name="id")
-    public int getId() { return id; }
-    public void setId(int districtId) { this.id = districtId; }
+    public String getId() { return id; }
+    public void setId(String districtId) { this.id = districtId; }
 
     @ManyToOne
     @JoinColumn(name="districtingId")
