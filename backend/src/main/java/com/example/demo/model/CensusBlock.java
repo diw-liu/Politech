@@ -3,7 +3,7 @@ package com.example.demo.model;
 import javax.persistence.*;
 
 import java.util.List;
-import java.awt.Polygon;
+import org.locationtech.jts.geom.*;
 
 @Entity
 @Table(name="CensusBlocks")
