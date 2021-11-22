@@ -3,7 +3,8 @@ package com.example.demo.model;
 import javax.persistence.*;
 
 import java.util.List;
-import org.locationtech.jts.geom.*;
+//import org.locationtech.jts.geom.*;
+import java.awt.*;
 
 @Entity
 @Table(name="Precincts")

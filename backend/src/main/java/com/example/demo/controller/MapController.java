@@ -7,11 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.example.demo.model.State;
 import com.example.demo.projections.StateDisplayProjection;
+import com.example.demo.projections.StatePopulationProjection;
 import com.example.demo.repositories.DistrictRepository;
 import com.example.demo.repositories.DistrictingRepository;
 import com.example.demo.repositories.PrecinctRepository;
@@ -70,6 +72,12 @@ class MapController{
         return result;
     }
 
+    @GetMapping("/test")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody StatePopulationProjection getStatePopulationByName(@RequestParam String name) {
+        return stateRepository.findByName(name, StatePopulationProjection.class);
+    }
+
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody StateDisplayProjection getStateByName(@RequestParam String name) {
@@ -84,7 +92,7 @@ class MapController{
         List<String> result = new ArrayList<>();
         for(String file : dir.list()){
             try{
-                String temp = String.format("%s/%s",dir.toString(),file);  
+                String temp = String.format("%s/%s",dir.toString(),file);
                 result.add(new String(Files.readAllBytes(Paths.get(temp))));
             }catch (IOException ex){
                 ex.printStackTrace();
