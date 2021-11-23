@@ -16,6 +16,7 @@ import com.example.demo.model.State;
 import com.example.demo.projections.StateDisplayProjection;
 import com.example.demo.projections.StatePopulationProjection;
 import com.example.demo.repositories.*;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -130,7 +131,15 @@ class MapController{
         return result;
     }
 
-    @GetMapping("/dumb")
+    @GetMapping("/plotPoints")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody String getBoxPoints() throws FileNotFoundException, IOException, ParseException{
+        String dir = "src/main/Data/proportions_final.json";
+        String result = new String(Files.readAllBytes(Paths.get(dir)));
+        return result;
+    }
+
+    @GetMapping("/newDistricting")
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseBody public List<String> getRedistrict() throws FileNotFoundException, IOException, ParseException{
         File dir = new File("src/main/geo/");

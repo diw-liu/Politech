@@ -19,7 +19,7 @@ const RedistrictMenu = (props) => {
       props.setSaved(true);
       props.setGen(true)
       setTimeout(() => props.setGen(false), 5000)
-      fetch("/api/dumb",{
+      fetch("/api/newDistricting",{
         method: 'GET',
         headers:{'Content-Type': 'application/x-www-form-urlencoded'}
       })

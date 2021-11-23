@@ -36,15 +36,8 @@ const InfoMenu = (props) =>{
     fetch("/api/voting")
       .then(res => res.json())
       .then(function(data) {
-          // console.log(data);
           setParties(data);
       });
-    // fetch("/api/demographic")
-    //   .then(res => res.json())
-    //   .then(function(data) {
-    //       // console.log(data);
-    //       setDemos(data);
-    //   });
   }, []);
 
 
@@ -157,7 +150,7 @@ const InfoMenu = (props) =>{
               <GeneratedTable setPlan={props.setPlan}/>
             </div>
             <div class='tab-pane fade' id='plots' role='tabpanel' aria-labelledby='plots-tab'>
-              <div><BoxAndWhisker stateName={props.stateName}/></div>
+              <div><BoxAndWhisker stateName={props.stateName} plan={props.plan} setPlan={props.setPlan}/></div>
             </div>
             
           </div>

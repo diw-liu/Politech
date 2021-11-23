@@ -5,10 +5,11 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import {CanvasJSChart} from 'canvasjs-react-charts'
 
 const BoxAndWhisker = (props) => {
+    // console.log(props);
 
     const [ensemble, setEnsemble] = useState([]);
     const [enactedPoints, setEnactedPoints] = useState([]);
-    const [selectedPoints, setSelectedPoints] = useState([]);
+    const [selectedPointsAll, setSelectedPointsAll] = useState({"recombination_of_districts-0": []});
 
     useEffect(() =>{
         console.log(props.stateName);
@@ -30,14 +31,26 @@ const BoxAndWhisker = (props) => {
               districtStats.sort((a,b) => (a.label > b.label) ? 1 : -1);
               setEnsemble(districtStats);
           });
-      }, []);
+          fetch("/api/plotPoints")
+          .then(res => res.json())
+          .then(function(data) {
+            console.log(data);
+            setEnactedPoints(Object.values(data["enacted"]));
+            data["recombination_of_districts-0"] = [];
+            console.log(data);
+            setSelectedPointsAll(data);
+          });
+    }, []);
 
     function getData(data,k){
+        // if (k === "Proposed" && props.plan > 0) {
+        //     data = Object.values(data);
+        // }
         let dataPoints = [];
         for (let i = 0; i < Object.keys(data).length; i++)
         {
             dataPoints.push({
-                x: i, labelPoint: String(k), y: data[i]
+                x: i, labelPoints: String(k), y: data[i]
             });
         }
         return dataPoints;
@@ -63,18 +76,17 @@ const BoxAndWhisker = (props) => {
                 name: "Enacted",
                 color: "steelblue",
                 markerType: "circle",
-                toolTipContent: "<span style=\"color:steelblue\">{labelPoint}</span>: {y}",
+                toolTipContent: "<span style=\"color:steelblue\">{labelPoints}</span>: {y}",
                 showInLegend: true,
-                dataPoints: getData([
-                    0.11817578264644298, 
-                     0.3555277246215432,
-                     0.23051393121659627,
-                     0.49726258185969197,
-                     0.38176139928260616,
-                     0.1384291987326869,
-                     0.48658170211435536,
-                     0.12326764598675037
-                   ], "Enacted")
+                dataPoints: getData(enactedPoints, "Enacted")
+            },
+            {
+                type: "scatter",
+                name: "Proposed",
+                color: "tomato",
+                markerType: "circle",
+                showInLegend: true,
+                dataPoints: getData(Object.values(selectedPointsAll["recombination_of_districts-"+props.plan]),"Proposed")
             }
         ],
     }
@@ -82,11 +94,6 @@ const BoxAndWhisker = (props) => {
     return (
             <>
                 <CanvasJSChart options={options} />
-                {/* <VariableSelectionDropdown
-				// setName={setVarName}
-				currentName={"African American"}
-                listOfNames={"Test", "Test 2"}
-			/> */}
             </>
     );
 }
