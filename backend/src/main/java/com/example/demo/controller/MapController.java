@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.simple.parser.ParseException;
 import java.awt.Polygon;
+import java.sql.*;
 
 @RestController
 @RequestMapping("/api")
@@ -115,7 +116,8 @@ class MapController{
     @GetMapping("/voting")
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseBody public String getVoting() throws FileNotFoundException, IOException, ParseException{
-        String dir = "src/main/Data/MD_Voting.json";
+
+        String dir = "src/main/Data/mockState.json";
         String result = new String(Files.readAllBytes(Paths.get(dir)));
         return result;
     }
