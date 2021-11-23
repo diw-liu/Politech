@@ -47,14 +47,25 @@ public class AlgorithmHandler {
             if(success == false){
                 failedAttempts++;
             }
-            if( failedAttempts >= attemptsThreshold){
+            // every 10 cycles, return a algorithm summary to the client
+            if(algorithm.getAlgorithmCycles() % 10 == 0){
+                AlgorithmSummary algorithmSummary = new AlgorithmSummary();
+                algorithmSummary.setAlgorithmCycles(algorithm.getAlgorithmCycles());
+                algorithmSummary.setMeasures(algorithm.getRedistricting().getMeasures());
+                // send algorithmSummary to the client
+            }
+            if(failedAttempts >= attemptsThreshold){
                 break;
             }
         }
         terminateAlgorithm();
     }
     public void terminateAlgorithm() {
-        
+        AlgorithmResult algorithmResult = new AlgorithmResult();
+        algorithmResult.setAlgorithmCycles(algorithm.getAlgorithmCycles());
+        algorithmResult.setMeasures(algorithm.getRedistricting().getMeasures());
+        algorithmResult.setUpdatedRedistricting(algorithm.getRedistricting());
+        // send algorithmResult to the client
     }
     public boolean checkThresholds(int algorithmCycles) {
         return false;
