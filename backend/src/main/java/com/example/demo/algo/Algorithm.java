@@ -40,8 +40,8 @@ public class Algorithm {
     }
 
     public boolean runAlgorithm() {
-        District takenFrom = selectRandomDistricts();
-        CensusBlock toGive = searchingCensusBlock(takenFrom);
+        District takenFrom = redistricting.selectRandomDistricts();
+        CensusBlock toGive = getBorderCensusBlock(takenFrom);
         District givenTo = toGive.getDistrict();
         // if the move generate a better district, then we process the move
         if(calculateMove(takenFrom, givenTo, toGive)){
@@ -55,9 +55,8 @@ public class Algorithm {
         }
     }
 
-    public CensusBlock searchingCensusBlock(District district){
-        List<CensusBlock> districtBorderBlocks = district.getBorderBlocks();
-        CensusBlock censusBlock = selectRandomCensusBlock(districtBorderBlocks);
+    public CensusBlock getBorderCensusBlock(District district){
+        CensusBlock censusBlock = district.selectRandomCensusBlock();
         // keep searching the neighbor censusBlock that is not in the original district
         while(true){
             List<CensusBlock> censusBlockNeighbors = censusBlock.getNeighbors();
@@ -67,7 +66,7 @@ public class Algorithm {
                 }
                 return neigborCB;
             }
-            censusBlock = selectRandomCensusBlock(districtBorderBlocks);
+            censusBlock = district.selectRandomCensusBlock();
         }
     }
 
@@ -96,19 +95,6 @@ public class Algorithm {
             sumSquares = (long) Math.pow((long)((districtTotal / idealPop) - 1), 2);
         }
         return Math.sqrt((double)sumSquares);
-    }
-
-    public District selectRandomDistricts() {
-        List<District> districts = this.redistricting.getDistricts();
-        int size = districts.size();
-        Random rand = new Random();
-        return districts.get(rand.nextInt(size));
-    }
-
-    public CensusBlock selectRandomCensusBlock(List<CensusBlock> censusBlocks) {
-        int size = censusBlocks.size();
-        Random rand = new Random();
-        return censusBlocks.get(rand.nextInt(size));
     }
 
     public Districting undoMove(District takenFrom, District givenTo, CensusBlock toGive) {

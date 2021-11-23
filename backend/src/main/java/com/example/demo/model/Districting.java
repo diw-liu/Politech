@@ -3,6 +3,7 @@ package com.example.demo.model;
 import javax.persistence.*;
 
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Table(name="Districtings")
@@ -51,6 +52,13 @@ public class Districting {
     )
     public Measures getMeasures() { return measures; }
     public void setMeasures(Measures m) { measures = m; }
+
+
+    public District selectRandomDistricts(){
+        int size = this.districts.size();
+        Random rand = new Random();
+        return districts.get(rand.nextInt(size));
+    }
 
 //    @OneToMany(mappedBy = "districting", cascade = {CascadeType.ALL})
 //    public List<District> getDistricts() {
