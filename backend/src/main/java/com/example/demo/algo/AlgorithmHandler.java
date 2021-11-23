@@ -4,9 +4,9 @@ import com.example.demo.model.Districting;
 
 public class AlgorithmHandler {
     Algorithm algorithm;
-    int cyclesThreshold;
-    int attemptsThreshold;
-    int failedAttempts;
+    int cyclesThreshold = 1000;
+    int attemptsThreshold = 5;
+    int failedAttempts = 0;
     Districting updatedRedistricting;
 
     public Algorithm getAlgorithm() {
@@ -41,8 +41,21 @@ public class AlgorithmHandler {
         this.updatedRedistricting = updatedRedistricting;
     }
 
-    public void startAlgorithm() {}
-    public void terminateAlgorithm() {}
+    public void startAlgorithm() {
+        while (algorithm.getAlgorithmCycles() < cyclesThreshold) {
+            boolean success = algorithm.runAlgorithm();
+            if(success == false){
+                failedAttempts++;
+            }
+            if( failedAttempts >= attemptsThreshold){
+                break;
+            }
+        }
+        terminateAlgorithm();
+    }
+    public void terminateAlgorithm() {
+        
+    }
     public boolean checkThresholds(int algorithmCycles) {
         return false;
     }
