@@ -1,8 +1,10 @@
 package com.example.demo.algo;
 import com.example.demo.model.Districting;
 import com.example.demo.model.District;
+import com.example.demo.enums.PopulationType;
 import com.example.demo.model.CensusBlock;
 import com.example.demo.model.Measures;
+import com.example.demo.model.Population;
 
 import java.util.List;
 import java.util.Random;
@@ -11,7 +13,7 @@ import org.locationtech.jts.geom.*;
 
 public class Algorithm {
     Districting redistricting;
-    int algorithmCycles;
+    int algorithmCycles = 0;
     int status; 
 
     public Districting getRedistricting() {
@@ -36,19 +38,34 @@ public class Algorithm {
         this.status = status;
     }
 
-    public void runAlgorithm() {
+    public boolean runAlgorithm() {
         District takenFrom = selectRandomDistricts();
-        List<District> takenFromNeighbors = takenFrom.getNeighbors();
-        int neighborSize = takenFromNeighbors.size();
-        Random rand = new Random();
-        District givenTo = takenFromNeighbors.get(rand.nextInt(neighborSize));
-        List<CensusBlock> takenFromBorderBlocks = takenFrom.getBorderBlocks();
-        int borderBlockSize = takenFromBorderBlocks.size();
-        CensusBlock toGive = takenFromBorderBlocks.get(rand.nextInt(borderBlockSize));
+        CensusBlock toGive = searchingCensusBlock(takenFrom);
+        District givenTo = toGive.getDistrict();
         // if the move generate a better district, then we process the move
         if(calculateMove(takenFrom, givenTo, toGive)){
-            makeMove(takenFrom, givenTo, toGive);
             generateNewBoundary(takenFrom, givenTo, toGive);
+            return true;
+        }
+        else{
+            undoMove(takenFrom, givenTo, toGive);
+            return false;
+        }
+    }
+
+    public CensusBlock searchingCensusBlock(District district){
+        List<CensusBlock> districtBorderBlocks = district.getBorderBlocks();
+        CensusBlock censusBlock = selectRandomCensusBlock(districtBorderBlocks);
+        // keep searching the neighbor censusBlock that is not in the original district
+        while(true){
+            List<CensusBlock> censusBlockNeighbors = censusBlock.getNeighbors();
+            for(CensusBlock neigborCB : censusBlockNeighbors){
+                if(neigborCB.getDistrict() == district){
+                    continue;
+                }
+                return neigborCB;
+            }
+            censusBlock = selectRandomCensusBlock(districtBorderBlocks);
         }
     }
 
@@ -58,15 +75,24 @@ public class Algorithm {
         List<CensusBlock> censusBlocksGivenTo = givenTo.getCensusBlocks();
         censusBlocksTakenFrom.remove(toGive);
         censusBlocksGivenTo.add(toGive);
-
-        // int score = calculate_score(takenFrom, givenTo);
-        // if(score > threshold){
-        //     isMoveBetter = true;
-        // }
-            
-        censusBlocksTakenFrom.add(toGive); // undo remove and add
-        censusBlocksGivenTo.remove(toGive);
+        double populationEquality = redistricting.getMeasures().getPopulationEquality();
+        double newPopulationEquality = caclculatePopulationEquality();
+        if(newPopulationEquality < populationEquality){
+            redistricting.getMeasures().setPopulationEquality(newPopulationEquality);
+            isMoveBetter = true;
+        }
         return isMoveBetter;
+    }
+
+    public double caclculatePopulationEquality(){
+        Long sumSquares = 0L;
+        int redistrictingSize = redistricting.getDistricts().size();
+        Long idealPop = redistricting.getPopulations().get(PopulationType.TOTAL.ordinal()).getPopulation() / redistrictingSize;
+        for(int i = 0; i < redistrictingSize; i++){
+            Long districtTotal = redistricting.getDistricts().get(i).getPopulations().get(PopulationType.TOTAL.ordinal()).getPopulation();
+            sumSquares = (long) Math.pow((long)((districtTotal / idealPop) - 1), 2);
+        }
+        return Math.sqrt((double)sumSquares);
     }
 
     public District selectRandomDistricts() {
@@ -76,11 +102,17 @@ public class Algorithm {
         return districts.get(rand.nextInt(size));
     }
 
-    public Districting makeMove(District takenFrom, District givenTo, CensusBlock toGive) {
+    public CensusBlock selectRandomCensusBlock(List<CensusBlock> censusBlocks) {
+        int size = censusBlocks.size();
+        Random rand = new Random();
+        return censusBlocks.get(rand.nextInt(size));
+    }
+
+    public Districting undoMove(District takenFrom, District givenTo, CensusBlock toGive) {
         List<CensusBlock> censusBlocksTakenFrom = takenFrom.getCensusBlocks();
         List<CensusBlock> censusBlocksGivenTo = givenTo.getCensusBlocks();
-        censusBlocksTakenFrom.remove(toGive);
-        censusBlocksGivenTo.add(toGive);
+        censusBlocksTakenFrom.add(toGive);
+        censusBlocksGivenTo.remove(toGive);
         return this.redistricting;
 
     }
