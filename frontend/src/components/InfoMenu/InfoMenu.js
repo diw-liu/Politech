@@ -5,8 +5,6 @@ import Tabs from "react-bootstrap/Tabs";
 import BoxAndWhisker from './BoxAndWhisker'
 import EnactedTable from './EnactedTable';
 import GeneratedTable from './GeneratedTable';
-// import parties from '../../data/mockState.js';
-// import demographics from '../../data/mockPop.js';
 import '../../css/InfoMenu.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -22,12 +20,6 @@ const demographicMapping = {
 
 const InfoMenu = (props) =>{
 
-  // console.log("InfoMenu");
-  // console.log(props);
-
-  // const [parts, setParties] = useState(parties)
-  // const [demos, setDemos] = useState(demographics)
-
   const [parts, setParties] = useState([]);
   const [demos, setDemos] = useState([]);
   const [totalPopDem, setTotalPopDem] = useState([]);
@@ -40,16 +32,6 @@ const InfoMenu = (props) =>{
       });
   }, []);
 
-
-  // useEffect(() =>{
-  //   fetch("/api/demographic")
-  //   .then(res => res.json())
-  //   .then(function(data) {
-  //       console.log(data);
-  //       setDemos(data);
-  //   });
-  // }, []);
-
   useEffect(() =>{
     fetch("/api/population?name=" + props.stateName)
     .then(res => res.json())
@@ -58,7 +40,6 @@ const InfoMenu = (props) =>{
         setDemos(data.populations);
     });
   }, []);
-
 
     return (
       <div className='info-menu'>
@@ -97,7 +78,6 @@ const InfoMenu = (props) =>{
                 <Tab eventKey="State" title="State">
                   <div>
                   <h5>Voting Data</h5>
-                  (Total Votes: 2,960,006)
                   <table style={{ width: '100%' }}>
                       <tr className="item">
                         <th style={{ textAlign: 'left' }}>Party</th>

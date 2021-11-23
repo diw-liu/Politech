@@ -7,22 +7,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.example.demo.model.EnsembleDataDTO;
 import com.example.demo.model.State;
 import com.example.demo.projections.StateDisplayProjection;
 import com.example.demo.projections.StatePopulationProjection;
 import com.example.demo.repositories.*;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.simple.parser.ParseException;
-import java.awt.Polygon;
+
 import java.sql.*;
 
 @RestController
@@ -118,18 +115,18 @@ class MapController{
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseBody public String getVoting() throws FileNotFoundException, IOException, ParseException{
 
-        String dir = "src/main/Data/mockState.json";
+        String dir = "src/main/Data/MDvoting.json";
         String result = new String(Files.readAllBytes(Paths.get(dir)));
         return result;
     }
 
-    @GetMapping("/demographic")
-    @Produces({MediaType.APPLICATION_JSON})
-    @ResponseBody public String getDemographic() throws FileNotFoundException, IOException, ParseException{
-        String dir = "src/main/Data/mockPop.json";
-        String result = new String(Files.readAllBytes(Paths.get(dir)));
-        return result;
-    }
+//    @GetMapping("/demographic")
+//    @Produces({MediaType.APPLICATION_JSON})
+//    @ResponseBody public String getDemographic() throws FileNotFoundException, IOException, ParseException{
+//        String dir = "src/main/Data/mockPop.json";
+//        String result = new String(Files.readAllBytes(Paths.get(dir)));
+//        return result;
+//    }
 
     @GetMapping("/plotPoints")
     @Produces(MediaType.APPLICATION_JSON)

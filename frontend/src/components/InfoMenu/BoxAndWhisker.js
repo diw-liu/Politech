@@ -5,8 +5,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import {CanvasJSChart} from 'canvasjs-react-charts'
 
 const BoxAndWhisker = (props) => {
-    // console.log(props);
-
+    
     const [ensemble, setEnsemble] = useState([]);
     const [enactedPoints, setEnactedPoints] = useState([]);
     const [selectedPointsAll, setSelectedPointsAll] = useState({"recombination_of_districts-0": []});
@@ -43,9 +42,6 @@ const BoxAndWhisker = (props) => {
     }, []);
 
     function getData(data,k){
-        // if (k === "Proposed" && props.plan > 0) {
-        //     data = Object.values(data);
-        // }
         let dataPoints = [];
         for (let i = 0; i < Object.keys(data).length; i++)
         {
