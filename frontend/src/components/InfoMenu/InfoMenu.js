@@ -39,12 +39,12 @@ const InfoMenu = (props) =>{
           // console.log(data);
           setParties(data);
       });
-    fetch("/api/demographic")
-      .then(res => res.json())
-      .then(function(data) {
-          // console.log(data);
-          setDemos(data);
-      });
+    // fetch("/api/demographic")
+    //   .then(res => res.json())
+    //   .then(function(data) {
+    //       // console.log(data);
+    //       setDemos(data);
+    //   });
   }, []);
 
 
@@ -61,7 +61,6 @@ const InfoMenu = (props) =>{
     fetch("/api/population?name=" + props.stateName)
     .then(res => res.json())
     .then(function(data) {
-        // console.log(data.populations.filter(population => population.type == "TOTAL")[0].population);
         setTotalPopDem(data.populations.filter(population => population.type == "TOTAL")[0].population);
         setDemos(data.populations);
     });
@@ -158,7 +157,7 @@ const InfoMenu = (props) =>{
               <GeneratedTable setPlan={props.setPlan}/>
             </div>
             <div class='tab-pane fade' id='plots' role='tabpanel' aria-labelledby='plots-tab'>
-              <div><BoxAndWhisker/></div>
+              <div><BoxAndWhisker stateName={props.stateName}/></div>
             </div>
             
           </div>

@@ -11,13 +11,11 @@ import javax.print.attribute.standard.Media;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.example.demo.model.EnsembleDataDTO;
 import com.example.demo.model.State;
 import com.example.demo.projections.StateDisplayProjection;
 import com.example.demo.projections.StatePopulationProjection;
-import com.example.demo.repositories.DistrictRepository;
-import com.example.demo.repositories.DistrictingRepository;
-import com.example.demo.repositories.PrecinctRepository;
-import com.example.demo.repositories.StateRepository;
+import com.example.demo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +27,7 @@ import java.sql.*;
 @RestController
 @RequestMapping("/api")
 class MapController{
+    private String dbpass = "changeit";
     @Autowired
     private StateRepository stateRepository;
     @Autowired
@@ -144,8 +143,50 @@ class MapController{
                 ex.printStackTrace();
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error reading file",ex);
             }
-        } 
+        }
         return result;
+    }
+
+    @GetMapping("/ensemble")
+    @Produces({MediaType.APPLICATION_JSON})
+    public @ResponseBody String[][] getEnsemble(@RequestParam String state) {
+        int stateNum = 0;
+        int numDistricts = 0;
+        System.out.println(state);
+        if (state.equals("Maryland")) {
+            stateNum = 24;
+            numDistricts = 8;
+        } else {
+            stateNum = 26;
+            numDistricts = 14;
+        }
+        String[][] boxes = new String[numDistricts][6];
+        Connection conn;
+        Statement s;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/Pistons", "Pistons", dbpass);
+            s = conn.createStatement();
+
+            String sql = "SELECT cd, min, q1, q3, max, med FROM ensembledata WHERE state = "+ stateNum;
+            ResultSet rs = s.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            int count = 0;
+            while(rs.next()) {
+                String[] stats = new String[6];
+                for (int i = 1; i <= columnsNumber; i++) {
+                    if (i > 1) System.out.print(",  ");
+                    String columnValue = rs.getString(i);
+                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
+                    stats[i-1] = rs.getString(i);
+                }
+                boxes[count] = stats;
+                count++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return boxes;
     }
 
 //    @GetMapping("/instance")
