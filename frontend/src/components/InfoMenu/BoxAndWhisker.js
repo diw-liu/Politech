@@ -85,6 +85,7 @@ const BoxAndWhisker = (props) => {
                 name: "Proposed",
                 color: "tomato",
                 markerType: "circle",
+                toolTipContent: "<span style=\"color:tomato\">{labelPoints}</span>: {y}",
                 showInLegend: true,
                 dataPoints: getData(Object.values(selectedPointsAll["recombination_of_districts-"+props.plan]),"Proposed")
             }
