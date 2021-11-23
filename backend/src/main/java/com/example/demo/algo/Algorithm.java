@@ -13,6 +13,7 @@ import org.locationtech.jts.geom.*;
 
 public class Algorithm {
     Districting redistricting;
+    Constraints constraints;
     int algorithmCycles = 0;
     int status; 
 
@@ -45,6 +46,7 @@ public class Algorithm {
         // if the move generate a better district, then we process the move
         if(calculateMove(takenFrom, givenTo, toGive)){
             generateNewBoundary(takenFrom, givenTo, toGive);
+            this.algorithmCycles++;
             return true;
         }
         else{
@@ -77,7 +79,8 @@ public class Algorithm {
         censusBlocksGivenTo.add(toGive);
         double populationEquality = redistricting.getMeasures().getPopulationEquality();
         double newPopulationEquality = caclculatePopulationEquality();
-        if(newPopulationEquality < populationEquality){
+        // if the new Population Equality is lower than the old one and the constraint set by user, then the move is going to be processed
+        if(newPopulationEquality < populationEquality && newPopulationEquality < constraints.getPopulationEquality()){
             redistricting.getMeasures().setPopulationEquality(newPopulationEquality);
             isMoveBetter = true;
         }
