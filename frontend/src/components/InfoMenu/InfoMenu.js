@@ -2,6 +2,7 @@ import React, { useEffect, Component, useState} from 'react';
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
+import BoxAndWhisker from './BoxAndWhisker'
 import EnactedTable from './EnactedTable';
 import GeneratedTable from './GeneratedTable';
 // import parties from '../../data/mockState.js';
@@ -53,7 +54,7 @@ const InfoMenu = (props) =>{
               <button class='nav-link' data-bs-toggle='tab' data-bs-target='#generated' role='tab' type='button' aria-selected='false'> Generated Plans </button>
             </li>
             <li class='nav-item' role='presentation'>
-              <button class='nav-link' data-bs-toggle='tab' data-bs-target='#saved' role='tab' type='button' aria-selected='false'> Saved Plans </button>
+              <button class='nav-link' data-bs-toggle='tab' data-bs-target='#plots' role='tab' type='button' aria-selected='false'> Box and Whiskers </button>
             </li>
           </ul>
           {/* <Tabs>
@@ -130,11 +131,10 @@ const InfoMenu = (props) =>{
             <div class='tab-pane fade' id='generated' role='tabpanel' aria-labelledby='generated-tab'>
               <GeneratedTable setPlan={props.setPlan}/>
             </div>
-            {/* <div class='tab-pane fade' id='saved' role='tabpanel' aria-labelledby='saved-tab'>
-              {props.saved && <div>
-                Plan 1
-              </div>}
-            </div> */}
+            <div class='tab-pane fade' id='plots' role='tabpanel' aria-labelledby='plots-tab'>
+              <div><BoxAndWhisker/></div>
+            </div>
+            
           </div>
         </div>
       </div>
