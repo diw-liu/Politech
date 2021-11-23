@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.simple.parser.ParseException;
 import java.awt.Polygon;
+import java.sql.*;
 
 @RestController
 @RequestMapping("/api")
@@ -72,10 +73,12 @@ class MapController{
         return result;
     }
 
-    @GetMapping("/test")
+    @GetMapping("/population")
     @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody StatePopulationProjection getStatePopulationByName(@RequestParam String name) {
         return stateRepository.findByName(name, StatePopulationProjection.class);
+//        Optional<StatePopulationProjection> statePopulationResponse = stateRepository.findById(id, StatePopulationProjection.class);
+//        return statePopulationResponse.get();
     }
 
     @GetMapping("/state")
@@ -114,6 +117,7 @@ class MapController{
     @GetMapping("/voting")
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseBody public String getVoting() throws FileNotFoundException, IOException, ParseException{
+
         String dir = "src/main/Data/mockState.json";
         String result = new String(Files.readAllBytes(Paths.get(dir)));
         return result;

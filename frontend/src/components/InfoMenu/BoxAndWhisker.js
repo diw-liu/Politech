@@ -15,7 +15,7 @@ const BoxAndWhisker = (props) => {
         for(let i = 0;i<Object.keys(data).length; i++)
         {
             dataPoints.push({
-                x: String(i), y: data[i], Val: String(k)
+                x: i, y: data[i], Val: String(k)
             });
         }
         console.log(dataPoints);

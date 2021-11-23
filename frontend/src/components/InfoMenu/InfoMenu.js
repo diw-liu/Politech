@@ -11,6 +11,15 @@ import '../../css/InfoMenu.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
+const demographicMapping = {
+  "TOTAL": "Total",
+  "HISPANIC": "Hispanic",
+  "WHITE": "White Non-Hispanic",
+  "BLACK": "African American",
+  "ASIAN": "Asian",
+  "RACE_OTHER": "Other"
+}
+
 const InfoMenu = (props) =>{
 
   console.log("InfoMenu");
@@ -21,6 +30,7 @@ const InfoMenu = (props) =>{
 
   const [parts, setParties] = useState([]);
   const [demos, setDemos] = useState([]);
+  const [totalPopDem, setTotalPopDem] = useState([]);
 
   useEffect(() =>{
     fetch("/api/voting")
@@ -39,8 +49,23 @@ const InfoMenu = (props) =>{
 
 
   // useEffect(() =>{
-    
+  //   fetch("/api/demographic")
+  //   .then(res => res.json())
+  //   .then(function(data) {
+  //       console.log(data);
+  //       setDemos(data);
+  //   });
   // }, []);
+
+  useEffect(() =>{
+    fetch("/api/population?name=" + props.stateName)
+    .then(res => res.json())
+    .then(function(data) {
+        console.log(data.populations.filter(population => population.type == "TOTAL")[0].population);
+        setTotalPopDem(data.populations.filter(population => population.type == "TOTAL")[0].population);
+        setDemos(data.populations);
+    });
+  }, []);
 
 
     return (
@@ -105,7 +130,7 @@ const InfoMenu = (props) =>{
                   <br></br>
                   <div>
                   <h5>Demographic Data </h5>
-                  Total Population: 5,787,015
+                  (Total Population: {totalPopDem.toLocaleString('en-US')})
                   <table style={{ width: '100%' }}>
                       <tr className="item">
                         <th style={{ textAlign: 'left' }}>Demographic</th>
@@ -115,9 +140,9 @@ const InfoMenu = (props) =>{
                       {
                           demos.map(demo => (
                               <tr key={demo.id} align="start">
-                                <td className="demo_name" style={{ textAlign: 'left' }}>{demo.name}</td>
+                                <td className="demo_name" style={{ textAlign: 'left' }}>{demographicMapping[demo.type]}</td>
                                 <td className="demo_pop" style={{ textAlign: 'right' }}>{demo.population.toLocaleString('en-US')}</td>
-                                <td className="demo_pper" style={{ textAlign: 'right' }}>{parseFloat(((demo.population / 5787015) * 100).toFixed(2))}</td>
+                                <td className="demo_pper" style={{ textAlign: 'right' }}>{parseFloat(((demo.population / totalPopDem) * 100).toFixed(2))}</td>
                               </tr>
                           ))
                       }
