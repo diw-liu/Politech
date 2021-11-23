@@ -105,6 +105,7 @@ class MapController{
     @GetMapping("/plan")
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseBody public String getPlan() throws FileNotFoundException, IOException, ParseException{
+        System.out.println("Okay");
         String dir = "src/main/Data/mockGenerated.json";
         String result = new String(Files.readAllBytes(Paths.get(dir)));
         return result;
@@ -123,6 +124,23 @@ class MapController{
     @ResponseBody public String getDemographic() throws FileNotFoundException, IOException, ParseException{
         String dir = "src/main/Data/mockPop.json";
         String result = new String(Files.readAllBytes(Paths.get(dir)));
+        return result;
+    }
+
+    @GetMapping("/dumb")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ResponseBody public List<String> getRedistrict() throws FileNotFoundException, IOException, ParseException{
+        File dir = new File("src/main/geo/");
+        List<String> result = new ArrayList<>();
+        for(String file : dir.list()){
+            try{
+                String temp = String.format("%s/%s",dir.toString(),file);
+                result.add(new String(Files.readAllBytes(Paths.get(temp))));
+            }catch (IOException ex){
+                ex.printStackTrace();
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error reading file",ex);
+            }
+        } 
         return result;
     }
 
