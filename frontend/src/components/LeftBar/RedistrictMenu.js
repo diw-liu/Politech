@@ -26,7 +26,10 @@ const RedistrictMenu = (props) => {
         .then(res => res.json()) 
         .then(message => {
           // localStorage.setItem("All",JSON.stringify(message));
-          var result = message.map(x => JSON.parse(x));
+          var result = message.map(x => 
+       
+            JSON.parse(x).features[0]
+            );
           console.log(props.state)
           console.log(result)
           // props.setState(result)

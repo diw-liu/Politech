@@ -5,8 +5,8 @@ import Plans from '../../data/mockGenerated.js';
 const PlanStatistics = (props) => {
   var plans = Plans;
 
-  console.log(props);
-  console.log(props.plan);
+  // console.log(props);
+  // console.log(props.plan);
 
     return(
         <div>

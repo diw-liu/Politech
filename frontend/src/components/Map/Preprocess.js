@@ -27,6 +27,7 @@ export const showState = (id) =>{
     let state = fetch("/api/" + name).then(function(data) {return data.json()});
     let districtData = state.then(function(data) {return data[0]});
     let precintData = state.then(function(data) {return data[1]});
+
     
     const districtMap = (Id) => {
         if(Id in map ){
@@ -67,11 +68,13 @@ export const showState = (id) =>{
             // props.showClick(info.layer.id-1)
         }
     })
-
+    console.log(districtData)
     return [ precint, district ]
 }
 
 export const redistrict = (object, id) =>{
+    console.log("okay")
+    console.log(object)
     let name = "MD"
     switch(id){
         case "0":
@@ -129,6 +132,6 @@ export const redistrict = (object, id) =>{
             // props.showClick(info.layer.id-1)
         }
     })
-
+    console.log(district)
     return [ precint, district ]
 }

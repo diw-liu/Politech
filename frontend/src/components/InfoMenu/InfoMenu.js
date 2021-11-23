@@ -22,8 +22,8 @@ const demographicMapping = {
 
 const InfoMenu = (props) =>{
 
-  console.log("InfoMenu");
-  console.log(props);
+  // console.log("InfoMenu");
+  // console.log(props);
 
   // const [parts, setParties] = useState(parties)
   // const [demos, setDemos] = useState(demographics)
@@ -36,13 +36,13 @@ const InfoMenu = (props) =>{
     fetch("/api/voting")
       .then(res => res.json())
       .then(function(data) {
-          console.log(data);
+          // console.log(data);
           setParties(data);
       });
     fetch("/api/demographic")
       .then(res => res.json())
       .then(function(data) {
-          console.log(data);
+          // console.log(data);
           setDemos(data);
       });
   }, []);
@@ -61,7 +61,7 @@ const InfoMenu = (props) =>{
     fetch("/api/population?name=" + props.stateName)
     .then(res => res.json())
     .then(function(data) {
-        console.log(data.populations.filter(population => population.type == "TOTAL")[0].population);
+        // console.log(data.populations.filter(population => population.type == "TOTAL")[0].population);
         setTotalPopDem(data.populations.filter(population => population.type == "TOTAL")[0].population);
         setDemos(data.populations);
     });

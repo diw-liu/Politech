@@ -10,7 +10,7 @@ import {CanvasJSChart} from 'canvasjs-react-charts'
 const BoxAndWhisker = (props) => {
 
     function getData(data,k){
-        console.log(k);
+        // console.log(k);
         let dataPoints = [];
         for(let i = 0;i<Object.keys(data).length; i++)
         {
@@ -18,7 +18,7 @@ const BoxAndWhisker = (props) => {
                 x: i, y: data[i], Val: String(k)
             });
         }
-        console.log(dataPoints);
+        // console.log(dataPoints);
         return dataPoints;
     }
 
