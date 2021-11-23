@@ -10,6 +10,8 @@ const Map = (props) => {
     // Set your mapbox access token here
     var base = [];
 
+    console.log(props.state)
+    
     for(var i = 0; i < props.all.length; i++){
       var name = props.all[i].features[0].properties.STUSPS20
       base.push(new GeoJsonLayer({

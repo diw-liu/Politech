@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Slider from 'react-input-slider';
+import { redistrict } from '../Map/Preprocess'
 // import { slide as Menu } from 'react-burger-menu';
 
 import '../../css/LeftBar.css';
@@ -18,7 +19,21 @@ const RedistrictMenu = (props) => {
       props.setSaved(true);
       props.setGen(true)
       setTimeout(() => props.setGen(false), 5000)
+      fetch("/api/dumb",{
+        method: 'GET',
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+        .then(res => res.json()) 
+        .then(message => {
+          // localStorage.setItem("All",JSON.stringify(message));
+          var result = message.map(x => JSON.parse(x));
+          console.log(props.state)
+          console.log(result)
+          // props.setState(result)
+          props.setState(redistrict(result, 0))
+        })
     }
+
     return (
       <div className='redistrict-menu'>
           <h2>Redistrict </h2>

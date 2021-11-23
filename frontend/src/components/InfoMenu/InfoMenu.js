@@ -24,22 +24,23 @@ const InfoMenu = (props) =>{
 
   useEffect(() =>{
     fetch("/api/voting")
-    .then(res => res.json())
-    .then(function(data) {
-        console.log(data);
-        setParties(data);
-    });
-  }, []);
-
-
-  useEffect(() =>{
+      .then(res => res.json())
+      .then(function(data) {
+          console.log(data);
+          setParties(data);
+      });
     fetch("/api/demographic")
-    .then(res => res.json())
-    .then(function(data) {
-        console.log(data);
-        setDemos(data);
-    });
+      .then(res => res.json())
+      .then(function(data) {
+          console.log(data);
+          setDemos(data);
+      });
   }, []);
+
+
+  // useEffect(() =>{
+    
+  // }, []);
 
 
     return (
