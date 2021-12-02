@@ -10,6 +10,7 @@ import java.util.*;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.example.demo.model.Population;
 import com.example.demo.model.State;
 import com.example.demo.projections.StateDisplayProjection;
 import com.example.demo.projections.StatePopulationProjection;
@@ -36,6 +37,8 @@ class MapController{
     private PrecinctRepository precinctRepository;
     @Autowired
     private CensusBlockRepository censusBlockRepository;
+    @Autowired
+    private PopulationRepository populationRepository;
     // String districtMD = "src/main/data/MDdistricts.json";
     // String precinctMD = "src/main/data/maryland.json";
     // String districtMI = "src/main/data/MIdistrict.json";
@@ -226,11 +229,25 @@ class MapController{
     @GetMapping("/instance")
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseBody public String instantiateTest() throws FileNotFoundException, IOException, ParseException{
-        State s = new State();
-        s.setName("Pennsylvania");
-//        Polygon p;
-        s.setId("PA");
-        stateRepository.save(s);
+//        State s = new State();
+//        s.setName("Pennsylvania");
+////        Polygon p;
+//        s.setId("PA");
+//        stateRepository.save(s);
+//        return "Saved";
+        Population p = new Population();
+        p.setId("PA");
+        p.setWhite(123456);
+        p.setTotal(6177224);
+        p.setAsian(417962);
+        p.setBlack(1795027);
+        p.setHispanic(729745);
+        p.setOther(35314);
+        populationRepository.save(p);
+        Optional<State> marylandResponse = stateRepository.findById(p.getId(), State.class);
+        State maryland = marylandResponse.get();
+        maryland.setPopulation(p);
+        stateRepository.save(maryland);
         return "Saved";
     }
 }

@@ -13,6 +13,7 @@ public class Population {
     private int white;
     private int black;
     private int asian;
+    private int other;
 
     @Id
     @Column(name="id")
@@ -38,6 +39,10 @@ public class Population {
     @Column(name="asian")
     public int getAsian() { return asian; }
     public void setAsian(int asian) { this.asian = asian; }
+
+    @Column(name="other")
+    public int getOther() { return other; }
+    public void setOther(int other) { this.other = other; }
 
 //    @Enumerated(EnumType.STRING)
 //    @Column(name="type")

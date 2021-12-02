@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface StatePopulationProjection {
     String getId();
-    List<Population> getPopulations();
+    Population getPopulation();
 }
