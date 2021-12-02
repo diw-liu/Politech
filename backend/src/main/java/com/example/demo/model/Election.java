@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="Elections")
 public class Election {
-    private Long id;
+    private String id;
     private int totalVotes;
     private int democraticVotes;
     private int republicanVotes;
@@ -16,8 +16,8 @@ public class Election {
 
     @Id
     @Column(name="id")
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     @Column(name="totalVotes")
     public int getTotalVotes() { return totalVotes; }

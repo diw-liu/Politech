@@ -14,8 +14,11 @@ public class District {
     private Districting districting;
     private Polygon geometry;
     private List<Precinct> precincts;
-    private List<Population> populations;
-    private List<Election> elections;
+//    private List<Population> populations;
+    private Population population;
+    private VotingAgePopulation vap;
+//    private List<Election> elections;
+    private Election election;
     private List<District> neighbors;
     private List<CensusBlock> censusBlocks;
     private List<CensusBlock> borderBlocks;
@@ -38,23 +41,38 @@ public class District {
     public List<Precinct> getPrecincts() { return this.precincts; }
     public void setPrecincts(List<Precinct> precincts) { this.precincts = precincts; }
 
-    @OneToMany
-    @JoinTable(
-            name="DistrictPopulations",
-            joinColumns = @JoinColumn(name="districtId"),
-            inverseJoinColumns = @JoinColumn(name="populationId")
-    )
-    public List<Population> getPopulations() { return this.populations; }
-    public void setPopulations(List<Population> p) { populations = p; }
+//    @OneToMany
+//    @JoinTable(
+//            name="DistrictPopulations",
+//            joinColumns = @JoinColumn(name="districtId"),
+//            inverseJoinColumns = @JoinColumn(name="populationId")
+//    )
+//    public List<Population> getPopulations() { return this.populations; }
+//    public void setPopulations(List<Population> p) { populations = p; }
 
-    @OneToMany
-    @JoinTable(
-            name="DistrictElections",
-            joinColumns = @JoinColumn(name="districtId"),
-            inverseJoinColumns = @JoinColumn(name="electionId")
-    )
-    public List<Election> getElections() { return this.elections; }
-    public void setElections(List<Election> e) { elections = e; }
+    @OneToOne
+    @JoinColumn(name="populationId")
+    public Population getPopulation() { return this.population; }
+    public void setPopulation(Population p) { population = p; }
+
+    @OneToOne
+    @JoinColumn(name="vapId")
+    public VotingAgePopulation getVap() { return vap; }
+    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
+
+//    @OneToMany
+//    @JoinTable(
+//            name="DistrictElections",
+//            joinColumns = @JoinColumn(name="districtId"),
+//            inverseJoinColumns = @JoinColumn(name="electionId")
+//    )
+//    public List<Election> getElections() { return this.elections; }
+//    public void setElections(List<Election> e) { elections = e; }
+
+    @OneToOne
+    @JoinColumn(name="electionId")
+    public Election getElection() { return election; }
+    public void setElection(Election e) { election = e; }
 
 //    @OneToMany(mappedBy = "id")
     @OneToMany

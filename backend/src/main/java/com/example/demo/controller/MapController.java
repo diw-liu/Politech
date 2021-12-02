@@ -34,6 +34,8 @@ class MapController{
     private DistrictRepository districtRepository;
     @Autowired
     private PrecinctRepository precinctRepository;
+    @Autowired
+    private CensusBlockRepository censusBlockRepository;
     // String districtMD = "src/main/data/MDdistricts.json";
     // String precinctMD = "src/main/data/maryland.json";
     // String districtMI = "src/main/data/MIdistrict.json";
@@ -153,56 +155,82 @@ class MapController{
         return result;
     }
 
-    @GetMapping("/ensemble")
+    @GetMapping("/cb")
     @Produces({MediaType.APPLICATION_JSON})
-    public @ResponseBody String[][] getEnsemble(@RequestParam String state) {
-        int stateNum = 0;
-        int numDistricts = 0;
-        System.out.println(state);
-        if (state.equals("Maryland")) {
-            stateNum = 24;
-            numDistricts = 8;
-        } else {
-            stateNum = 26;
-            numDistricts = 14;
-        }
-        String[][] boxes = new String[numDistricts][6];
+    public @ResponseBody String getCensusBlock() {
         Connection conn;
         Statement s;
         try {
             conn = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/Pistons", "Pistons", dbpass);
             s = conn.createStatement();
 
-            String sql = "SELECT cd, min, q1, q3, max, med FROM ensembledata WHERE state = "+ stateNum;
+            String sql = "SELECT index, border FROM block";
             ResultSet rs = s.executeQuery(sql);
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
-            int count = 0;
             while(rs.next()) {
-                String[] stats = new String[6];
                 for (int i = 1; i <= columnsNumber; i++) {
                     if (i > 1) System.out.print(",  ");
                     String columnValue = rs.getString(i);
-                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
-                    stats[i-1] = rs.getString(i);
+                    System.out.println(columnValue + " " + rsmd.getColumnName(i));
                 }
-                boxes[count] = stats;
-                count++;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return boxes;
+        return "Gotten";
     }
 
-//    @GetMapping("/instance")
+//    @GetMapping("/ensemble")
 //    @Produces({MediaType.APPLICATION_JSON})
-//    @ResponseBody public String instantiateTest() throws FileNotFoundException, IOException, ParseException{
-//        State s = new State();
-//        s.setName("Maryland");
-////        Polygon p;
-//        s.setId(24L);
-//        stateRepository.save(s);
-//        return "Saved";
+//    public @ResponseBody String[][] getEnsemble(@RequestParam String state) {
+//        int stateNum = 0;
+//        int numDistricts = 0;
+//        System.out.println(state);
+//        if (state.equals("Maryland")) {
+//            stateNum = 24;
+//            numDistricts = 8;
+//        } else {
+//            stateNum = 26;
+//            numDistricts = 14;
+//        }
+//        String[][] boxes = new String[numDistricts][6];
+//        Connection conn;
+//        Statement s;
+//        try {
+//            conn = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/Pistons", "Pistons", dbpass);
+//            s = conn.createStatement();
+//
+//            String sql = "SELECT cd, min, q1, q3, max, med FROM ensembledata WHERE state = "+ stateNum;
+//            ResultSet rs = s.executeQuery(sql);
+//            ResultSetMetaData rsmd = rs.getMetaData();
+//            int columnsNumber = rsmd.getColumnCount();
+//            int count = 0;
+//            while(rs.next()) {
+//                String[] stats = new String[6];
+//                for (int i = 1; i <= columnsNumber; i++) {
+//                    if (i > 1) System.out.print(",  ");
+//                    String columnValue = rs.getString(i);
+//                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
+//                    stats[i-1] = rs.getString(i);
+//                }
+//                boxes[count] = stats;
+//                count++;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return boxes;
 //    }
+
+    @GetMapping("/instance")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ResponseBody public String instantiateTest() throws FileNotFoundException, IOException, ParseException{
+        State s = new State();
+        s.setName("Pennsylvania");
+//        Polygon p;
+        s.setId("PA");
+        stateRepository.save(s);
+        return "Saved";
+    }
 }

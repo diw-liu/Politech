@@ -1,12 +1,10 @@
 package com.example.demo.model;
 
-import com.example.demo.enums.PopulationType;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name="Populations")
-public class Population {
+@Table(name="VotingAgePopulations")
+public class VotingAgePopulation {
     private String id;
     private int total;
     private int hispanic;
@@ -38,15 +36,4 @@ public class Population {
     @Column(name="asian")
     public int getAsian() { return asian; }
     public void setAsian(int asian) { this.asian = asian; }
-
-//    @Enumerated(EnumType.STRING)
-//    @Column(name="type")
-//    public PopulationType getType() { return type; }
-//    public void setType(PopulationType type) { this.type = type; }
-//
-//    @Column(name="population")
-//    public Long getPopulation() { return population; }
-//    public void setPopulation(Long p) { population = p; }
-
-
 }

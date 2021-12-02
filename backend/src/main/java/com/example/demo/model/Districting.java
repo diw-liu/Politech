@@ -10,7 +10,9 @@ public class Districting {
     private String id;
     private State state;
     private List<District> districts;
-    private List<Population> populations;
+//    private List<Population> populations;
+    private Population population;
+    private VotingAgePopulation vap;
     private List<BoxAndWhisker> plots;
     private Measures measures;
 
@@ -28,14 +30,24 @@ public class Districting {
     public List<District> getDistricts() { return this.districts; }
     public void setDistricts(List<District> districts) { this.districts = districts; }
 
-    @OneToMany
-    @JoinTable(
-            name="DistrictingPopulations",
-            joinColumns = @JoinColumn(name="districtingId"),
-            inverseJoinColumns = @JoinColumn(name="populationId")
-    )
-    public List<Population> getPopulations() { return this.populations; }
-    public void setPopulations(List<Population> p) { populations = p; }
+//    @OneToMany
+//    @JoinTable(
+//            name="DistrictingPopulations",
+//            joinColumns = @JoinColumn(name="districtingId"),
+//            inverseJoinColumns = @JoinColumn(name="populationId")
+//    )
+//    public List<Population> getPopulations() { return this.populations; }
+//    public void setPopulations(List<Population> p) { populations = p; }
+
+    @OneToOne
+    @JoinColumn(name="populationId")
+    public Population getPopulation() { return this.population; }
+    public void setPopulation(Population p) { population = p; }
+
+    @OneToOne
+    @JoinColumn(name="vapId")
+    public VotingAgePopulation getVap() { return vap; }
+    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
 
     @OneToMany(mappedBy="districting", cascade=CascadeType.ALL)
     public List<BoxAndWhisker> getPlots() { return this.plots; }

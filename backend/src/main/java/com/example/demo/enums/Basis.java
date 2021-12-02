@@ -6,6 +6,5 @@ public enum Basis {
     WHITE,
     BLACK,
     HISPANIC,
-    ASIAN,
-    PACIFIC_ISLANDER
+    ASIAN
 }

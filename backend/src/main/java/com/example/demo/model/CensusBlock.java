@@ -12,9 +12,11 @@ public class CensusBlock {
     private District district;
     private Precinct precinct;
     private List<CensusBlock> neighbors;
-    private List<Population> populations;
+//    private List<Population> populations;
+    private Population population;
     private Polygon geometry;
-    private List<Election> elections;
+//    private List<Election> elections;
+    private Election election;
     private boolean border;
 
     @Id
@@ -41,25 +43,35 @@ public class CensusBlock {
     public List<CensusBlock> getNeighbors() { return neighbors; }
     public void setNeighbors(List<CensusBlock> n) { neighbors = n; }
 
-    @OneToMany
-    @JoinTable(
-            name="CensusBlockPopulations",
-            joinColumns = @JoinColumn(name="blockId"),
-            inverseJoinColumns = @JoinColumn(name="populationId"))
-    public List<Population> getPopulations() { return this.populations; }
-    public void setPopulations(List<Population> p) { populations = p; }
+//    @OneToMany
+//    @JoinTable(
+//            name="CensusBlockPopulations",
+//            joinColumns = @JoinColumn(name="blockId"),
+//            inverseJoinColumns = @JoinColumn(name="populationId"))
+//    public List<Population> getPopulations() { return this.populations; }
+//    public void setPopulations(List<Population> p) { populations = p; }
+
+    @OneToOne
+    @JoinColumn(name="populationId")
+    public Population getPopulation() { return this.population; }
+    public void setPopulation(Population p) { population = p; }
 
     @Column(name="geometry")
     public Polygon getGeometry() { return geometry; }
     public void setGeometry(Polygon geometry) { this.geometry = geometry; }
 
-    @OneToMany
-    @JoinTable(
-            name="CensusBlockElections",
-            joinColumns = @JoinColumn(name="blockId"),
-            inverseJoinColumns = @JoinColumn(name="electionId"))
-    public List<Election> getElections() { return this.elections; }
-    public void setElections(List<Election> e) { elections = e; }
+//    @OneToMany
+//    @JoinTable(
+//            name="CensusBlockElections",
+//            joinColumns = @JoinColumn(name="blockId"),
+//            inverseJoinColumns = @JoinColumn(name="electionId"))
+//    public List<Election> getElections() { return this.elections; }
+//    public void setElections(List<Election> e) { elections = e; }
+
+    @OneToOne
+    @JoinColumn(name="electionId")
+    public Election getElection() { return election; }
+    public void setElection(Election e) { election = e; }
 
     @Column(name="borderStatus")
     public boolean getBorder() { return border; }

@@ -8,15 +8,15 @@ import java.util.List;
 @Entity
 @Table(name="BoxAndWhiskers")
 public class BoxAndWhisker{
-    private Long id;
+    private String id;
     private Districting districting;
     private Basis basis;
     private List<Statistics> statistics; // used to create the box and whiskers for each district
 
     @Id
     @Column(name="id")
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="districtingId")

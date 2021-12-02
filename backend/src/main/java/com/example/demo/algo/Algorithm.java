@@ -78,7 +78,8 @@ public class Algorithm {
         censusBlocksTakenFrom.remove(toGive);
         censusBlocksGivenTo.add(toGive);
         double populationEquality = redistricting.getMeasures().getPopulationEquality();
-        double newPopulationEquality = caclculatePopulationEquality();
+//        double newPopulationEquality = caclculatePopulationEquality();
+        double newPopulationEquality = 0; // @TODO made a change so we need to fix this later
         // if the new Population Equality is lower than the old one and the constraint set by user, then the move is going to be processed
         if(newPopulationEquality < populationEquality && newPopulationEquality < constraints.getPopulationEquality()){
             redistricting.getMeasures().setPopulationEquality(newPopulationEquality);
@@ -87,16 +88,16 @@ public class Algorithm {
         return isMoveBetter;
     }
 
-    public double caclculatePopulationEquality(){
-        Long sumSquares = 0L;
-        int redistrictingSize = redistricting.getDistricts().size();
-        Long idealPop = redistricting.getPopulations().get(PopulationType.TOTAL.ordinal()).getPopulation() / redistrictingSize;
-        for(int i = 0; i < redistrictingSize; i++){
-            Long districtTotal = redistricting.getDistricts().get(i).getPopulations().get(PopulationType.TOTAL.ordinal()).getPopulation();
-            sumSquares = (long) Math.pow((long)((districtTotal / idealPop) - 1), 2);
-        }
-        return Math.sqrt((double)sumSquares);
-    }
+//    public double caclculatePopulationEquality(){
+//        Long sumSquares = 0L;
+//        int redistrictingSize = redistricting.getDistricts().size();
+//        Long idealPop = redistricting.getPopulations().get(PopulationType.TOTAL.ordinal()).getPopulation() / redistrictingSize;
+//        for(int i = 0; i < redistrictingSize; i++){
+//            Long districtTotal = redistricting.getDistricts().get(i).getPopulations().get(PopulationType.TOTAL.ordinal()).getPopulation();
+//            sumSquares = (long) Math.pow((long)((districtTotal / idealPop) - 1), 2);
+//        }
+//        return Math.sqrt((double)sumSquares);
+//    }
 
     public District selectRandomDistricts() {
         List<District> districts = this.redistricting.getDistricts();
