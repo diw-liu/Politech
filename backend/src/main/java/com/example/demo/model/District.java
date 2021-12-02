@@ -4,6 +4,7 @@ package com.example.demo.model;
 import javax.persistence.*;
 
 import java.util.List;
+import java.util.Random;
 import org.locationtech.jts.geom.*;
 //import org.locationtech.jts.geom.Geometry;
 
@@ -97,10 +98,12 @@ public class District {
     public List<CensusBlock> getBorderBlocks() { return borderBlocks; }
     public void setBorderBlocks(List<CensusBlock> b) { borderBlocks = b; }
 
-    // //TODO
-    // public CensusBlock selectRandomBlock(){
-
-    // }
+    //TODO
+    public CensusBlock selectRandomCensusBlock(){
+        int size = this.censusBlocks.size();
+        Random rand = new Random();
+        return censusBlocks.get(rand.nextInt(size));
+    }
 
     //TODO
 //    public void giveBlock(District givenTo, CensusBlock toGive){
