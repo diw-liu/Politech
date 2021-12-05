@@ -10,11 +10,13 @@ import java.util.*;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.example.demo.model.CensusBlock;
 import com.example.demo.model.Population;
 import com.example.demo.model.State;
 import com.example.demo.projections.StateDisplayProjection;
 import com.example.demo.projections.StatePopulationProjection;
 import com.example.demo.repositories.*;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,12 @@ import org.springframework.web.server.ResponseStatusException;
 import org.json.simple.parser.ParseException;
 
 import java.sql.*;
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Map;
+//import java.util.Optional;
+
+import org.locationtech.jts.geom.*;
 
 @RestController
 @RequestMapping("/api")
@@ -158,73 +166,93 @@ class MapController{
         return result;
     }
 
+//    @GetMapping("/cbAll")
+//    @Produces({MediaType.APPLICATION_JSON})
+//    public @ResponseBody CensusBlock[] getCensusBlock() {
+//
+//    }
+
     @GetMapping("/cb")
     @Produces({MediaType.APPLICATION_JSON})
-    public @ResponseBody String getCensusBlock() {
-        Connection conn;
-        Statement s;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/Pistons", "Pistons", dbpass);
-            s = conn.createStatement();
-
-            String sql = "SELECT index, border FROM block";
-            ResultSet rs = s.executeQuery(sql);
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
-            while(rs.next()) {
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print(",  ");
-                    String columnValue = rs.getString(i);
-                    System.out.println(columnValue + " " + rsmd.getColumnName(i));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "Gotten";
-    }
-
-//    @GetMapping("/ensemble")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public @ResponseBody String[][] getEnsemble(@RequestParam String state) {
-//        int stateNum = 0;
-//        int numDistricts = 0;
-//        System.out.println(state);
-//        if (state.equals("Maryland")) {
-//            stateNum = 24;
-//            numDistricts = 8;
-//        } else {
-//            stateNum = 26;
-//            numDistricts = 14;
+    public @ResponseBody CensusBlock getCensusBlock() {
+        Optional<CensusBlock> cbResponse = censusBlockRepository.findById("0");
+        CensusBlock cb = cbResponse.get();
+        System.out.println("THISTHISTHISTHISTHISTHISTHIS");
+        System.out.println(cb.getGeometry().toString());
+//        try {
+//            WKTReader reader = new WKTReader();
+//            Polygon p = (Polygon) reader.read(cb.getGeometry());
+//
+//        } catch (Exception e){
+//            System.out.println("FUCKFUCKFUCKFUCKFUKCFUCK");
+//            return null;
 //        }
-//        String[][] boxes = new String[numDistricts][6];
+        return cb;
 //        Connection conn;
 //        Statement s;
 //        try {
 //            conn = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/Pistons", "Pistons", dbpass);
 //            s = conn.createStatement();
 //
-//            String sql = "SELECT cd, min, q1, q3, max, med FROM ensembledata WHERE state = "+ stateNum;
+//            String sql = "SELECT index, border FROM block";
 //            ResultSet rs = s.executeQuery(sql);
 //            ResultSetMetaData rsmd = rs.getMetaData();
 //            int columnsNumber = rsmd.getColumnCount();
-//            int count = 0;
 //            while(rs.next()) {
-//                String[] stats = new String[6];
 //                for (int i = 1; i <= columnsNumber; i++) {
 //                    if (i > 1) System.out.print(",  ");
 //                    String columnValue = rs.getString(i);
-//                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
-//                    stats[i-1] = rs.getString(i);
+//                    System.out.println(columnValue + " " + rsmd.getColumnName(i));
 //                }
-//                boxes[count] = stats;
-//                count++;
 //            }
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        return boxes;
-//    }
+//        return "Gotten";
+
+    }
+
+    @GetMapping("/ensemble")
+    @Produces({MediaType.APPLICATION_JSON})
+    public @ResponseBody String[][] getEnsemble(@RequestParam String state) {
+        int stateNum = 0;
+        int numDistricts = 0;
+        System.out.println(state);
+        if (state.equals("Maryland")) {
+            stateNum = 24;
+            numDistricts = 8;
+        } else {
+            stateNum = 26;
+            numDistricts = 14;
+        }
+        String[][] boxes = new String[numDistricts][6];
+        Connection conn;
+        Statement s;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/Pistons", "Pistons", dbpass);
+            s = conn.createStatement();
+
+            String sql = "SELECT cd, min, q1, q3, max, med FROM ensembledata WHERE state = "+ stateNum;
+            ResultSet rs = s.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            int count = 0;
+            while(rs.next()) {
+                String[] stats = new String[6];
+                for (int i = 1; i <= columnsNumber; i++) {
+                    if (i > 1) System.out.print(",  ");
+                    String columnValue = rs.getString(i);
+                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
+                    stats[i-1] = rs.getString(i);
+                }
+                boxes[count] = stats;
+                count++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return boxes;
+    }
 
     @GetMapping("/instance")
     @Produces({MediaType.APPLICATION_JSON})
@@ -235,19 +263,22 @@ class MapController{
 //        s.setId("PA");
 //        stateRepository.save(s);
 //        return "Saved";
-        Population p = new Population();
-        p.setId("PA");
-        p.setWhite(123456);
-        p.setTotal(6177224);
-        p.setAsian(417962);
-        p.setBlack(1795027);
-        p.setHispanic(729745);
-        p.setOther(35314);
-        populationRepository.save(p);
-        Optional<State> marylandResponse = stateRepository.findById(p.getId(), State.class);
-        State maryland = marylandResponse.get();
-        maryland.setPopulation(p);
-        stateRepository.save(maryland);
-        return "Saved";
+
+//        Population p = new Population();
+//        p.setId("PA");
+//        p.setWhite(123456);
+//        p.setTotal(6177224);
+//        p.setAsian(417962);
+//        p.setBlack(1795027);
+//        p.setHispanic(729745);
+//        p.setOther(35314);
+//        populationRepository.save(p);
+//        Optional<State> marylandResponse = stateRepository.findById(p.getId(), State.class);
+//        State maryland = marylandResponse.get();
+//        maryland.setPopulation(p);
+//        stateRepository.save(maryland);
+//        return "Saved";
+
+        return null;
     }
 }

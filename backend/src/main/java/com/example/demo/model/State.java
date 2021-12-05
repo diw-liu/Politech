@@ -13,13 +13,13 @@ public class State {
     private Districting enacted;
     private Districting current;
     private Districting redistricted;
-    private Polygon outline;
+    private String outline;
     private List<Districting> districtings;
-//    private List<Population> populations;
-    private Population population;
-    private VotingAgePopulation vap;
-//    private List<Election> elections;
-    private Election election;
+    private List<BoxAndWhisker> plots;
+
+//    private Population population;
+//    private VotingAgePopulation vap;
+//    private Election election;
 
     @Id
     @Column(name="id")
@@ -34,8 +34,9 @@ public class State {
         this.name = name;
     }
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="enactedId")
+//    @OneToOne(cascade=CascadeType.ALL)
+//    @JoinColumn(name="enactedId")
+    @Transient
     public Districting getEnacted() { return this.enacted; }
     public void setEnacted(Districting e) {
         this.enacted = e;
@@ -53,9 +54,9 @@ public class State {
         this.redistricted = r;
     }
 
-    @Column(name="outline")
-    public Polygon getOutline() { return this.outline; }
-    public void setOutline(Polygon p) {
+    @Column(name="outline", columnDefinition="LONGTEXT")
+    public String getOutline() { return this.outline; }
+    public void setOutline(String p) {
         this.outline = p;
     }
 
@@ -64,6 +65,11 @@ public class State {
     public void setDistrictings(List<Districting> seawulfDistrictings) {
         this.districtings = seawulfDistrictings;
     }
+
+    @OneToMany(mappedBy="state", cascade=CascadeType.ALL)
+    public List<BoxAndWhisker> getPlots() { return plots; }
+    public void setPlots(List<BoxAndWhisker> p) { plots = p; }
+
 
 //    @OneToMany
 //    @JoinTable(
@@ -74,15 +80,15 @@ public class State {
 //    public List<Population> getPopulations() { return this.populations; }
 //    public void setPopulations(List<Population> p) { populations = p; }
 
-    @OneToOne
-    @JoinColumn(name="populationId")
-    public Population getPopulation() { return this.population; }
-    public void setPopulation(Population p) { population = p; }
-
-    @OneToOne
-    @JoinColumn(name="vapId")
-    public VotingAgePopulation getVap() { return vap; }
-    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
+//    @OneToOne
+//    @JoinColumn(name="populationId")
+//    public Population getPopulation() { return this.population; }
+//    public void setPopulation(Population p) { population = p; }
+//
+//    @OneToOne
+//    @JoinColumn(name="vapId")
+//    public VotingAgePopulation getVap() { return vap; }
+//    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
 
 //    @OneToMany
 //    @JoinTable(
@@ -93,8 +99,10 @@ public class State {
 //    public List<Election> getElections() { return this.elections; }
 //    public void setElections(List<Election> e) { elections = e; }
 
-    @OneToOne
-    @JoinColumn(name="electionId")
-    public Election getElection() { return election; }
-    public void setElection(Election e) { election = e; }
+//    @OneToOne
+//    @JoinColumn(name="electionId")
+//    public Election getElection() { return election; }
+//    public void setElection(Election e) { election = e; }
+
+
 }

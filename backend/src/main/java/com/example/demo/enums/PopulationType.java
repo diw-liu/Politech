@@ -6,11 +6,11 @@ public enum PopulationType {
     BLACK,
     HISPANIC,
     ASIAN,
-    PACIFIC_ISLANDER,
-    RACE_OTHER,
-    VAP,
-    CVAP,
-    DEMOCRATIC,
-    REPUBLICAN,
-    PARTY_OTHER;
+    OTHER,
+    VAP_TOTAL,
+    VAP_WHITE,
+    VAP_BLACK,
+    VAP_HISPANIC,
+    VAP_ASIAN,
+    VAP_OTHER
 }

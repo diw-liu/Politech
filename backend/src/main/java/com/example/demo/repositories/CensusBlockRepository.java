@@ -7,6 +7,6 @@ import com.example.demo.model.CensusBlock;
 
 
 @Repository
-public interface CensusBlockRepository extends CrudRepository<CensusBlock,Long>{
+public interface CensusBlockRepository extends CrudRepository<CensusBlock,String>{
 
 }

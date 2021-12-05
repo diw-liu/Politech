@@ -8,3 +8,5 @@ public interface StatePopulationProjection {
     String getId();
     Population getPopulation();
 }
+
+// this no longer works as state doesn't have population anymore
