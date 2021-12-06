@@ -89,6 +89,16 @@ public class State {
 //    @JoinColumn(name="vapId")
 //    public VotingAgePopulation getVap() { return vap; }
 //    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
+// @OneToOne(cascade=CascadeType.ALL, mappedBy = "state")
+    // @OneToOne
+    // @JoinColumn(name="id")
+    // public Population getPopulation() { return this.population; }
+    // public void setPopulation(Population p) { population = p; }
+
+    // @OneToOne
+    // @JoinColumn(name="vapId")
+    // public VotingAgePopulation getVap() { return vap; }
+    // public void setVap(VotingAgePopulation vap) { this.vap = vap; }
 
 //    @OneToMany
 //    @JoinTable(

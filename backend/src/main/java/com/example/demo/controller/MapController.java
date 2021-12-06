@@ -13,8 +13,9 @@ import javax.ws.rs.core.MediaType;
 import com.example.demo.model.CensusBlock;
 import com.example.demo.model.Population;
 import com.example.demo.model.State;
-import com.example.demo.projections.StateDisplayProjection;
-import com.example.demo.projections.StatePopulationProjection;
+import com.example.demo.model.Block;
+
+import com.example.demo.projections.*;
 import com.example.demo.repositories.*;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,8 @@ class MapController{
     private String dbpass = "changeit";
     @Autowired
     private StateRepository stateRepository;
+    @Autowired
+    private BlocksRepository blocksRepository;
     @Autowired
     private DistrictingRepository districtingRepository;
     @Autowired
@@ -83,13 +86,23 @@ class MapController{
         return result;
     }
 
-    @GetMapping("/population")
+//     @GetMapping("/population")
+//     @Produces(MediaType.APPLICATION_JSON)
+//     public @ResponseBody StatePopulationProjection getStatePopulationByName(@RequestParam String name) {
+//         return stateRepository.findById(name, StatePopulationProjection.class);
+// //        Optional<StatePopulationProjection> statePopulationResponse = stateRepository.findById(id, StatePopulationProjection.class);
+// //        return statePopulationResponse.get();
+//     }
+
+    @GetMapping("/testing")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody StatePopulationProjection getStatePopulationByName(@RequestParam String name) {
-        return stateRepository.findByName(name, StatePopulationProjection.class);
+    public @ResponseBody Block getBlockPopulationByName(@RequestParam String name) {
+        return blocksRepository.findById(name, Block.class);
+    }
+        // return temp.getPopulation().toString();
 //        Optional<StatePopulationProjection> statePopulationResponse = stateRepository.findById(id, StatePopulationProjection.class);
 //        return statePopulationResponse.get();
-    }
+    // }
 
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
