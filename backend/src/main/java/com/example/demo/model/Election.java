@@ -8,10 +8,10 @@ import javax.persistence.*;
 @Table(name="Elections")
 public class Election {
     private String id;
-    private int totalVotes;
-    private int democraticVotes;
-    private int republicanVotes;
-    private int otherVotes;
+    private Integer totalVotes;
+    private Integer democraticVotes;
+    private Integer republicanVotes;
+    private Integer otherVotes;
     private ElectionType type;
 
     @Id
@@ -21,19 +21,19 @@ public class Election {
 
     @Column(name="totalVotes")
     public int getTotalVotes() { return totalVotes; }
-    public void setTotalVotes(int v) { totalVotes = v; }
+    public void setTotalVotes(Integer v) { totalVotes = v; }
 
     @Column(name="democraticVotes")
     public int getDemocraticVotes() { return democraticVotes; }
-    public void setDemocraticVotes(int d) { democraticVotes = d; }
+    public void setDemocraticVotes(Integer d) { democraticVotes = d; }
 
     @Column(name="republicanVotes")
     public int getRepublicanVotes() { return republicanVotes; }
-    public void setRepublicanVotes(int r) { republicanVotes = r; }
+    public void setRepublicanVotes(Integer r) { republicanVotes = r; }
 
     @Column(name="otherVotes")
     public int getOtherVotes() { return otherVotes; }
-    public void setOtherVotes(int o) { otherVotes = o; }
+    public void setOtherVotes(Integer o) { otherVotes = o; }
 
     @Enumerated(EnumType.STRING)
     @Column(name="type")

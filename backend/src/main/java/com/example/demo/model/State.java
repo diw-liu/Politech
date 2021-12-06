@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 import java.awt.*;
@@ -61,6 +63,7 @@ public class State {
     }
 
     @OneToMany(mappedBy="state", cascade=CascadeType.ALL)
+    @JsonManagedReference
     public List<Districting> getDistrictings() { return this.districtings; }
     public void setDistrictings(List<Districting> seawulfDistrictings) {
         this.districtings = seawulfDistrictings;

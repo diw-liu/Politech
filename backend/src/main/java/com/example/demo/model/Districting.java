@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 import java.util.List;
@@ -23,6 +25,7 @@ public class Districting {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="stateId")
+    @JsonBackReference
     public State getState() { return this.state; }
     public void setState(State s) { this.state = s; }
 
