@@ -16,8 +16,8 @@ import org.locationtech.jts.geom.*;
 public class Precinct {
     private String id;
     private String geometryString;
-//    private Population populations;
-//    private VotingAgePopulation vap;
+    private Population populations;
+    private VotingAgePopulation vap;
     private Election election;
 
     private Boolean hasChanged;
@@ -28,7 +28,7 @@ public class Precinct {
     private Set<CensusBlock> censusBlocks;
     private Set<CensusBlock> borderBlocks; // border census blocks are blocks that are borders of the DISTRICT
 //    private District district;
-    private List<Population> populations;
+//    private List<Population> populations;
 //    private List<Election> elections;
 
     @Id
@@ -40,15 +40,15 @@ public class Precinct {
     public String getGeometryString() { return geometryString; }
     public void setGeometryString(String gs) { this.geometryString = gs; }
 
-//    @OneToOne
-//    @JoinColumn(name="populationId")
-//    public Population getPopulations() { return this.populations; }
-//    public void setPopulations(Population p) { populations = p; }
-//
-//    @OneToOne
-//    @JoinColumn(name="vapId")
-//    public VotingAgePopulation getVap() { return vap; }
-//    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
+    @OneToOne
+    @JoinColumn(name="populationId")
+    public Population getPopulations() { return this.populations; }
+    public void setPopulations(Population p) { populations = p; }
+
+    @OneToOne
+    @JoinColumn(name="vapId")
+    public VotingAgePopulation getVap() { return vap; }
+    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
 
     @OneToOne
     @JoinColumn(name="electionId")
@@ -64,7 +64,7 @@ public class Precinct {
     public Set<Precinct> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<Precinct> n) { neighbors = n; }
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name="PrecinctCensusBlocks",
             joinColumns = @JoinColumn(name="precinctId"),
@@ -82,14 +82,14 @@ public class Precinct {
     public Set<CensusBlock> getBorderBlocks() { return borderBlocks; }
     public void setBorderBlocks(Set<CensusBlock> n) { borderBlocks = n; }
 
-    @OneToMany
-    @JoinTable(
-            name="PrecinctPopulations",
-            joinColumns = @JoinColumn(name="precinctId"),
-            inverseJoinColumns = @JoinColumn(name="populationId")
-    )
-    public List<Population> getPopulations() { return this.populations; }
-    public void setPopulations(List<Population> p) { populations = p; }
+//    @OneToMany
+//    @JoinTable(
+//            name="PrecinctPopulations",
+//            joinColumns = @JoinColumn(name="precinctId"),
+//            inverseJoinColumns = @JoinColumn(name="populationId")
+//    )
+//    public List<Population> getPopulations() { return this.populations; }
+//    public void setPopulations(List<Population> p) { populations = p; }
 
     @Transient
     public District getParentDistrict() { return parentDistrict; }

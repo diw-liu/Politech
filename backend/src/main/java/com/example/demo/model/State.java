@@ -3,6 +3,10 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.WKTReader;
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 
@@ -39,9 +43,8 @@ public class State {
         this.name = name;
     }
 
-//    @OneToOne(cascade=CascadeType.ALL)
-//    @JoinColumn(name="enactedId")
-    @Transient
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="enactedId")
     public Districting getEnacted() { return this.enacted; }
     public void setEnacted(Districting e) {
         this.enacted = e;
@@ -66,6 +69,8 @@ public class State {
     }
 
     @Transient
+    @JsonSerialize(using = GeometrySerializer.class)
+    @JsonDeserialize(contentUsing = GeometryDeserializer.class)
     public Polygon getGeometry() { return geometry; }
     public void setGeometry(Polygon p) { geometry = p; }
 

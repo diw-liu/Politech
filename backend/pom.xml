@@ -62,6 +62,15 @@
 <!--			<version>0.16.1</version>-->
 <!--		</dependency>-->
 		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.bedatadriven</groupId>
 			<artifactId>jackson-datatype-jts</artifactId>
 			<version>2.3</version>

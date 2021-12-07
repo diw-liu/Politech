@@ -21,6 +21,7 @@ public class District {
     private Population population;
     private VotingAgePopulation vap;
     private Election election;
+    private int cd;
 
     private Polygon geometry;
 
@@ -61,6 +62,10 @@ public class District {
     public Election getElection() { return election; }
     public void setElection(Election e) { election = e; }
 
+    @Column(name="cd")
+    public int getCd() { return cd; }
+    public void setCd(int c) { cd = c; }
+
     @OneToMany
     @JoinTable(
             name="DistrictBorderPrecincts",
@@ -71,7 +76,7 @@ public class District {
     public void setPrecincts(Set<Precinct> precincts) { this.borderPrecincts = precincts; }
 
 //    @OneToMany(mappedBy = "id")
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name="DistrictNeighbors",
             joinColumns = @JoinColumn(name="districtId"),

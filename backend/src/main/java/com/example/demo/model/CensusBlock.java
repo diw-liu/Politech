@@ -41,7 +41,7 @@ public class CensusBlock {
     public Precinct getPrecinct() { return precinct; }
     public void setPrecinct(Precinct p) { precinct = p; }
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name="CensusBlockNeighbors",
             joinColumns = @JoinColumn(name="blockId"),

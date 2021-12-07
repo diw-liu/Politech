@@ -1,20 +1,28 @@
 package com.example.demo.controller;
 
+import com.google.gson.Gson;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.example.demo.enums.PopulationType;
 import com.example.demo.model.*;
+import com.example.demo.projections.DistrictGeometryProjection;
 import com.example.demo.projections.StateDisplayProjection;
 import com.example.demo.projections.StatePopulationProjection;
 import com.example.demo.repositories.*;
+import org.apache.commons.io.IOUtils;;
+import org.json.simple.JSONObject;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -265,12 +273,38 @@ class MapController{
 
     @GetMapping("/instance")
     @Produces({MediaType.APPLICATION_JSON})
-    @ResponseBody public String instantiateTest() throws FileNotFoundException, IOException, ParseException{
-//        State s = new State();
-//        s.setName("Pennsylvania");
-////        Polygon p;
-//        s.setId("PA");
-//        stateRepository.save(s);
+    @ResponseBody public JSONObject instantiateTest() throws FileNotFoundException, IOException, ParseException{
+        State s = new State();
+        s.setName("MD");
+        s.setId("24");
+
+        FileInputStream inputStream = new FileInputStream("src/main/Data/MD_geometryString.txt");
+        try {
+            String everything = IOUtils.toString(inputStream, "UTF-8");
+            s.setGeometryString(everything);
+            s.convertStringToPolygon();
+            System.out.println("WRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+            System.out.println(s.getGeometry().toString());
+        } finally {
+            inputStream.close();
+        }
+//        s.convertStringToPolygon();
+        Population p = new Population();
+        p.setId("asda");
+        p.setTotal(1000);
+        p.setWhite(200);
+        p.setBlack(150);
+        p.setHispanic(150);
+        p.setAsian(400);
+        p.setOther(100);
+        populationRepository.save(p);
+
+        Districting d = new Districting();
+        d.setId("24PL0");
+        d.setPopulation(p);
+        districtingRepository.save(d);
+        s.setEnacted(d);
+        stateRepository.save(s);
 //        return "Saved";
 
 //        Population p = new Population();
@@ -287,7 +321,10 @@ class MapController{
 //        maryland.setPopulation(p);
 //        stateRepository.save(maryland);
 //        return "Saved";
+        JSONParser jsonParser = new JSONParser();
 
-        return null;
+        Gson gson = new Gson();
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(s.getGeometryString());
+        return jsonObject;
     }
 }
