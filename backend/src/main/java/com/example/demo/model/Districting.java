@@ -33,15 +33,6 @@ public class Districting {
     public List<District> getDistricts() { return this.districts; }
     public void setDistricts(List<District> districts) { this.districts = districts; }
 
-//    @OneToMany
-//    @JoinTable(
-//            name="DistrictingPopulations",
-//            joinColumns = @JoinColumn(name="districtingId"),
-//            inverseJoinColumns = @JoinColumn(name="populationId")
-//    )
-//    public List<Population> getPopulations() { return this.populations; }
-//    public void setPopulations(List<Population> p) { populations = p; }
-
     @OneToOne
     @JoinColumn(name="populationId")
     public Population getPopulation() { return this.population; }
@@ -57,22 +48,12 @@ public class Districting {
     public Election getElection() { return election; }
     public void setElection(Election e) { election = e; }
 
-    //    @OneToMany(mappedBy="districting", cascade=CascadeType.ALL)
-    //    public List<BoxAndWhisker> getPlots() { return this.plots; }
-    //    public void setPlots(List<BoxAndWhisker> p) {
-    //        this.plots = p;
-    //    }
-
     public District selectRandomDistricts(){
         int size = this.districts.size();
         Random rand = new Random();
         return districts.get(rand.nextInt(size));
     }
 
-//    @OneToMany(mappedBy = "districting", cascade = {CascadeType.ALL})
-//    public List<District> getDistricts() {
-//        return districts;
-//    }
 //
 //    public void setDistricts(List<District> districts) {
 //        this.districts = districts;

@@ -5,8 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.example.demo.model.Election;
 
-
 @Repository
-public interface ElectionRepository extends CrudRepository<Election,Long>{
+public interface ElectionRepository extends CrudRepository<Election, String>{
 
 }

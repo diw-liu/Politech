@@ -5,8 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.example.demo.model.Population;
 
-
 @Repository
-public interface PopulationRepository extends CrudRepository<Population,Long>{
+public interface PopulationRepository extends CrudRepository<Population,String>{
 
 }

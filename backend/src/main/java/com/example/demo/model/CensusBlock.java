@@ -27,10 +27,6 @@ public class CensusBlock {
 
     private Set<CensusBlock> neighbors;
 
-//    private District district;
-//    private List<Election> elections;
-//    private List<Population> populations;
-
     @Id
     @Column(name="id")
     public String getId() { return this.id; }
@@ -69,14 +65,6 @@ public class CensusBlock {
     public Election getElection() { return election; }
     public void setElection(Election e) { election = e; }
 
-//    @OneToMany
-//    @JoinTable(
-//            name="CensusBlockPopulations",
-//            joinColumns = @JoinColumn(name="blockId"),
-//            inverseJoinColumns = @JoinColumn(name="populationId"))
-//    public List<Population> getPopulations() { return this.populations; }
-//    public void setPopulations(List<Population> p) { populations = p; }
-
 //    @Column(name="borderStatus")
     @Transient
     public boolean getBorder() { return border; }
@@ -105,25 +93,6 @@ public class CensusBlock {
             return null;
         }
     }
-
-
-
-//    public Polygon getGeometry() {
-//        try {
-//            WKTReader reader = new WKTReader();
-//            return (Polygon) reader.read(geometryString);
-//        } catch (ParseException ex) {
-//            return null;
-//        }
-//    }
-
-//    @OneToMany
-//    @JoinTable(
-//            name="CensusBlockElections",
-//            joinColumns = @JoinColumn(name="blockId"),
-//            inverseJoinColumns = @JoinColumn(name="electionId"))
-//    public List<Election> getElections() { return this.elections; }
-//    public void setElections(List<Election> e) { elections = e; }
 
 
 

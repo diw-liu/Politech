@@ -5,8 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.example.demo.model.District;
 
-
 @Repository
-public interface DistrictRepository extends CrudRepository<District,Long>{
+public interface DistrictRepository extends CrudRepository<District, String>{
 
 }

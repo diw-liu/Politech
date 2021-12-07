@@ -5,7 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.example.demo.model.CensusBlock;
 
-
 @Repository
 public interface CensusBlockRepository extends CrudRepository<CensusBlock,String>{
 

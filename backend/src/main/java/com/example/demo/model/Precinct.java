@@ -27,7 +27,8 @@ public class Precinct {
     private Set<Precinct> neighbors;
     private Set<CensusBlock> censusBlocks;
     private Set<CensusBlock> borderBlocks; // border census blocks are blocks that are borders of the DISTRICT
-//    private District district;
+    private District district;
+
 //    private List<Population> populations;
 //    private List<Election> elections;
 
@@ -115,11 +116,10 @@ public class Precinct {
         }
     }
 
-//    @ManyToOne(fetch=FetchType.LAZY)
-//    @JoinColumn(name="districtId")
-//    public District getDistrict() { return district; }
-//    public void setDistrict(District d) { district = d; }
-
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="districtId")
+    public District getDistrict() { return district; }
+    public void setDistrict(District d) { district = d; }
 
 
 //    @OneToMany

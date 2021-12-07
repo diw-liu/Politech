@@ -17,17 +17,10 @@ public class BoxAndWhisker{
     private double lowerQuartile;
     private double median;
 
-//    private Districting districting;
-//    private List<Statistics> statistics; // used to create the box and whiskers for each district
     @Id
     @Column(name="id")
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
-
-//    @ManyToOne(fetch=FetchType.LAZY)
-//    @JoinColumn(name="districtingId")
-//    public Districting getDistricting() { return this.districting; }
-//    public void setDistricting(Districting d) { this.districting = d; }
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="stateId")
@@ -58,10 +51,6 @@ public class BoxAndWhisker{
     @Column(name="median")
     public double getMedian() { return median; }
     public void setMedian(double median) { this.median = median; }
-
-    //    @OneToMany(mappedBy="plot", cascade=CascadeType.ALL)
-//    public List<Statistics> getStatistics() { return statistics; }
-//    public void setStatistics(List<Statistics> statistics) { this.statistics = statistics; }
 
     // //TODO
     // public List<Integer> fetchIntermediate(String name){

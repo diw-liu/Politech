@@ -27,11 +27,6 @@ public class District {
 
     private Set<District> neighbors;
     private Set<Precinct> borderPrecincts;
-//    private List<CensusBlock> censusBlocks;
-//    private List<CensusBlock> borderBlocks;
-
-//    private List<Population> populations;
-//    private List<Election> elections;
 
     @Id
     @Column(name="id")
@@ -85,15 +80,6 @@ public class District {
     public Set<District> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<District> n) { neighbors = n; }
 
-//    @OneToMany
-//    @JoinTable(
-//            name="DistrictPopulations",
-//            joinColumns = @JoinColumn(name="districtId"),
-//            inverseJoinColumns = @JoinColumn(name="populationId")
-//    )
-//    public List<Population> getPopulations() { return this.populations; }
-//    public void setPopulations(List<Population> p) { populations = p; }
-
     @Transient
     public Polygon getGeometry() { return geometry; }
     public void setGeometry(Polygon p) { geometry = p; }
@@ -109,30 +95,6 @@ public class District {
             return null;
         }
     }
-
-//    @OneToMany(mappedBy="district", cascade=CascadeType.ALL)
-//    public List<CensusBlock> getCensusBlocks() { return this.censusBlocks; }
-//    public void setCensusBlocks(List<CensusBlock> cb) { this.censusBlocks = cb; }
-//
-//    @OneToMany
-//    @JoinTable(
-//            name="DistrictBorderBlocks",
-//            joinColumns = @JoinColumn(name="districtId"),
-//            inverseJoinColumns = @JoinColumn(name="borderBlockId")
-//    )
-//    public List<CensusBlock> getBorderBlocks() { return borderBlocks; }
-//    public void setBorderBlocks(List<CensusBlock> b) { borderBlocks = b; }
-
-
-
-//    @OneToMany
-//    @JoinTable(
-//            name="DistrictElections",
-//            joinColumns = @JoinColumn(name="districtId"),
-//            inverseJoinColumns = @JoinColumn(name="electionId")
-//    )
-//    public List<Election> getElections() { return this.elections; }
-//    public void setElections(List<Election> e) { elections = e; }
 
     //TODO
 //    public CensusBlock selectRandomCensusBlock(){

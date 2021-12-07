@@ -5,8 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.example.demo.model.Precinct;
 
-
 @Repository
-public interface PrecinctRepository extends CrudRepository<Precinct,Long>{
+public interface PrecinctRepository extends CrudRepository<Precinct,String>{
 
 }

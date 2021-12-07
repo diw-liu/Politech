@@ -55,15 +55,4 @@ public class Population {
     @Column(name="OTHER")
     public int getOther() { return other; }
     public void setOther(int other) { this.other = other; }
-
-//    @Enumerated(EnumType.STRING)
-//    @Column(name="type")
-//    public PopulationType getType() { return type; }
-//    public void setType(PopulationType type) { this.type = type; }
-//
-//    @Column(name="population")
-//    public int getPopulation() { return population; }
-//    public void setPopulation(int p) { population = p; }
-
-
 }
