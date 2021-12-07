@@ -18,8 +18,8 @@ public class District {
     private String id;
     private Districting districting;
     private String geometryString;
-//    private Population population;
-//    private VotingAgePopulation vap;
+    private Population population;
+    private VotingAgePopulation vap;
     private Election election;
 
     private Polygon geometry;
@@ -29,7 +29,7 @@ public class District {
 //    private List<CensusBlock> censusBlocks;
 //    private List<CensusBlock> borderBlocks;
 
-    private List<Population> populations;
+//    private List<Population> populations;
 //    private List<Election> elections;
 
     @Id
@@ -46,15 +46,15 @@ public class District {
     public String getGeometryString() { return this.geometryString; }
     public void setGeometryString(String p) { this.geometryString = p; }
 
-//    @OneToOne
-//    @JoinColumn(name="populationId")
-//    public Population getPopulation() { return this.population; }
-//    public void setPopulation(Population p) { population = p; }
-//
-//    @OneToOne
-//    @JoinColumn(name="vapId")
-//    public VotingAgePopulation getVap() { return vap; }
-//    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
+    @OneToOne
+    @JoinColumn(name="populationId")
+    public Population getPopulation() { return this.population; }
+    public void setPopulation(Population p) { population = p; }
+
+    @OneToOne
+    @JoinColumn(name="vapId")
+    public VotingAgePopulation getVap() { return vap; }
+    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
 
     @OneToOne
     @JoinColumn(name="electionId")
@@ -63,7 +63,7 @@ public class District {
 
     @OneToMany
     @JoinTable(
-            name="DistrictToBorderPrecincts",
+            name="DistrictBorderPrecincts",
             joinColumns = @JoinColumn(name="districtId"),
             inverseJoinColumns = @JoinColumn(name="borderPrecinctId")
     )
@@ -80,14 +80,14 @@ public class District {
     public Set<District> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<District> n) { neighbors = n; }
 
-    @OneToMany
-    @JoinTable(
-            name="DistrictPopulations",
-            joinColumns = @JoinColumn(name="districtId"),
-            inverseJoinColumns = @JoinColumn(name="populationId")
-    )
-    public List<Population> getPopulations() { return this.populations; }
-    public void setPopulations(List<Population> p) { populations = p; }
+//    @OneToMany
+//    @JoinTable(
+//            name="DistrictPopulations",
+//            joinColumns = @JoinColumn(name="districtId"),
+//            inverseJoinColumns = @JoinColumn(name="populationId")
+//    )
+//    public List<Population> getPopulations() { return this.populations; }
+//    public void setPopulations(List<Population> p) { populations = p; }
 
     @Transient
     public Polygon getGeometry() { return geometry; }

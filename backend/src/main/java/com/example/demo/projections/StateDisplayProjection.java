@@ -8,7 +8,7 @@ import java.util.List;
 public interface StateDisplayProjection {
     String getId();
     String getName();
-    DistrictingGeometryProjection getEnacted();
-    List<Population> getPopulations();
-    List<Election> getElections();
+//    DistrictingGeometryProjection getEnacted();
+//    List<Population> getPopulations();
+//    List<Election> getElections();
 }

@@ -15,8 +15,8 @@ import org.locationtech.jts.io.WKTReader;
 public class CensusBlock {
     private String id;
     private Precinct precinct;
-//    private Population population;
-    // doesnt matter now but forgot VAP class
+    private Population population;
+    private VotingAgePopulation vap;
     private String geometryString;
     private Election election;
 
@@ -29,7 +29,7 @@ public class CensusBlock {
 
 //    private District district;
 //    private List<Election> elections;
-    private List<Population> populations;
+//    private List<Population> populations;
 
     @Id
     @Column(name="id")
@@ -50,10 +50,15 @@ public class CensusBlock {
     public Set<CensusBlock> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<CensusBlock> n) { neighbors = n; }
 
-//    @OneToOne
-//    @JoinColumn(name="populationId")
-//    public Population getPopulation() { return this.population; }
-//    public void setPopulation(Population p) { population = p; }
+    @OneToOne
+    @JoinColumn(name="populationId")
+    public Population getPopulation() { return this.population; }
+    public void setPopulation(Population p) { population = p; }
+
+    @OneToOne
+    @JoinColumn(name="vapId")
+    public VotingAgePopulation getVap() { return vap; }
+    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
 
     @Column(name="geometry", columnDefinition = "LONGTEXT")
     public String getGeometryString() { return geometryString; }
@@ -64,13 +69,13 @@ public class CensusBlock {
     public Election getElection() { return election; }
     public void setElection(Election e) { election = e; }
 
-    @OneToMany
-    @JoinTable(
-            name="CensusBlockPopulations",
-            joinColumns = @JoinColumn(name="blockId"),
-            inverseJoinColumns = @JoinColumn(name="populationId"))
-    public List<Population> getPopulations() { return this.populations; }
-    public void setPopulations(List<Population> p) { populations = p; }
+//    @OneToMany
+//    @JoinTable(
+//            name="CensusBlockPopulations",
+//            joinColumns = @JoinColumn(name="blockId"),
+//            inverseJoinColumns = @JoinColumn(name="populationId"))
+//    public List<Population> getPopulations() { return this.populations; }
+//    public void setPopulations(List<Population> p) { populations = p; }
 
 //    @Column(name="borderStatus")
     @Transient
