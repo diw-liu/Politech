@@ -37,6 +37,8 @@ import java.sql.*;
 //import java.util.Optional;
 
 import org.locationtech.jts.geom.*;
+import org.wololo.geojson.GeoJSON;
+import org.wololo.jts2geojson.GeoJSONWriter;
 
 @RestController
 @RequestMapping("/api")
@@ -100,19 +102,13 @@ class MapController{
 
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody StateDisplayProjection getStateByName(@RequestParam String name) {
+    public @ResponseBody String getStateByName(@RequestParam String name) {
         State selected = stateRepository.findByName(name, State.class);
-//        List<Districting> districtings = selected.getDistrictings();
-//        // Districtings is a list of size 31 with 0 being enacted and 1 - 30 being seawulf plans
-//        Districting enacted = districtings.get(0);
-//        List<Population> populations = enacted.getPopulations();
-//        System.out.println(populations.get(PopulationType.TOTAL.ordinal()).getType());
-//        System.out.println(populations.get(PopulationType.WHITE.ordinal()).getType());
-//        System.out.println("------------------------------------");
-//        for (int i = 0; i < populations.size(); i++) {
-//            System.out.println(populations.get(i).getType());
-//        }
-        return stateRepository.findByName(name, StateDisplayProjection.class);
+        selected.convertStringToPolygon();
+        GeoJSONWriter writer = new GeoJSONWriter();
+        GeoJSON json = writer.write(selected.getGeometry());
+        String jsonString = json.toString();
+        return jsonString;
     }
 
     @GetMapping("/all")

@@ -1,5 +1,9 @@
 package com.example.demo.model;
 
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.locationtech.jts.io.WKTReader;
 
 import javax.persistence.*;
@@ -29,6 +33,8 @@ public class Precinct {
     private Set<CensusBlock> borderBlocks; // border census blocks are blocks that are borders of the DISTRICT
     private District district;
 
+    private String districtId;
+
 //    private List<Population> populations;
 //    private List<Election> elections;
 
@@ -56,7 +62,7 @@ public class Precinct {
     public Election getElection() { return election; }
     public void setElection(Election e) { election = e; }
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name="PrecinctNeighbors",
             joinColumns = @JoinColumn(name="precinctId"),
@@ -65,7 +71,7 @@ public class Precinct {
     public Set<Precinct> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<Precinct> n) { neighbors = n; }
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(
             name="PrecinctCensusBlocks",
             joinColumns = @JoinColumn(name="precinctId"),
@@ -101,6 +107,8 @@ public class Precinct {
     public void setHasChanged(Boolean b) { hasChanged = b; }
 
     @Transient
+    @JsonSerialize(using = GeometrySerializer.class)
+    @JsonDeserialize(contentUsing = GeometryDeserializer.class)
     public Polygon getGeometry() { return geometry; }
     public void setGeometry(Polygon p) { geometry = p; }
 
@@ -116,8 +124,13 @@ public class Precinct {
         }
     }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="districtId")
+//    @ManyToOne(fetch=FetchType.EAGER)
+//    @JoinColumn(name="districtId")
+    @Column(name="districtId")
+    public String getDistrictId() {return districtId;}
+    public void setDistrictId(String d) { districtId = d; }
+
+    @Transient
     public District getDistrict() { return district; }
     public void setDistrict(District d) { district = d; }
 

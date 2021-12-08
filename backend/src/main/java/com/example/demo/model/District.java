@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.io.WKTReader;
 //import org.locationtech.jts.geom.Geometry;
@@ -35,6 +40,7 @@ public class District {
 
     @ManyToOne
     @JoinColumn(name="districtingId")
+    @JsonBackReference
     public Districting getDistricting() { return this.districting; }
     public void setDistricting(Districting d) { this.districting = d; }
 
@@ -61,7 +67,7 @@ public class District {
     public int getCd() { return cd; }
     public void setCd(int c) { cd = c; }
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name="DistrictBorderPrecincts",
             joinColumns = @JoinColumn(name="districtId"),
@@ -81,6 +87,8 @@ public class District {
     public void setNeighbors(Set<District> n) { neighbors = n; }
 
     @Transient
+    @JsonSerialize(using = GeometrySerializer.class)
+    @JsonDeserialize(contentUsing = GeometryDeserializer.class)
     public Polygon getGeometry() { return geometry; }
     public void setGeometry(Polygon p) { geometry = p; }
 

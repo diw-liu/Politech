@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
@@ -30,6 +31,7 @@ public class Districting {
     public void setState(State s) { this.state = s; }
 
     @OneToMany(mappedBy="districting")
+    @JsonManagedReference
     public List<District> getDistricts() { return this.districts; }
     public void setDistricts(List<District> districts) { this.districts = districts; }
 
