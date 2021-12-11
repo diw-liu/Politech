@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name="VotingAgeMeasures")
 public class VotingAgeMeasures {
     private String id;
+    private Districting districting;
     private double populationEquality;
     private double polsbyPopper;
     private double objectiveFunction;
@@ -17,6 +18,11 @@ public class VotingAgeMeasures {
     public String getId() {
         return this.id;
     }
+
+    @OneToOne
+    @JoinColumn(name="districtingId")
+    public Districting getDistricting() { return districting; }
+    public void setDistricting(Districting d) { districting = d; }
 
     @Column(name="populationEquality")
     public double getPopulationEquality() {

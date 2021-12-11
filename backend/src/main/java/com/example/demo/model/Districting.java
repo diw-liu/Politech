@@ -31,52 +31,14 @@ public class Districting {
     public List<District> getDistricts() { return this.districts; }
     public void setDistricts(List<District> districts) { this.districts = districts; }
 
-    public District selectRandomDistricts(){
+    // if this function necessary?
+    public District getDistrictAtIndex(int ind) {
+        return districts.get(ind);
+    }
+
+    public District selectRandomDistrict(){
         int size = this.districts.size();
         Random rand = new Random();
         return districts.get(rand.nextInt(size));
     }
-
-
-//    public Districting cloneDistricting(){
-//        Districting clone = new Districting();
-//        clone.setDistrictingId(this.districtingId);
-//        clone.setDistricts(this.districts);
-//        clone.setMeasures(this.measures);
-//        return clone;
-//    }
-
-    //TODO
-    // public Measures recalculateMeasures(){
-        
-    // }
-
-    //TODO
-    // public List<Precinct> getChangedPrecincts(){
-        
-    // }
-
-    //TODO
-    // public boxWhiskerPoints[] getBoxAndWhiskerPoints(BoxAndWhiskerBasis){
-
-    // }
-    
-    //TODO
-    // public DistrictingInfo getDistrictingSummary(){
-
-    // }
-
-    //TODO
-    // public List<CensusBlock> getCensusBlocksByDistrict(List<District>){
-
-    // }
-
-//    @Override
-//    public String toString() {
-//        return "Districting{" +
-//                "districtingId: " + districtingId +
-//                ", districts: " + districts +
-//                ", measures: " + measures +
-//                '}';
-//    }
 }

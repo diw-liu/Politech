@@ -1,50 +1,44 @@
 package com.example.demo.controller;
 
-import com.google.gson.Gson;
+import com.example.demo.handlers.MapService;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.example.demo.enums.PopulationType;
 import com.example.demo.model.*;
-import com.example.demo.projections.DistrictGeometryProjection;
 import com.example.demo.projections.StateDisplayProjection;
-import com.example.demo.projections.StatePopulationProjection;
+import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.*;
-import org.apache.commons.io.IOUtils;
-import org.json.simple.JSONObject;
-import org.locationtech.jts.io.WKTReader;
+import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.simple.parser.ParseException;
+import org.wololo.geojson.GeoJSON;
+import org.wololo.jts2geojson.GeoJSONWriter;
 
-import java.sql.*;
 //import java.util.ArrayList;
 //import java.util.List;
 //import java.util.Map;
 //import java.util.Optional;
 
-import org.locationtech.jts.geom.*;
-import org.wololo.geojson.GeoJSON;
-import org.wololo.jts2geojson.GeoJSONWriter;
 
 @RestController
 @RequestMapping("/api")
 class MapController{
+    @Autowired
+    private MapService mapService;
+
     @Autowired
     private StateRepository stateRepository;
     @Autowired
@@ -57,12 +51,6 @@ class MapController{
     private CensusBlockRepository censusBlockRepository;
     @Autowired
     private PopulationRepository populationRepository;
-    // String districtMD = "src/main/data/MDdistricts.json";
-    // String precinctMD = "src/main/data/maryland.json";
-    // String districtMI = "src/main/data/MIdistrict.json";
-    // String precinctMI = "src/main/data/michigan.json";
-    // String districtPA = "src/main/data/PAdistrict.json";
-    // String precinctPA = "src/main/data/pennsylvania.json";
 
     Map<String, String> DISTRICT = Map.of(
         "MD", "MDdistricts.json",
@@ -93,33 +81,33 @@ class MapController{
         return result;
     }
 
-    @GetMapping("/population")
-    @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody StatePopulationProjection getStatePopulationByName(@RequestParam String name) {
-        return stateRepository.findByName(name, StatePopulationProjection.class);
-//        Optional<StatePopulationProjection> statePopulationResponse = stateRepository.findById(id, StatePopulationProjection.class);
-//        return statePopulationResponse.get();
-    }
-
+    // COMPLETED
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody StateDisplayProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
-        StateDisplayProjection selected = stateRepository.findByName(name, StateDisplayProjection.class);
-        // selected.convertStringToPolygon();
-        // GeoJSONWriter writer = new GeoJSONWriter();
-        // GeoJSON json = writer.write(selected.getGeometry());
-        // String jsonString = json.toString();
+    public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
+        StateSummaryProjection ssp = mapService.getStateByName(name);
         HttpSession session = request.getSession();
-        session.setAttribute("state", selected);
-        return selected;
+        session.setAttribute("state", ssp.getName());
+        return ssp;
     }
 
-    @GetMapping("/testSession")
-    @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody StateDisplayProjection getSession(HttpSession session) {
-        StateDisplayProjection state = (StateDisplayProjection) session.getAttribute("state");
-        return state;
-    }
+//    @GetMapping("/population")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public @ResponseBody
+//    StateSummaryProjection getStatePopulationByName(@RequestParam String name) {
+//        return stateRepository.findByName(name, StateSummaryProjection.class);
+////        Optional<StatePopulationProjection> statePopulationResponse = stateRepository.findById(id, StatePopulationProjection.class);
+////        return statePopulationResponse.get();
+//    }
+
+
+
+//    @GetMapping("/testSession")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public @ResponseBody String getSession(HttpSession session) {
+//        String state = (String) session.getAttribute("state");
+//        return state;
+//    }
 
     @GetMapping("/all")
     @Produces({MediaType.APPLICATION_JSON})
@@ -235,60 +223,29 @@ class MapController{
 
     }
 
-    @GetMapping("/instance")
+    @GetMapping("/shape")
     @Produces({MediaType.APPLICATION_JSON})
-    @ResponseBody public JSONObject instantiateTest() throws FileNotFoundException, IOException, ParseException{
-        State s = new State();
-        s.setName("MD");
-        s.setId("24");
+    @ResponseBody public GeoJSON instantiateTest(@RequestParam String id) throws FileNotFoundException, IOException, ParseException{
+        Optional<Precinct> stateResponse = precinctRepository.findById(id);
+        Precinct s = stateResponse.get();
+//        return s;
+        s.convertStringToGeometry();
 
-        FileInputStream inputStream = new FileInputStream("src/main/Data/MD_geometryString.txt");
-        try {
-            String everything = IOUtils.toString(inputStream, "UTF-8");
-            s.setGeometryString(everything);
-            s.convertStringToGeometry();
-            System.out.println("WRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
-            System.out.println(s.getGeometry().toString());
-        } finally {
-            inputStream.close();
-        }
-//        s.convertStringToPolygon();
-        Population p = new Population();
-        p.setId("asda");
-        p.setTotal(1000);
-        p.setWhite(200);
-        p.setBlack(150);
-        p.setHispanic(150);
-        p.setAsian(400);
-        p.setOther(100);
-        populationRepository.save(p);
+        Optional<Precinct> p2 = precinctRepository.findById("24P1087");
+        Precinct s2 = p2.get();
+        s2.convertStringToGeometry();
 
-//        Districting d = new Districting();
-//        d.setId("24PL0");
-//        d.setPopulation(p);
-//        districtingRepository.save(d);
-//        s.setEnacted(d);
-//        stateRepository.save(s);
-//        return "Saved";
+        Geometry test = s.getGeometry().union(s2.getGeometry());
 
-//        Population p = new Population();
-//        p.setId("PA");
-//        p.setWhite(123456);
-//        p.setTotal(6177224);
-//        p.setAsian(417962);
-//        p.setBlack(1795027);
-//        p.setHispanic(729745);
-//        p.setOther(35314);
-//        populationRepository.save(p);
-//        Optional<State> marylandResponse = stateRepository.findById(p.getId(), State.class);
-//        State maryland = marylandResponse.get();
-//        maryland.setPopulation(p);
-//        stateRepository.save(maryland);
-//        return "Saved";
-        JSONParser jsonParser = new JSONParser();
+//        JSONParser jsonParser = new JSONParser();
+//        Gson gson = new Gson();
+//        JSONObject jsonObject = (JSONObject) jsonParser.parse(s.getGeometryString());
 
-        Gson gson = new Gson();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(s.getGeometryString());
-        return jsonObject;
+        GeoJSONWriter writer = new GeoJSONWriter();
+//        GeoJSON json = writer.write(s.getGeometry());
+        GeoJSON json = writer.write(test);
+        String jsonstring = json.toString();
+
+        return json;
     }
 }

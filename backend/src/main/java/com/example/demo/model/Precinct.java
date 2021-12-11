@@ -30,6 +30,7 @@ public class Precinct {
     private boolean hasChanged = false;
     private District parentDistrict;
     private Geometry geometry;
+    private String county;
 
     private Set<Precinct> neighbors;
     private Set<CensusBlock> censusBlocks;
@@ -99,10 +100,21 @@ public class Precinct {
     public void setHasChanged(Boolean b) { hasChanged = b; }
 
     @Transient
-    @JsonSerialize(using = GeometrySerializer.class)
-    @JsonDeserialize(contentUsing = GeometryDeserializer.class)
+//    @JsonSerialize(using = GeometrySerializer.class)
+//    @JsonDeserialize(contentUsing = GeometryDeserializer.class)
+    @JsonIgnore
     public Geometry getGeometry() { return geometry; }
     public void setGeometry(Geometry p) { geometry = p; }
+
+    @Column(name="county")
+    public String getCounty() { return county; }
+    public void setCounty(String county) { this.county = county; }
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="districtId")
+    @JsonBackReference
+    public District getDistrict() { return district; }
+    public void setDistrict(District d) { district = d; }
 
     public Geometry convertStringToGeometry() {
         try {
@@ -115,10 +127,4 @@ public class Precinct {
             return null;
         }
     }
-
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="districtId")
-    @JsonBackReference
-    public District getDistrict() { return district; }
-    public void setDistrict(District d) { district = d; }
 }
