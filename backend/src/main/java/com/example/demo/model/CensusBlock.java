@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.locationtech.jts.geom.*;
@@ -38,6 +39,7 @@ public class CensusBlock {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="precinctId")
+    @JsonBackReference
     public Precinct getPrecinct() { return precinct; }
     public void setPrecinct(Precinct p) { precinct = p; }
 
@@ -47,6 +49,7 @@ public class CensusBlock {
             joinColumns = @JoinColumn(name="blockId"),
             inverseJoinColumns = @JoinColumn(name="neighborId")
     )
+    @JsonBackReference
     public Set<CensusBlock> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<CensusBlock> n) { neighbors = n; }
 

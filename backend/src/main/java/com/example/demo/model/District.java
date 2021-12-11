@@ -11,6 +11,7 @@ import java.util.Set;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.locationtech.jts.geom.*;
@@ -26,7 +27,7 @@ public class District {
     private Population population;
     private VotingAgePopulation vap;
     private Election election;
-    private int cd;
+    private String cd;
 
     private Polygon geometry;
 
@@ -64,8 +65,8 @@ public class District {
     public void setElection(Election e) { election = e; }
 
     @Column(name="cd")
-    public int getCd() { return cd; }
-    public void setCd(int c) { cd = c; }
+    public String getCd() { return cd; }
+    public void setCd(String c) { cd = c; }
 
     @ManyToMany
     @JoinTable(
@@ -73,6 +74,7 @@ public class District {
             joinColumns = @JoinColumn(name="districtId"),
             inverseJoinColumns = @JoinColumn(name="borderPrecinctId")
     )
+    @JsonManagedReference
     public Set<Precinct> getPrecincts() { return this.borderPrecincts; }
     public void setPrecincts(Set<Precinct> precincts) { this.borderPrecincts = precincts; }
 
@@ -83,6 +85,7 @@ public class District {
             joinColumns = @JoinColumn(name="districtId"),
             inverseJoinColumns = @JoinColumn(name="neighborId")
     )
+//    @JsonBackReference
     public Set<District> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<District> n) { neighbors = n; }
 

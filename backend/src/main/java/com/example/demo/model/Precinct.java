@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.locationtech.jts.io.WKTReader;
@@ -33,7 +35,7 @@ public class Precinct {
     private Set<CensusBlock> borderBlocks; // border census blocks are blocks that are borders of the DISTRICT
     private District district;
 
-    private String districtId;
+//    private String districtId;
 
 //    private List<Population> populations;
 //    private List<Election> elections;
@@ -68,6 +70,7 @@ public class Precinct {
             joinColumns = @JoinColumn(name="precinctId"),
             inverseJoinColumns = @JoinColumn(name="neighborId")
     )
+    @JsonBackReference
     public Set<Precinct> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<Precinct> n) { neighbors = n; }
 
@@ -77,6 +80,7 @@ public class Precinct {
             joinColumns = @JoinColumn(name="precinctId"),
             inverseJoinColumns = @JoinColumn(name="censusBlockId")
     )
+    @JsonManagedReference
     public Set<CensusBlock> getCensusBlocks() { return censusBlocks; }
     public void setCensusBlocks(Set<CensusBlock> n) { censusBlocks = n; }
 
@@ -86,6 +90,7 @@ public class Precinct {
             joinColumns = @JoinColumn(name="precinctId"),
             inverseJoinColumns = @JoinColumn(name="borderBlockId")
     )
+    @JsonManagedReference
     public Set<CensusBlock> getBorderBlocks() { return borderBlocks; }
     public void setBorderBlocks(Set<CensusBlock> n) { borderBlocks = n; }
 
@@ -126,11 +131,13 @@ public class Precinct {
 
 //    @ManyToOne(fetch=FetchType.EAGER)
 //    @JoinColumn(name="districtId")
-    @Column(name="districtId")
-    public String getDistrictId() {return districtId;}
-    public void setDistrictId(String d) { districtId = d; }
+//    @Column(name="districtId")
+//    public String getDistrictId() {return districtId;}
+//    public void setDistrictId(String d) { districtId = d; }
 
-    @Transient
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="districtId")
+    @JsonBackReference
     public District getDistrict() { return district; }
     public void setDistrict(District d) { district = d; }
 

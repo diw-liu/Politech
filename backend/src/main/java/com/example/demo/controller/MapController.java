@@ -43,7 +43,6 @@ import org.wololo.jts2geojson.GeoJSONWriter;
 @RestController
 @RequestMapping("/api")
 class MapController{
-    private String dbpass = "changeit";
     @Autowired
     private StateRepository stateRepository;
     @Autowired
@@ -102,13 +101,14 @@ class MapController{
 
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody String getStateByName(@RequestParam String name) {
+    public @ResponseBody State getStateByName(@RequestParam String name) {
         State selected = stateRepository.findByName(name, State.class);
-        selected.convertStringToPolygon();
-        GeoJSONWriter writer = new GeoJSONWriter();
-        GeoJSON json = writer.write(selected.getGeometry());
-        String jsonString = json.toString();
-        return jsonString;
+//        selected.convertStringToPolygon();
+//        GeoJSONWriter writer = new GeoJSONWriter();
+//        GeoJSON json = writer.write(selected.getGeometry());
+//        String jsonString = json.toString();
+//        System.out.println(selected.getDistrictings().get(0));
+        return selected;
     }
 
     @GetMapping("/all")
@@ -223,48 +223,6 @@ class MapController{
 //        }
 //        return "Gotten";
 
-    }
-
-    @GetMapping("/ensemble")
-    @Produces({MediaType.APPLICATION_JSON})
-    public @ResponseBody String[][] getEnsemble(@RequestParam String state) {
-        int stateNum = 0;
-        int numDistricts = 0;
-        System.out.println(state);
-        if (state.equals("Maryland")) {
-            stateNum = 24;
-            numDistricts = 8;
-        } else {
-            stateNum = 26;
-            numDistricts = 14;
-        }
-        String[][] boxes = new String[numDistricts][6];
-        Connection conn;
-        Statement s;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/Pistons", "Pistons", dbpass);
-            s = conn.createStatement();
-
-            String sql = "SELECT cd, min, q1, q3, max, med FROM ensembledata WHERE state = "+ stateNum;
-            ResultSet rs = s.executeQuery(sql);
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
-            int count = 0;
-            while(rs.next()) {
-                String[] stats = new String[6];
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print(",  ");
-                    String columnValue = rs.getString(i);
-                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
-                    stats[i-1] = rs.getString(i);
-                }
-                boxes[count] = stats;
-                count++;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return boxes;
     }
 
     @GetMapping("/instance")
