@@ -1,14 +1,14 @@
-//package com.example.demo.algo;
-//
-//import com.example.demo.model.Districting;
-//
-//public class AlgorithmHandler {
+// package com.example.demo.algo;
+
+// import com.example.demo.model.Districting;
+
+// public class AlgorithmHandler {
 //    Algorithm algorithm;
 //    int cyclesThreshold = 1000;
 //    int attemptsThreshold = 5;
 //    int failedAttempts = 0;
 //    Districting updatedRedistricting;
-//
+
 //    public Algorithm getAlgorithm() {
 //        return this.algorithm;
 //    }
@@ -24,7 +24,7 @@
 //    public Districting getUpdatedRedistricting() {
 //        return this.updatedRedistricting;
 //    }
-//
+
 //    public void setAlgorithm(Algorithm algorithm) {
 //        this.algorithm = algorithm;
 //    }
@@ -40,7 +40,7 @@
 //    public void setUpdatedRedistricting(Districting updatedRedistricting) {
 //        this.updatedRedistricting = updatedRedistricting;
 //    }
-//
+
 //    public void startAlgorithm() {
 //        while (algorithm.getAlgorithmCycles() < cyclesThreshold) {
 //            boolean success = algorithm.runAlgorithm();
@@ -70,4 +70,4 @@
 //    public boolean checkThresholds(int algorithmCycles) {
 //        return false;
 //    }
-//}
+// }
