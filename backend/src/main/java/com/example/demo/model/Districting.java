@@ -14,10 +14,6 @@ public class Districting {
     private String id;
     private State state;
     private List<District> districts;
-    private Population population;
-    private VotingAgePopulation vap;
-    private Election election;
-//    private List<Population> populations;
 
     @Id
     @Column(name="id")
@@ -35,40 +31,13 @@ public class Districting {
     public List<District> getDistricts() { return this.districts; }
     public void setDistricts(List<District> districts) { this.districts = districts; }
 
-    @OneToOne
-    @JoinColumn(name="populationId")
-    public Population getPopulation() { return this.population; }
-    public void setPopulation(Population p) { population = p; }
-
-    @OneToOne
-    @JoinColumn(name="vapId")
-    public VotingAgePopulation getVap() { return vap; }
-    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
-
-    @OneToOne
-    @JoinColumn(name="electionId")
-    public Election getElection() { return election; }
-    public void setElection(Election e) { election = e; }
-
     public District selectRandomDistricts(){
         int size = this.districts.size();
         Random rand = new Random();
         return districts.get(rand.nextInt(size));
     }
 
-//
-//    public void setDistricts(List<District> districts) {
-//        this.districts = districts;
-//    }
-//
-//    public Measures getMeasures() {
-//        return measures;
-//    }
-//
-//    public void setMeasures(Measures measures) {
-//        this.measures = measures;
-//    }
-//
+
 //    public Districting cloneDistricting(){
 //        Districting clone = new Districting();
 //        clone.setDistrictingId(this.districtingId);

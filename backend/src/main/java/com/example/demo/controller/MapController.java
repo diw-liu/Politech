@@ -103,21 +103,21 @@ class MapController{
 
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody State getStateByName(@RequestParam String name, HttpServletRequest request) {
-        State selected = stateRepository.findByName(name, State.class);
+    public @ResponseBody StateDisplayProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
+        StateDisplayProjection selected = stateRepository.findByName(name, StateDisplayProjection.class);
         // selected.convertStringToPolygon();
         // GeoJSONWriter writer = new GeoJSONWriter();
         // GeoJSON json = writer.write(selected.getGeometry());
         // String jsonString = json.toString();
         HttpSession session = request.getSession();
-        session.setAttribute("stateSession", selected);
+        session.setAttribute("state", selected);
         return selected;
     }
 
     @GetMapping("/testSession")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody State getSession(HttpSession session) {
-        State state = (State) session.getAttribute("stateSession");
+    public @ResponseBody StateDisplayProjection getSession(HttpSession session) {
+        StateDisplayProjection state = (StateDisplayProjection) session.getAttribute("state");
         return state;
     }
 
@@ -246,7 +246,7 @@ class MapController{
         try {
             String everything = IOUtils.toString(inputStream, "UTF-8");
             s.setGeometryString(everything);
-            s.convertStringToPolygon();
+            s.convertStringToGeometry();
             System.out.println("WRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
             System.out.println(s.getGeometry().toString());
         } finally {
@@ -263,12 +263,12 @@ class MapController{
         p.setOther(100);
         populationRepository.save(p);
 
-        Districting d = new Districting();
-        d.setId("24PL0");
-        d.setPopulation(p);
-        districtingRepository.save(d);
-        s.setEnacted(d);
-        stateRepository.save(s);
+//        Districting d = new Districting();
+//        d.setId("24PL0");
+//        d.setPopulation(p);
+//        districtingRepository.save(d);
+//        s.setEnacted(d);
+//        stateRepository.save(s);
 //        return "Saved";
 
 //        Population p = new Population();

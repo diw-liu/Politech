@@ -8,8 +8,6 @@ import javax.persistence.*;
 @Table(name="Populations")
 public class Population {
     private String id;
-//    private PopulationType type;
-//    private int population;
     private int total;
     private int white;
     private int black;
@@ -17,11 +15,6 @@ public class Population {
     private int asian;
     private int nativ;
     private int other;
-
-//    private Districting districting;
-//    private District district;
-//    private Precinct precinct;
-//    private CensusBlock censusBlock;
 
     @Id
     @Column(name="id")

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DistrictingGeometryProjection {
     String getId();
-    Population getPopulation();
-    List<DistrictGeometryProjection> getDistricts();
+//    Population getPopulation();
+//    List<DistrictGeometryProjection> getDistricts();
 }

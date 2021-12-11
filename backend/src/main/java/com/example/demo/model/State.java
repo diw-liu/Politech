@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.WKTReader;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
@@ -22,14 +23,14 @@ public class State {
     private Districting current;
     private Districting redistricted;
     private String geometryString;
-    private Polygon geometry;
+    private Geometry geometry;
+
+    private Population population;
+    private VotingAgePopulation vap;
+    private Election election;
 
     private List<Districting> districtings;
     private List<BoxAndWhisker> plots;
-
-//    private Population population;
-//    private VotingAgePopulation vap;
-//    private Election election;
 
     @Id
     @Column(name="id")
@@ -44,9 +45,8 @@ public class State {
         this.name = name;
     }
 
-//    @OneToOne(cascade=CascadeType.ALL)
-//    @JoinColumn(name="enactedId")
-    @Transient
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="enactedId")
     public Districting getEnacted() { return this.enacted; }
     public void setEnacted(Districting e) {
         this.enacted = e;
@@ -70,11 +70,26 @@ public class State {
         this.geometryString = p;
     }
 
+    @OneToOne
+    @JoinColumn(name="populationId")
+    public Population getPopulation() { return this.population; }
+    public void setPopulation(Population p) { population = p; }
+
+    @OneToOne
+    @JoinColumn(name="vapId")
+    public VotingAgePopulation getVap() { return vap; }
+    public void setVap(VotingAgePopulation vap) { this.vap = vap; }
+
+    @OneToOne
+    @JoinColumn(name="electionId")
+    public Election getElection() { return election; }
+    public void setElection(Election e) { election = e; }
+
     @Transient
     @JsonSerialize(using = GeometrySerializer.class)
     @JsonDeserialize(contentUsing = GeometryDeserializer.class)
-    public Polygon getGeometry() { return geometry; }
-    public void setGeometry(Polygon p) { geometry = p; }
+    public Geometry getGeometry() { return geometry; }
+    public void setGeometry(Geometry p) { geometry = p; }
 
     @OneToMany(mappedBy="state", cascade=CascadeType.ALL)
     @JsonManagedReference
@@ -87,14 +102,14 @@ public class State {
     public List<BoxAndWhisker> getPlots() { return plots; }
     public void setPlots(List<BoxAndWhisker> p) { plots = p; }
 
-    public Polygon convertStringToPolygon() {
+    public Geometry convertStringToGeometry() {
         try {
             WKTReader reader = new WKTReader();
-            Polygon p = (Polygon) reader.read(this.getGeometryString());
+            Geometry p = reader.read(this.getGeometryString());
             this.setGeometry(p);
             return p;
         } catch (Exception e){
-            System.out.println("Error reading Precinct LONGTEXT to Polygon using JTS");
+            System.out.println("Error reading State LONGTEXT to Geometry using JTS");
             return null;
         }
     }

@@ -11,6 +11,7 @@ import java.util.Set;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -29,7 +30,7 @@ public class District {
     private Election election;
     private String cd;
 
-    private Polygon geometry;
+    private Geometry geometry;
 
     private Set<District> neighbors;
     private Set<Precinct> borderPrecincts;
@@ -78,31 +79,30 @@ public class District {
     public Set<Precinct> getPrecincts() { return this.borderPrecincts; }
     public void setPrecincts(Set<Precinct> precincts) { this.borderPrecincts = precincts; }
 
-//    @OneToMany(mappedBy = "id")
     @ManyToMany
     @JoinTable(
             name="DistrictNeighbors",
             joinColumns = @JoinColumn(name="districtId"),
             inverseJoinColumns = @JoinColumn(name="neighborId")
     )
-//    @JsonBackReference
+    @JsonIgnore
     public Set<District> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<District> n) { neighbors = n; }
 
     @Transient
     @JsonSerialize(using = GeometrySerializer.class)
     @JsonDeserialize(contentUsing = GeometryDeserializer.class)
-    public Polygon getGeometry() { return geometry; }
-    public void setGeometry(Polygon p) { geometry = p; }
+    public Geometry getGeometry() { return geometry; }
+    public void setGeometry(Geometry p) { geometry = p; }
 
-    public Polygon convertStringToPolygon() {
+    public Geometry convertStringToGeometry() {
         try {
             WKTReader reader = new WKTReader();
-            Polygon p = (Polygon) reader.read(this.getGeometryString());
+            Geometry p = reader.read(this.getGeometryString());
             this.setGeometry(p);
             return p;
         } catch (Exception e){
-            System.out.println("Error reading Precinct LONGTEXT to Polygon using JTS");
+            System.out.println("Error reading District LONGTEXT to Polygon using JTS");
             return null;
         }
     }

@@ -3,6 +3,7 @@ package com.example.demo.model;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -26,19 +27,14 @@ public class Precinct {
     private VotingAgePopulation vap;
     private Election election;
 
-    private Boolean hasChanged;
+    private boolean hasChanged = false;
     private District parentDistrict;
-    private Polygon geometry;
+    private Geometry geometry;
 
     private Set<Precinct> neighbors;
     private Set<CensusBlock> censusBlocks;
     private Set<CensusBlock> borderBlocks; // border census blocks are blocks that are borders of the DISTRICT
     private District district;
-
-//    private String districtId;
-
-//    private List<Population> populations;
-//    private List<Election> elections;
 
     @Id
     @Column(name="id")
@@ -70,7 +66,7 @@ public class Precinct {
             joinColumns = @JoinColumn(name="precinctId"),
             inverseJoinColumns = @JoinColumn(name="neighborId")
     )
-    @JsonBackReference
+    @JsonIgnore
     public Set<Precinct> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<Precinct> n) { neighbors = n; }
 
@@ -94,15 +90,6 @@ public class Precinct {
     public Set<CensusBlock> getBorderBlocks() { return borderBlocks; }
     public void setBorderBlocks(Set<CensusBlock> n) { borderBlocks = n; }
 
-//    @OneToMany
-//    @JoinTable(
-//            name="PrecinctPopulations",
-//            joinColumns = @JoinColumn(name="precinctId"),
-//            inverseJoinColumns = @JoinColumn(name="populationId")
-//    )
-//    public List<Population> getPopulations() { return this.populations; }
-//    public void setPopulations(List<Population> p) { populations = p; }
-
     @Transient
     public District getParentDistrict() { return parentDistrict; }
     public void setParentDistrict(District d) { parentDistrict = d; }
@@ -114,13 +101,13 @@ public class Precinct {
     @Transient
     @JsonSerialize(using = GeometrySerializer.class)
     @JsonDeserialize(contentUsing = GeometryDeserializer.class)
-    public Polygon getGeometry() { return geometry; }
-    public void setGeometry(Polygon p) { geometry = p; }
+    public Geometry getGeometry() { return geometry; }
+    public void setGeometry(Geometry p) { geometry = p; }
 
-    public Polygon convertStringToPolygon() {
+    public Geometry convertStringToGeometry() {
         try {
             WKTReader reader = new WKTReader();
-            Polygon p = (Polygon) reader.read(this.getGeometryString());
+            Geometry p = reader.read(this.getGeometryString());
             this.setGeometry(p);
             return p;
         } catch (Exception e){
@@ -129,30 +116,9 @@ public class Precinct {
         }
     }
 
-//    @ManyToOne(fetch=FetchType.EAGER)
-//    @JoinColumn(name="districtId")
-//    @Column(name="districtId")
-//    public String getDistrictId() {return districtId;}
-//    public void setDistrictId(String d) { districtId = d; }
-
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="districtId")
     @JsonBackReference
     public District getDistrict() { return district; }
     public void setDistrict(District d) { district = d; }
-
-
-//    @OneToMany
-//    @JoinTable(
-//            name="PrecinctElections",
-//            joinColumns = @JoinColumn(name="precinctId"),
-//            inverseJoinColumns = @JoinColumn(name="electionId")
-//    )
-//    public List<Election> getElections() { return this.elections; }
-//    public void setElections(List<Election> e) { elections = e; }
-
-//    //TODO
-//    public void changeBoundary(Polygon blockGeometry){
-//
-//    }
 }

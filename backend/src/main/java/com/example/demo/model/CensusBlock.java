@@ -9,6 +9,7 @@ import java.util.Set;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.locationtech.jts.geom.*;
@@ -27,7 +28,7 @@ public class CensusBlock {
 
     private Precinct parentPrecinct;
     private District parentDistrict;
-    private Polygon geometry;
+    private Geometry geometry;
     private boolean border;
 
     private Set<CensusBlock> neighbors;
@@ -49,7 +50,7 @@ public class CensusBlock {
             joinColumns = @JoinColumn(name="blockId"),
             inverseJoinColumns = @JoinColumn(name="neighborId")
     )
-    @JsonBackReference
+    @JsonIgnore
     public Set<CensusBlock> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<CensusBlock> n) { neighbors = n; }
 
@@ -72,7 +73,6 @@ public class CensusBlock {
     public Election getElection() { return election; }
     public void setElection(Election e) { election = e; }
 
-//    @Column(name="borderStatus")
     @Transient
     public boolean getBorder() { return border; }
     public void setBorder(boolean b) { border = b; }
@@ -88,17 +88,17 @@ public class CensusBlock {
     @Transient
     @JsonSerialize(using = GeometrySerializer.class)
     @JsonDeserialize(contentUsing = GeometryDeserializer.class)
-    public Polygon getGeometry() { return geometry; }
-    public void setGeometry(Polygon p) { geometry = p; }
+    public Geometry getGeometry() { return geometry; }
+    public void setGeometry(Geometry p) { geometry = p; }
 
-    public Polygon convertStringToPolygon() {
+    public Geometry convertStringToGeometry() {
         try {
             WKTReader reader = new WKTReader();
-            Polygon p = (Polygon) reader.read(this.getGeometryString());
+            Geometry p = reader.read(this.getGeometryString());
             this.setGeometry(p);
             return p;
         } catch (Exception e){
-            System.out.println("Error reading Census Block LONGTEXT to Polygon using JTS");
+            System.out.println("Error reading Census Blocks LONGTEXT to Polygon using JTS");
             return null;
         }
     }
