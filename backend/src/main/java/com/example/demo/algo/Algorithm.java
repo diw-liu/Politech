@@ -38,6 +38,9 @@ public class Algorithm {
    public void setStatus(int status) {
        this.status = status;
    }
+   public void setRedistricting(Districting redistricting) {
+        this.redistricting = redistricting;
+    }  
 
    public boolean runAlgorithm() {
        District takenFrom = redistricting.selectRandomDistricts();

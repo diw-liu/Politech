@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.algo.*;
 import com.example.demo.enums.*;
+import com.example.demo.model.State;
 import com.example.demo.services.JobService;
 
 import org.apache.commons.io.IOUtils;
@@ -28,7 +29,8 @@ class JobController{
     }
 
     @PostMapping("/startJob")
-    public Status startJob(){
-        return jobService.startJob();
+    public Status startJob(@RequestParam String StateName){
+        State state = (State) session.getAttribute("state");
+        return jobService.startJob(State);
     }
 }
