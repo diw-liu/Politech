@@ -12,6 +12,8 @@ import java.util.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -21,7 +23,7 @@ import com.example.demo.projections.DistrictGeometryProjection;
 import com.example.demo.projections.StateDisplayProjection;
 import com.example.demo.projections.StatePopulationProjection;
 import com.example.demo.repositories.*;
-import org.apache.commons.io.IOUtils;;
+import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,14 +103,22 @@ class MapController{
 
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody State getStateByName(@RequestParam String name) {
+    public @ResponseBody State getStateByName(@RequestParam String name, HttpServletRequest request) {
         State selected = stateRepository.findByName(name, State.class);
-//        selected.convertStringToPolygon();
-//        GeoJSONWriter writer = new GeoJSONWriter();
-//        GeoJSON json = writer.write(selected.getGeometry());
-//        String jsonString = json.toString();
-//        System.out.println(selected.getDistrictings().get(0));
+        // selected.convertStringToPolygon();
+        // GeoJSONWriter writer = new GeoJSONWriter();
+        // GeoJSON json = writer.write(selected.getGeometry());
+        // String jsonString = json.toString();
+        HttpSession session = request.getSession();
+        session.setAttribute("stateSession", selected);
         return selected;
+    }
+
+    @GetMapping("/testSession")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody State getSession(HttpSession session) {
+        State state = (State) session.getAttribute("stateSession");
+        return state;
     }
 
     @GetMapping("/all")
