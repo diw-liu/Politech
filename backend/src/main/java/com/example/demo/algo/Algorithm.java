@@ -29,7 +29,7 @@ public class Algorithm {
     }
 
     public boolean runAlgorithm() {
-        District takenFrom = redistricting.selectRandomDistricts();
+        District takenFrom = redistricting.selectRandomDistrict();
         CensusBlock toGive = getBorderCensusBlock(takenFrom);
         District givenTo = toGive.getParentDistrict();
         ptGivenTo = toGive.getParentPrecinct();

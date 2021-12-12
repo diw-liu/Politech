@@ -13,6 +13,7 @@ import java.util.Random;
 public class Districting {
     private String id;
     private State state;
+    private Measures measures;
     private List<District> districts;
 
     @Id
@@ -25,6 +26,11 @@ public class Districting {
     @JsonBackReference
     public State getState() { return this.state; }
     public void setState(State s) { this.state = s; }
+
+    @OneToOne(mappedBy = "districting")
+    public Measures getMeasures() { return measures; }
+    public void setMeasures(Measures m) { measures = m; }
+
 
     @OneToMany(mappedBy="districting")
     @JsonManagedReference
