@@ -76,8 +76,8 @@ public class District {
             inverseJoinColumns = @JoinColumn(name="borderPrecinctId")
     )
     @JsonManagedReference
-    public Set<Precinct> getPrecincts() { return this.borderPrecincts; }
-    public void setPrecincts(Set<Precinct> precincts) { this.borderPrecincts = precincts; }
+    public Set<Precinct> getBorderPrecincts() { return this.borderPrecincts; }
+    public void setBorderPrecincts(Set<Precinct> precincts) { this.borderPrecincts = precincts; }
 
     @ManyToMany
     @JoinTable(
@@ -107,13 +107,18 @@ public class District {
         }
     }
 
-    //TODO
-//    public CensusBlock selectRandomCensusBlock(){
-//        int size = this.censusBlocks.size();
-//        Random rand = new Random();
-//        return censusBlocks.get(rand.nextInt(size));
-//    }
-
+    public Precinct selectRandomBorderPrecinct(){
+        Random rand = new Random();
+        int index = rand.nextInt(borderPrecincts.size());
+        int i = 0;
+        for(Precinct p : borderPrecincts)
+        {
+            if (i == index)
+                return p;
+            i++;
+        }
+        return null;
+    }
 
     //TODO
 //    public void giveBlock(District givenTo, CensusBlock toGive){

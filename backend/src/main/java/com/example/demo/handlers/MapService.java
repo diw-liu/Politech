@@ -24,4 +24,6 @@ public class MapService {
     public StateSummaryProjection getStateByName(String name) {
         return stateRepository.findByName(name, StateSummaryProjection.class);
     }
+
+
 }

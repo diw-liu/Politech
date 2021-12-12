@@ -98,7 +98,7 @@ public class CensusBlock {
             this.setGeometry(p);
             return p;
         } catch (Exception e){
-            System.out.println("Error reading Census Blocks LONGTEXT to Polygon using JTS");
+            System.out.println("Error reading Census Blocks LONGTEXT to Geometry using JTS");
             return null;
         }
     }

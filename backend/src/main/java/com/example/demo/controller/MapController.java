@@ -15,7 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.example.demo.model.*;
-import com.example.demo.projections.StateDisplayProjection;
 import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.*;
 import org.locationtech.jts.geom.Geometry;
@@ -88,6 +87,7 @@ class MapController{
         StateSummaryProjection ssp = mapService.getStateByName(name);
         HttpSession session = request.getSession();
         session.setAttribute("state", ssp.getName());
+        session.setAttribute("selected", null); // selected refers to selected plan
         return ssp;
     }
 
@@ -100,14 +100,6 @@ class MapController{
 ////        return statePopulationResponse.get();
 //    }
 
-
-
-//    @GetMapping("/testSession")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public @ResponseBody String getSession(HttpSession session) {
-//        String state = (String) session.getAttribute("state");
-//        return state;
-//    }
 
     @GetMapping("/all")
     @Produces({MediaType.APPLICATION_JSON})
@@ -135,23 +127,6 @@ class MapController{
         return result;
     }
 
-    @GetMapping("/voting")
-    @Produces({MediaType.APPLICATION_JSON})
-    @ResponseBody public String getVoting() throws FileNotFoundException, IOException, ParseException{
-
-        String dir = "src/main/Data/MDvoting.json";
-        String result = new String(Files.readAllBytes(Paths.get(dir)));
-        return result;
-    }
-
-//    @GetMapping("/demographic")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    @ResponseBody public String getDemographic() throws FileNotFoundException, IOException, ParseException{
-//        String dir = "src/main/Data/mockPop.json";
-//        String result = new String(Files.readAllBytes(Paths.get(dir)));
-//        return result;
-//    }
-
     @GetMapping("/plotPoints")
     @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody String getBoxPoints() throws FileNotFoundException, IOException, ParseException{
@@ -176,12 +151,6 @@ class MapController{
         }
         return result;
     }
-
-//    @GetMapping("/cbAll")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public @ResponseBody CensusBlock[] getCensusBlock() {
-//
-//    }
 
     @GetMapping("/cb")
     @Produces({MediaType.APPLICATION_JSON})
@@ -220,7 +189,6 @@ class MapController{
 //            e.printStackTrace();
 //        }
 //        return "Gotten";
-
     }
 
     @GetMapping("/shape")
@@ -245,7 +213,6 @@ class MapController{
 //        GeoJSON json = writer.write(s.getGeometry());
         GeoJSON json = writer.write(test);
         String jsonstring = json.toString();
-
         return json;
     }
 }

@@ -13,6 +13,7 @@ import javax.persistence.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.locationtech.jts.geom.*;
@@ -123,8 +124,21 @@ public class Precinct {
             this.setGeometry(p);
             return p;
         } catch (Exception e){
-            System.out.println("Error reading Precinct LONGTEXT to Polygon using JTS");
+            System.out.println("Error reading Precinct LONGTEXT to Geometry using JTS");
             return null;
         }
+    }
+
+    public CensusBlock selectRandomBorderCensusBlock(){
+        Random rand = new Random();
+        int index = rand.nextInt(borderBlocks.size());
+        int i = 0;
+        for(CensusBlock cb : borderBlocks)
+        {
+            if (i == index)
+                return cb;
+            i++;
+        }
+        return null;
     }
 }
