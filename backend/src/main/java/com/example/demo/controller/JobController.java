@@ -2,8 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.algo.*;
 import com.example.demo.enums.*;
+import com.example.demo.handlers.JobService;
 import com.example.demo.model.State;
-import com.example.demo.services.JobService;
 
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
@@ -29,8 +29,11 @@ class JobController{
     }
 
     @PostMapping("/startJob")
-    public Status startJob(@RequestParam String StateName){
+    public Status startJob(@RequestParam String StateName, HttpSession session){
         State state = (State) session.getAttribute("state");
-        return jobService.startJob(State);
+        Constraints constraints;
+        return jobService.startJob(state, constraints);
     }
+
+
 }
