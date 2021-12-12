@@ -120,6 +120,15 @@ public class District {
         return null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) { return false; }
+        if (o == this) { return true; }
+        if (getClass() != o.getClass()) { return false; }
+        final District other = (District) o;
+        return this.id.equals(other.getId());
+    }
+
     //TODO
 //    public void giveBlock(District givenTo, CensusBlock toGive){
 //

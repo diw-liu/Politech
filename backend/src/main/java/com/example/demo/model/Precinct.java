@@ -40,8 +40,8 @@ public class Precinct {
 
     @Id
     @Column(name="id")
-    public String getPrecinctId() { return id; }
-    public void setPrecinctId(String id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     @Column(name="geometry", columnDefinition = "LONGTEXT")
     public String getGeometryString() { return geometryString; }
@@ -140,5 +140,14 @@ public class Precinct {
             i++;
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) { return false; }
+        if (o == this) { return true; }
+        if (getClass() != o.getClass()) { return false; }
+        final Precinct other = (Precinct) o;
+        return this.id.equals(other.getId());
     }
 }

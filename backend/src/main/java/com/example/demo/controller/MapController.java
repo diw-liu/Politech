@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.example.demo.model.*;
+import com.example.demo.projections.data.DistrictingDataProjection;
 import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.*;
 import org.locationtech.jts.geom.Geometry;
@@ -80,25 +81,48 @@ class MapController{
         return result;
     }
 
-    // COMPLETED
+    // COMPLETED - gives client the state and enacted districts pop + vap + elec info
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
-        StateSummaryProjection ssp = mapService.getStateByName(name);
+        StateSummaryProjection ssp = mapService.fetchStateByName(name);
         HttpSession session = request.getSession();
         session.setAttribute("state", ssp.getName());
         session.setAttribute("selected", null); // selected refers to selected plan
         return ssp;
     }
 
-//    @GetMapping("/population")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public @ResponseBody
-//    StateSummaryProjection getStatePopulationByName(@RequestParam String name) {
-//        return stateRepository.findByName(name, StateSummaryProjection.class);
-////        Optional<StatePopulationProjection> statePopulationResponse = stateRepository.findById(id, StatePopulationProjection.class);
-////        return statePopulationResponse.get();
-//    }
+    @GetMapping("/selectplan")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public DistrictingDataProjection getPlanSummary(@RequestParam String id, HttpServletRequest request) {
+        DistrictingDataProjection ddp = mapService.fetchPlanSummary(id);
+        HashMap<String, District> selectedDistricts = new HashMap<>();
+        HashMap<String, Precinct> selectedPrecincts = new HashMap<>();
+
+        for (DistrictingDataProjection.DistrictData d : ddp.getDistricts()) {
+            District partialD = new District();
+            partialD.setId(d.getId());
+            partialD.setCd(d.getCd());
+            partialD.setElection(d.getElection());
+            partialD.setPopulation(d.getPopulation());
+            partialD.setVap(d.getVap());
+            partialD.setGeometryString(d.getGeometryString());
+            Set<Precinct> bp = new HashSet<>();
+            for (DistrictingDataProjection.PrecinctBones p : d.getBorderPrecincts()) {
+                Precinct partialP = new Precinct();
+                partialP.setId(p.getId());
+                bp.add(partialP);
+                selectedPrecincts.put(partialP.getId(), partialP);
+            }
+            partialD.setBorderPrecincts(bp);
+            selectedDistricts.put(partialD.getId(), partialD);
+        }
+        HttpSession session = request.getSession();
+        session.setAttribute("selectedDistricts", selectedDistricts);
+        session.setAttribute("selectedPrecincts", selectedPrecincts);
+        return null;
+    }
 
 
     @GetMapping("/all")

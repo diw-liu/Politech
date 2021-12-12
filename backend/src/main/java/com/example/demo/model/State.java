@@ -113,4 +113,13 @@ public class State {
             return null;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) { return false; }
+        if (o == this) { return true; }
+        if (getClass() != o.getClass()) { return false; }
+        final State other = (State) o;
+        return this.id.equals(other.getId());
+    }
 }

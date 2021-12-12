@@ -3,9 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.model.CensusBlock;
 import com.example.demo.model.District;
 import com.example.demo.model.Precinct;
-import com.example.demo.repositories.CensusBlockRepository;
-import com.example.demo.repositories.DistrictRepository;
-import com.example.demo.repositories.PrecinctRepository;
+import com.example.demo.model.State;
+import com.example.demo.projections.data.DistrictingDataProjection;
+import com.example.demo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +16,15 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 public class TestController {
+    @Autowired
+    StateRepository stateRepository;
+    @Autowired
+    DistrictingRepository districtingRepository;
     @Autowired
     DistrictRepository districtRepository;
     @Autowired
@@ -32,6 +37,14 @@ public class TestController {
     public @ResponseBody String getSession(HttpSession session) {
         String state = (String) session.getAttribute("state");
         return state;
+    }
+
+    @GetMapping("/planTest")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody DistrictingDataProjection getPlan(@RequestParam String id) {
+        Optional<DistrictingDataProjection> d = districtingRepository.findById(id, DistrictingDataProjection.class);
+        DistrictingDataProjection d2 = d.get();
+        return d2;
     }
 
     @GetMapping("/district")

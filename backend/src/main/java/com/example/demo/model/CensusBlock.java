@@ -103,35 +103,14 @@ public class CensusBlock {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) { return false; }
+        if (o == this) { return true; }
+        if (getClass() != o.getClass()) { return false; }
+        final CensusBlock other = (CensusBlock) o;
+        return this.id.equals(other.getId());
+    }
 
     //TODO
     // public CensusBlock findDistrictNeighbor(District d){

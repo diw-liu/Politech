@@ -47,4 +47,13 @@ public class Districting {
         Random rand = new Random();
         return districts.get(rand.nextInt(size));
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) { return false; }
+        if (o == this) { return true; }
+        if (getClass() != o.getClass()) { return false; }
+        final Districting other = (Districting) o;
+        return this.id.equals(other.getId());
+    }
 }
