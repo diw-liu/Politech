@@ -8,6 +8,9 @@ import com.example.demo.model.Districting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Service
 public class JobService {
     Status status;
@@ -22,19 +25,37 @@ public class JobService {
         this.status = Status.IDLE;
     }
 
-    public Status startJob(State state, Constraints constraints){
+    public Status startJob(State state, Constraints constraints, HttpSession session){
         if(status != Status.IDLE) {
             return Status.FAILED;
         }
         setstate(state);
         algorithm = new Algorithm(state.getRedistricted(), constraints);
         setStatus(Status.PROCESSING);
-        startAlgorithm();
+        startAlgorithm(session);
         return getStatus();
     }
 
-    public void startAlgorithm() {
-        while (algorithm.getAlgorithmCycles() < cyclesThreshold) {
+    public Status pauseJob(){
+        status = Status.PAUSE;
+        return getStatus();
+    }
+
+    public Status resumeJob(HttpSession session){
+        status = Status.PROCESSING;
+        startAlgorithm(session);
+        return getStatus();
+    }
+
+    public Status stopJob(HttpSession session){
+        status = Status.IDLE;
+        algorithm.setAlgorithmCycles(0);  // reset the algorithmCycles to 0
+        terminateAlgorithm(session);
+        return getStatus();
+    }
+
+    public void startAlgorithm(HttpSession session) {
+        while (algorithm.getAlgorithmCycles() < cyclesThreshold && status == Status.PROCESSING) {
             boolean success = algorithm.runAlgorithm();
             if(success == false){
                 failedAttempts++;
@@ -44,20 +65,24 @@ public class JobService {
                 AlgorithmSummary algorithmSummary = new AlgorithmSummary();
                 algorithmSummary.setAlgorithmCycles(algorithm.getAlgorithmCycles());
                 algorithmSummary.setMeasures(algorithm.getRedistricting().getMeasures());
-                // send algorithmSummary to the client
+                session.setAttribute("summary", algorithmSummary);  // send algorithmSummary to the client
+            }
+            if(status != Status.PROCESSING) {
+                System.out.print("stop or pause successfully");  // notify client stop or pause successfully
+                
             }
             if(failedAttempts >= attemptsThreshold){
                 break;
             }
         }
-        terminateAlgorithm();
+        terminateAlgorithm(session);
     }
-    public void terminateAlgorithm() {
+    public void terminateAlgorithm(HttpSession session) {
         AlgorithmResult algorithmResult = new AlgorithmResult();
         algorithmResult.setAlgorithmCycles(algorithm.getAlgorithmCycles());
         algorithmResult.setMeasures(algorithm.getRedistricting().getMeasures());
         algorithmResult.setUpdatedRedistricting(algorithm.getRedistricting());
-        // send algorithmResult to the client
+        session.setAttribute("result", algorithmResult);  // send algorithmResult to the client
     }
     public boolean checkThresholds(int algorithmCycles) {
         return false;

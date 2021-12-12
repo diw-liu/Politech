@@ -30,9 +30,36 @@ class JobController{
 
     @PostMapping("/startJob")
     public Status startJob(@RequestParam String StateName, HttpSession session){
-        State state = (State) session.getAttribute("state");
+        State state = (State) session.getAttribute(StateName);
         Constraints constraints = new Constraints();
-        return jobService.startJob(state, constraints);
+        return jobService.startJob(state, constraints, session);
+    }
+
+    @GetMapping("/summary")
+    public AlgorithmSummary getSummary(HttpSession session){
+        AlgorithmSummary algorithmSummary = (AlgorithmSummary) session.getAttribute("summary");
+        return algorithmSummary;
+    }
+
+    @GetMapping("/result")
+    public AlgorithmResult getResult(HttpSession session){
+        AlgorithmResult algorithmResult = (AlgorithmResult) session.getAttribute("result");
+        return algorithmResult;
+    }
+
+    @PostMapping("/pauseJob")
+    public Status pauseJob(){
+        return jobService.pauseJob();
+    }
+
+    @PostMapping("/resumeJob")
+    public Status resumeJob(HttpSession session){
+        return jobService.resumeJob(session);
+    }
+
+    @PostMapping("/stopJob")
+    public Status stopJob(@RequestParam String StateName){
+        return jobService.getStatus();
     }
 
 
