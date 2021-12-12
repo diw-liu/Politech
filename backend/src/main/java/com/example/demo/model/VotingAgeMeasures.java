@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,6 +23,7 @@ public class VotingAgeMeasures {
 
     @OneToOne
     @JoinColumn(name="districtingId")
+//    @JsonBackReference
     public Districting getDistricting() { return districting; }
     public void setDistricting(Districting d) { districting = d; }
 

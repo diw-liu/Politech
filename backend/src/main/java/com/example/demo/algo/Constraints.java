@@ -2,33 +2,32 @@ package com.example.demo.algo;
 
 public class Constraints {
     double populationEquality;
-    double efficiencyGap;
-    double graphCompactness;
-    int opportunityDistricts;
+    int lowerOpportunity;
+    int higherOpportunity;
+
+    public Constraints(double populationEquality, int lowerOpportunity, int higherOpportunity) {
+        this.populationEquality = populationEquality;
+        this.lowerOpportunity = lowerOpportunity;
+        this.higherOpportunity = higherOpportunity;
+    }
 
     public double getPopulationEquality() {
         return this.populationEquality;
     }
-    public double getEfficiencyGap() {
-        return this.efficiencyGap;
+    public int getLowerOpportunity() {
+        return this.lowerOpportunity;
     }
-    public double getGraphCompactness() {
-        return this.graphCompactness;
-    }
-    public int getOpportunityDistricts() {
-        return this.opportunityDistricts;
+    public int getHigherOpportunity() {
+        return higherOpportunity;
     }
 
     public void setPopulationEquality(double populationEquality) {
         this.populationEquality = populationEquality;
     }
-    public void setEfficiencyGap(double efficiencyGap) {
-        this.efficiencyGap = efficiencyGap;
+    public void setLowerOpportunity(int opportunityDistricts) {
+        this.lowerOpportunity = opportunityDistricts;
     }
-    public void setGraphCompactness(double graphCompactness) {
-        this.graphCompactness = graphCompactness;
-    }
-    public void setOpportunityDistricts(int opportunityDistricts) {
-        this.opportunityDistricts = opportunityDistricts;
+    public void setHigherOpportunity(int d) {
+        higherOpportunity = d;
     }
 }

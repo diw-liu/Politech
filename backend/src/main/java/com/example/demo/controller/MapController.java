@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Produces;
@@ -62,6 +63,11 @@ class MapController{
         "MI", "michigan.json",
         "PA", "pennsylvania.json"
         );
+    Map<String, String> STATE = Map.of(
+            "MD", "24",
+            "MI", "26",
+            "PA", "42"
+    );
 
     @GetMapping("/{stateName}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -87,10 +93,18 @@ class MapController{
     public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
         StateSummaryProjection ssp = mapService.fetchStateByName(name);
         HttpSession session = request.getSession();
-        session.setAttribute("state", ssp.getName());
-        session.setAttribute("selected", null); // selected refers to selected plan
+        session.setAttribute("state", ssp);
         return ssp;
     }
+
+    // TODO - check if this is necessary since we should have just gotten that in the /state now
+//    @GetMapping("/plans")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @ResponseBody
+//    public String getPlans(HttpServletRequest request) {
+////        String
+//        return null;
+//    }
 
     @GetMapping("/selectplan")
     @Produces(MediaType.APPLICATION_JSON)
@@ -108,6 +122,7 @@ class MapController{
             partialD.setPopulation(d.getPopulation());
             partialD.setVap(d.getVap());
             partialD.setGeometryString(d.getGeometryString());
+            partialD.convertStringToGeometry();
             Set<Precinct> bp = new HashSet<>();
             for (DistrictingDataProjection.PrecinctBones p : d.getBorderPrecincts()) {
                 Precinct partialP = new Precinct();
@@ -119,9 +134,10 @@ class MapController{
             selectedDistricts.put(partialD.getId(), partialD);
         }
         HttpSession session = request.getSession();
+        session.setAttribute("selected", ddp); // selected plan part
         session.setAttribute("selectedDistricts", selectedDistricts);
         session.setAttribute("selectedPrecincts", selectedPrecincts);
-        return null;
+        return ddp; // TODO - change this later to be something else
     }
 
 

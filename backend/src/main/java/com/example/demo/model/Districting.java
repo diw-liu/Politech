@@ -14,6 +14,7 @@ public class Districting {
     private String id;
     private State state;
     private Measures measures;
+    private VotingAgeMeasures vam;
     private List<District> districts;
 
     @Id
@@ -28,8 +29,14 @@ public class Districting {
     public void setState(State s) { this.state = s; }
 
     @OneToOne(mappedBy = "districting")
+//    @JsonManagedReference
     public Measures getMeasures() { return measures; }
     public void setMeasures(Measures m) { measures = m; }
+
+    @OneToOne(mappedBy = "districting")
+//    @JsonManagedReference
+    public VotingAgeMeasures getVam() { return vam; }
+    public void setVam(VotingAgeMeasures m) { vam = m; }
 
 
     @OneToMany(mappedBy="districting")

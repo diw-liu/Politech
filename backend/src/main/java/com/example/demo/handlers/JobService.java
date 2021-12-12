@@ -26,7 +26,7 @@ public class JobService {
         this.status = Status.IDLE;
     }
 
-    public Status startJob(State state, Constraints constraints, HttpSession session){
+    public Status startJob(Constraints constraints, HttpSession session){
         if(status != Status.IDLE) {
             return Status.FAILED;
         }

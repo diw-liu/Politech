@@ -1,10 +1,4 @@
-package com.example.demo.projections;
-
-import com.example.demo.model.Districting;
-import com.example.demo.model.Election;
-import com.example.demo.model.Population;
-
-import java.util.List;
+package com.example.demo.projections.testing;
 
 public interface StateDisplayProjection {
     String getId();

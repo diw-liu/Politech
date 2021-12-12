@@ -1,8 +1,5 @@
-package com.example.demo.projections;
+package com.example.demo.projections.testing;
 
-import com.example.demo.model.Precinct;
-
-import java.awt.*;
 import java.util.List;
 
 public interface DistrictGeometryProjection {

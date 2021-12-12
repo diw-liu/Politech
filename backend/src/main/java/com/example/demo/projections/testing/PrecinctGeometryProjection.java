@@ -1,4 +1,4 @@
-package com.example.demo.projections;
+package com.example.demo.projections.testing;
 
 import com.example.demo.model.CensusBlock;
 import com.example.demo.model.District;

@@ -29,10 +29,14 @@ class JobController{
     }
 
     @PostMapping("/startJob")
-    public Status startJob(@RequestParam String StateName, HttpSession session){
-        State state = (State) session.getAttribute(StateName); // get state from session
-        Constraints constraints = new Constraints();
-        return jobService.startJob(state, constraints, session);
+    public Status startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, HttpServletRequest request){
+//        State state = (State) session.getAttribute(StateName); // get state from session
+        Constraints constraints = new Constraints(goal, lower, higher);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("constraints", constraints);
+//        return jobService.startJob(state, constraints, session);
+        return null;
     }
 
     @GetMapping("/summary")
@@ -61,6 +65,5 @@ class JobController{
     public Status stopJob(@RequestParam String StateName){
         return jobService.getStatus();
     }
-
 
 }
