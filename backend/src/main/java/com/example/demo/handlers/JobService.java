@@ -16,6 +16,7 @@ public class JobService {
     Status status;
     State state;
     Algorithm algorithm;
+    boolean algoRunnningLock;
     int cyclesThreshold = 1000;
     int attemptsThreshold = 5;
     int failedAttempts = 0;
@@ -43,6 +44,14 @@ public class JobService {
 
     public Status resumeJob(HttpSession session){
         status = Status.PROCESSING;
+        while(this.algoRunnningLock == true){ // wait until the current algo running is done, then start the algo running again.
+            try{
+                Thread.sleep(1000);
+            }
+            catch(InterruptedException ex){
+                Thread.currentThread().interrupt();
+            }
+        }
         startAlgorithm(session);
         return getStatus();
     }
@@ -56,6 +65,7 @@ public class JobService {
 
     public void startAlgorithm(HttpSession session) {
         while (algorithm.getAlgorithmCycles() < cyclesThreshold && status == Status.PROCESSING) {
+            this.algoRunnningLock = true; // lock the algo running, so it can't be running again until it is done.
             boolean success = algorithm.runAlgorithm();
             if(success == false){
                 failedAttempts++;
@@ -69,8 +79,8 @@ public class JobService {
             }
             if(status != Status.PROCESSING) {
                 System.out.print("stop or pause successfully");  // notify client stop or pause successfully
-                
             }
+            this.algoRunnningLock = false;
             if(failedAttempts >= attemptsThreshold){
                 break;
             }

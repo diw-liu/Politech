@@ -30,7 +30,7 @@ class JobController{
 
     @PostMapping("/startJob")
     public Status startJob(@RequestParam String StateName, HttpSession session){
-        State state = (State) session.getAttribute(StateName);
+        State state = (State) session.getAttribute(StateName); // get state from session
         Constraints constraints = new Constraints();
         return jobService.startJob(state, constraints, session);
     }
