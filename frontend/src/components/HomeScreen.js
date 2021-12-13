@@ -21,7 +21,6 @@ const HomeScreen = (props) =>{
   const [plan, setPlan] = useState(0)
   const [gen, setGen] = useState(false);
   const [saved, setSaved] = useState(false);
-
   const [all, setAll] = useState([]);
      
   useEffect(() =>{
@@ -60,19 +59,35 @@ const HomeScreen = (props) =>{
         />     
       { showInfo && (
         <div>
-          <InfoMenu stateName={stateName} plan={plan} setPlan={setPlan} setSaved={setSaved} saved={saved}/>
-          <LeftBar stateName={stateName} plan={plan} setGen={setGen} 
-                state={state} setState={setState} setSaved={setSaved} saved={saved}/>
+          <InfoMenu 
+            stateName={stateName}
+            plan={plan}
+            setPlan={setPlan}
+            setSaved={setSaved}
+            saved={saved}
+          />
+          <LeftBar
+            stateName={stateName}
+            plan={plan}
+            setGen={setGen}
+            state={state}
+            setState={setState}
+            setSaved={setSaved}
+            saved={saved}
+          />
         </div>)
       } 
       {
         gen != true ? <div></div>
                     : <div className="spinner-border spinner-border-sm text-info reset" style={{width: "15rem",height: "15rem",position: 'absolute', left: '40%', top: '40%' }}></div>
       }
-      <Map showInfo={showInfo} state={state} 
-          view={view} showClick={showClick}
-          all={all}
-          />
+      <Map
+        showInfo={showInfo}
+        state={state} 
+        view={view}
+        showClick={showClick}
+        all={all}
+      />
     </div>
     );
 }
