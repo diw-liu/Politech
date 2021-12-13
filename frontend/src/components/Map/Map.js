@@ -35,15 +35,21 @@ const Map = (props) => {
                   }
         }));
     }
-    
-    const layers = props.showInfo ?  props.state
+    let temp = []
+    props.state.forEach((element,index) => {
+        if(props.flag[index]){
+          temp.push(element)
+        }
+    });
+    console.log(temp)
+    const layers = props.showInfo ?  temp
                                   :  base
 
     return(
         <DeckGL
           initialViewState={props.view}
           controller={true}
-          layers={layers}
+          layers={props.showInfo ?  temp:  base}
           // getTooltip={({object}) => object && (object.properties.name || object.properties.station)}
         >
           <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />

@@ -4,8 +4,10 @@ import React, { useRef, useEffect, useState } from 'react';
 import '../../css/LeftBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
+
 import RedistrictMenu from './RedistrictMenu';
 import PlanStatistics from './PlanStatistics';
+// import LayerSelector from '../Map/LayerSelector';
 
 const LeftBar = (props) => {
     const [numDistricts, setNumDistricts] = useState('7')
