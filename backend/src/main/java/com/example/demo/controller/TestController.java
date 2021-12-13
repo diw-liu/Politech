@@ -1,11 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.CensusBlock;
-import com.example.demo.model.District;
-import com.example.demo.model.Precinct;
-import com.example.demo.model.State;
+import com.example.demo.model.*;
 import com.example.demo.projections.data.DistrictingDataProjection;
+import com.example.demo.projections.testing.DistrictGeometryProjection;
 import com.example.demo.repositories.*;
+import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/test")
 public class TestController {
     @Autowired
     StateRepository stateRepository;
@@ -80,6 +79,59 @@ public class TestController {
     @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody List<Object[]> getDistrictNoGeo(@RequestParam String id) {
         return districtRepository.findNoGeometryById(id);
+    }
+
+    @GetMapping("/district_union_multi")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody GeoJSON getUnionDistrict() {
+        Optional<DistrictGeometryProjection> d1resp = districtRepository.findById("24PL0D1", DistrictGeometryProjection.class);
+        Optional<DistrictGeometryProjection> d2resp = districtRepository.findById("24PL0D2", DistrictGeometryProjection.class);
+        DistrictGeometryProjection dgp1 = d1resp.get();
+        DistrictGeometryProjection dgp2 = d2resp.get();
+        District d1 = new District();
+        District d2 = new District();
+        d1.setId("24PL0D1");
+        d2.setId("24PLOD2");
+        d1.setGeometryString(dgp1.getGeometryString());
+        d2.setGeometryString(dgp2.getGeometryString());
+        d1.convertStringToGeometry();
+        d2.convertStringToGeometry();
+
+        Geometry test = d1.getGeometry().union(d2.getGeometry());
+        GeoJSONWriter writer = new GeoJSONWriter();
+        GeoJSON json = writer.write(test);
+        String jsonstring = json.toString();
+        return json;
+    }
+
+    @GetMapping("/district_geometry")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody GeoJSON getDistrictGeometry(@RequestParam String id) {
+        Optional<DistrictGeometryProjection> dgpresp = districtRepository.findById(id, DistrictGeometryProjection.class);
+        DistrictGeometryProjection dgp = dgpresp.get();
+        District d = new District();
+        d.setId(id);
+        d.setGeometryString(dgp.getGeometryString());
+        d.convertStringToGeometry();
+        GeoJSONWriter writer = new GeoJSONWriter();
+        GeoJSON json = writer.write(d.getGeometry());
+        String jsonstring = json.toString();
+        return json;
+    }
+
+    @GetMapping("/sessionChange")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody String changeSession(HttpSession session) {
+        Districting d = (Districting) session.getAttribute("selected");
+        d.setId("NOSNAONSADONSDIOSANDIODAS");
+        return d.getId();
+    }
+
+    @GetMapping("/sessionCheck")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody String checkSession(HttpSession session) {
+        Districting d = (Districting) session.getAttribute("selected");
+        return d.getId();
     }
 
     @GetMapping("/precinct")

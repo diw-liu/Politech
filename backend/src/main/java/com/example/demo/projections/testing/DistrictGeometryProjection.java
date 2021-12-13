@@ -1,10 +1,12 @@
 package com.example.demo.projections.testing;
 
+import org.locationtech.jts.geom.Geometry;
+
 import java.util.List;
 
 public interface DistrictGeometryProjection {
     String getId();
-//    Polygon getGeometry();
+    String getGeometryString();
 //    String getGeometryString();
-    List<PrecinctGeometryProjection> getPrecincts();
+//    List<PrecinctGeometryProjection> getPrecincts();
 }

@@ -1,22 +1,19 @@
 package com.example.demo.algo;
 
-import com.example.demo.model.Measures;
+import java.util.HashMap;
 
 public class AlgorithmSummary {
-    Measures measures;
-    int algorithmCycles;
+    private int iterations;
+    private HashMap<String, Integer> districtPopulations;
 
-    public Measures getMeasures() {
-        return this.measures;
-    }
-    public int getAlgorithmCycles() {
-        return this.algorithmCycles;
+    public AlgorithmSummary(HashMap<String, Integer> districtPopulations) {
+        iterations = 0;
+        this.districtPopulations = districtPopulations;
     }
 
-    public void setMeasures(Measures measures) {
-        this.measures = measures;
-    }
-    public void setAlgorithmCycles(int algorithmCycles) {
-        this.algorithmCycles = algorithmCycles;
-    }
+    public int getIterations() { return iterations; }
+    public HashMap<String, Integer> getDistrictPopulations() { return districtPopulations; }
+
+    public void setIterations(int i) { iterations = i; }
+    public void setDistrictPopulations(HashMap<String, Integer> dpop) { districtPopulations = dpop; }
 }

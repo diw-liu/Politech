@@ -29,7 +29,7 @@ public class Precinct {
     private Election election;
 
     private boolean hasChanged = false;
-    private District parentDistrict;
+//    private District parentDistrict;
     private Geometry geometry;
     private String county;
 
@@ -92,9 +92,9 @@ public class Precinct {
     public Set<CensusBlock> getBorderBlocks() { return borderBlocks; }
     public void setBorderBlocks(Set<CensusBlock> n) { borderBlocks = n; }
 
-    @Transient
-    public District getParentDistrict() { return parentDistrict; }
-    public void setParentDistrict(District d) { parentDistrict = d; }
+//    @Transient
+//    public District getParentDistrict() { return parentDistrict; }
+//    public void setParentDistrict(District d) { parentDistrict = d; }
 
     @Transient
     public Boolean getHasChanged() { return hasChanged; }
@@ -138,6 +138,20 @@ public class Precinct {
         {
             if (i == index)
                 return cb;
+            i++;
+        }
+        return null;
+    }
+
+    public Precinct selectRandomNeighbor(){
+        if (neighbors.size() == 0) { return null; }
+        Random rand = new Random();
+        int index = rand.nextInt(neighbors.size());
+        int i = 0;
+        for(Precinct p : neighbors)
+        {
+            if (i == index)
+                return p;
             i++;
         }
         return null;

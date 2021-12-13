@@ -122,6 +122,20 @@ public class District {
         return null;
     }
 
+    public District selectRandomNeighbor(){
+        if (neighbors.size() == 0) { return null; }
+        Random rand = new Random();
+        int index = rand.nextInt(neighbors.size());
+        int i = 0;
+        for(District d : neighbors)
+        {
+            if (i == index)
+                return d;
+            i++;
+        }
+        return null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null) { return false; }

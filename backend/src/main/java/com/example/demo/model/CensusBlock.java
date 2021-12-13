@@ -26,7 +26,7 @@ public class CensusBlock {
     private String geometryString;
     private Election election;
 
-    private Precinct parentPrecinct;
+//    private Precinct parentPrecinct;
     private District parentDistrict;
     private Geometry geometry;
     private boolean border;
@@ -77,9 +77,9 @@ public class CensusBlock {
     public boolean getBorder() { return border; }
     public void setBorder(boolean b) { border = b; }
 
-    @Transient
-    public Precinct getParentPrecinct() { return parentPrecinct; }
-    public void setParentPrecinct(Precinct p) { parentPrecinct = p; }
+//    @Transient
+//    public Precinct getParentPrecinct() { return parentPrecinct; }
+//    public void setParentPrecinct(Precinct p) { parentPrecinct = p; }
 
     @Transient
     public District getParentDistrict() { return parentDistrict; }

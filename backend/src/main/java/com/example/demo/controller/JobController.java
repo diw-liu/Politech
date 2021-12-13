@@ -7,6 +7,7 @@ import com.example.demo.model.District;
 import com.example.demo.model.State;
 
 import com.example.demo.projections.algorithm.DistrictNeighborsProjection;
+import com.example.demo.projections.summary.StateSummaryProjection;
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.locationtech.jts.io.WKTReader;
@@ -30,11 +31,19 @@ public class JobController {
     private JobService jobService;
 
     @GetMapping("/start")
-    public void startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, HttpServletRequest request){
+    public Status startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, @RequestParam int age, HttpServletRequest request){
         Constraints constraints = new Constraints(goal, lower, higher);
         HttpSession session = request.getSession();
         session.setAttribute("constraints", constraints);
+//        session.setAttribute("age", Age.valueOf(age));
         jobService.loadPlan(session);
-        jobService.startJob(constraints, session);
+        return jobService.startJob(constraints, Age.valueOf(age), session);
+    }
+
+    @GetMapping("/summary")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody AlgorithmSummary getSummary(HttpSession session) {
+        AlgorithmSummary summary = (AlgorithmSummary) session.getAttribute("summary");
+        return summary;
     }
 }

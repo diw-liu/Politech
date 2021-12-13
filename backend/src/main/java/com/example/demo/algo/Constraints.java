@@ -21,13 +21,13 @@ public class Constraints {
         return higherOpportunity;
     }
 
-    public void setPopulationEquality(double populationEquality) {
-        this.populationEquality = populationEquality;
-    }
-    public void setLowerOpportunity(int opportunityDistricts) {
-        this.lowerOpportunity = opportunityDistricts;
-    }
-    public void setHigherOpportunity(int d) {
-        higherOpportunity = d;
-    }
+//    public void setPopulationEquality(double populationEquality) {
+//        this.populationEquality = populationEquality;
+//    }
+//    public void setLowerOpportunity(int opportunityDistricts) {
+//        this.lowerOpportunity = opportunityDistricts;
+//    }
+//    public void setHigherOpportunity(int d) {
+//        higherOpportunity = d;
+//    }
 }
