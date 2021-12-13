@@ -7,6 +7,7 @@ import com.example.demo.model.Measures;
 import com.example.demo.model.Population;
 import com.example.demo.model.Precinct;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import org.locationtech.jts.dissolve.LineDissolver;
@@ -38,13 +39,7 @@ public class Algorithm {
         return move(totalPop);
     }
 
-    public boolean move(double totalPop) {
-        // select a random district
-        Random rand = new Random();
-        int numD = districts.size();
-        String did = dids.get(rand.nextInt(numD));
-        District toGiveD = districts.get(did);
-
+    public Precinct findPrecinctToGive(District toGiveD, Random rand) {
         // from the random district, list out all the precincts that have neighbors in different districts
         ArrayList<Precinct> validPrecincts = new ArrayList<>();
         for (Precinct candidatePrecinct : toGiveD.getBorderPrecincts()) {
@@ -60,7 +55,10 @@ public class Algorithm {
         // select the precinct randomly from the valid
         Precinct toGiveP = validPrecincts.get(rand.nextInt(validPrecincts.size()));
         System.out.println(toGiveP.getId());
+        return toGiveP;
+    }
 
+    public ArrayList<CensusBlock> findValidBlocks(Precinct toGiveP) {
         // from the random precinct, list out all the valid census blocks
         ArrayList<CensusBlock> validBlocks = new ArrayList<>();
         for (CensusBlock candidateCb : toGiveP.getBorderBlocks()) {
@@ -71,13 +69,12 @@ public class Algorithm {
                 }
             }
         }
-        System.out.println("------------------- [ ] -----------------------");
-        // select the precinct randomly from the valid
-        CensusBlock toGiveC = validBlocks.get(rand.nextInt(validBlocks.size()));
-        System.out.println(toGiveC.getId());
+        return validBlocks;
+    }
 
+    public Precinct findPrecinctToTake(CensusBlock toGiveC, Precinct toGiveP, Random rand) {
         // find a neighbor of cb to give that has a different precinct and choose that precinct to move to
-        validPrecincts.clear();
+        ArrayList<Precinct> validPrecincts = new ArrayList<>();
         for (CensusBlock neighbor : toGiveC.getNeighbors()) {
             if (!neighbor.getPrecinct().equals(toGiveP) && !validPrecincts.contains(neighbor.getPrecinct())) {
                 validPrecincts.add(neighbor.getPrecinct());
@@ -87,7 +84,29 @@ public class Algorithm {
         // select the precinct randomly from the valid
         Precinct toTakeP = validPrecincts.get(rand.nextInt(validPrecincts.size()));
         System.out.println(toTakeP.getId());
+        return toTakeP;
+    }
 
+    public boolean move(double totalPop) {
+        // select a random district
+        Random rand = new Random();
+        int numD = districts.size();
+        String did = dids.get(rand.nextInt(numD));
+        District toGiveD = districts.get(did);
+
+        Precinct toGiveP = findPrecinctToGive(toGiveD, rand);
+
+        ArrayList<CensusBlock> validBlocks = findValidBlocks(toGiveP);
+        while (validBlocks.size() == 0) {
+            toGiveP = findPrecinctToGive(toGiveD, rand);
+            validBlocks = findValidBlocks(toGiveP);
+        }
+        System.out.println("------------------- [ ] -----------------------");
+        // select the precinct randomly from the valid
+        CensusBlock toGiveC = validBlocks.get(rand.nextInt(validBlocks.size()));
+        System.out.println(toGiveC.getId());
+
+        Precinct toTakeP = findPrecinctToTake(toGiveC, toGiveP, rand);
         District toTakeD = toTakeP.getDistrict();
 
 
@@ -133,7 +152,7 @@ public class Algorithm {
 //        District toTakeD = toGiveP.getDistrict();
 
         double ideal = (totalPop / (double) districts.size());
-        // this is so stupid. it doesnt even fucking work
+        // should we try this one?
 //        double currentSS = 0;
 //        if (age == Age.TOTAL) {
 //            for (District d : districts.values()) {

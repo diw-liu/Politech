@@ -29,7 +29,7 @@ public class JobService {
     PrecinctRepository precinctRepository;
 
     private Status status;
-    final int interationThreshold = 100;
+    final int interationThreshold = 10000;
 
     public JobService(){
         this.status = Status.IDLE;

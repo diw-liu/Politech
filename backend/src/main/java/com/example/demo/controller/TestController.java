@@ -8,6 +8,8 @@ import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import org.wololo.geojson.Feature;
+import org.wololo.geojson.FeatureCollection;
 import org.wololo.geojson.GeoJSON;
 import org.wololo.jts2geojson.GeoJSONWriter;
 
@@ -15,8 +17,7 @@ import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/test")
@@ -132,6 +133,24 @@ public class TestController {
     public @ResponseBody String checkSession(HttpSession session) {
         Districting d = (Districting) session.getAttribute("selected");
         return d.getId();
+    }
+
+    @GetMapping("/getDistrictingGo")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody FeatureCollection getRedistricted(HttpSession session) {
+        Districting redistr = (Districting) session.getAttribute("selected");
+
+        List<Feature> features = new ArrayList<Feature>();
+        Map<String, Object> properties = new HashMap<String, Object>();
+
+        GeoJSONWriter writer = new GeoJSONWriter();
+
+        for (District d : redistr.getDistricts()) {
+            features.add(new Feature(writer.write(d.getGeometry()), null));
+        }
+        GeoJSONWriter writer1 = new GeoJSONWriter();
+        FeatureCollection json = writer1.write(features);
+        return json;
     }
 
     @GetMapping("/precinct")
