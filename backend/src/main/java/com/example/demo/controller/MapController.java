@@ -88,13 +88,22 @@ class MapController{
     }
 
     // COMPLETED - gives client the state and enacted districts pop + vap + elec info
+//    @GetMapping("/state")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
+//        StateSummaryProjection ssp = mapService.fetchStateByName(name);
+//        HttpSession session = request.getSession();
+//        session.setAttribute("state", ssp);
+//        return ssp;
+//    }
+
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
-        StateSummaryProjection ssp = mapService.fetchStateByName(name);
-        HttpSession session = request.getSession();
-        session.setAttribute("state", ssp);
-        return ssp;
+    public @ResponseBody State getStateByName(@RequestParam String name, HttpServletRequest request) {
+        return stateRepository.findByName(name, State.class);
+//        HttpSession session = request.getSession();
+//        session.setAttribute("state", ssp);
+//        return ssp;
     }
 
     // TODO - check if this is necessary since we should have just gotten that in the /state now
@@ -106,6 +115,7 @@ class MapController{
 //        return null;
 //    }
 
+
     @GetMapping("/selectplan")
     @Produces(MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -113,6 +123,7 @@ class MapController{
         DistrictingDataProjection ddp = mapService.fetchPlanSummary(id);
         HashMap<String, District> selectedDistricts = new HashMap<>();
         HashMap<String, Precinct> selectedPrecincts = new HashMap<>();
+        HashMap<String, HashMap<String, Precinct>> districtToPrecincts = new HashMap<>();
 
         for (DistrictingDataProjection.DistrictData d : ddp.getDistricts()) {
             District partialD = new District();
@@ -127,9 +138,11 @@ class MapController{
             for (DistrictingDataProjection.PrecinctBones p : d.getBorderPrecincts()) {
                 Precinct partialP = new Precinct();
                 partialP.setId(p.getId());
+                partialP.setDistrict(partialD);
                 bp.add(partialP);
                 selectedPrecincts.put(partialP.getId(), partialP);
             }
+            districtToPrecincts.put(partialD.getId(), selectedPrecincts);
             partialD.setBorderPrecincts(bp);
             selectedDistricts.put(partialD.getId(), partialD);
         }
@@ -137,6 +150,7 @@ class MapController{
         session.setAttribute("selected", ddp); // selected plan part
         session.setAttribute("selectedDistricts", selectedDistricts);
         session.setAttribute("selectedPrecincts", selectedPrecincts);
+        session.setAttribute("districtToPrecincts", districtToPrecincts);
         return ddp; // TODO - change this later to be something else
     }
 

@@ -48,4 +48,24 @@ public class Population {
     @Column(name="OTHER")
     public int getOther() { return other; }
     public void setOther(int other) { this.other = other; }
+
+    public void add(Population other) {
+        total += other.getTotal();
+        hispanic += other.getHispanic();
+        white += other.getWhite();
+        black += other.getBlack();
+        asian += other.getAsian();
+        nativ += other.getNativ();
+        this.other += other.getOther();
+    }
+
+    public void subtract(Population other) {
+        total -= other.getTotal();
+        hispanic -= other.getHispanic();
+        white -= other.getWhite();
+        black -= other.getBlack();
+        asian -= other.getAsian();
+        nativ -= other.getNativ();
+        this.other -= other.getOther();
+    }
 }
