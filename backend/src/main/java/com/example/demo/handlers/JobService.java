@@ -61,10 +61,10 @@ public class JobService {
         HashMap<String, Integer> districtPopulations = new HashMap<>();
 
         HashMap<String, District> dhash = new HashMap<>();
-        HashMap<String, HashMap<String, Precinct>> dToP = new HashMap<>();
+//        HashMap<String, HashMap<String, Precinct>> dToP = new HashMap<>();
 //        HashMap<String, HashMap<String, CensusBlock>> dToC = new HashMap<>();
         ArrayList<String> did = new ArrayList<>();
-        HashMap<String, ArrayList<String>> pid = new HashMap<>();
+//        HashMap<String, ArrayList<String>> pid = new HashMap<>();
 //        ArrayList<String> cid = new ArrayList<>();
 
         Districting selected = (Districting) session.getAttribute("selected");
@@ -89,8 +89,8 @@ public class JobService {
 
 //            dToC.put(d.getId(), chash);
             dhash.put(d.getId(), d);
-            dToP.put(d.getId(), phash);
-            pid.put(d.getId(), pidTemp);
+//            dToP.put(d.getId(), phash);
+//            pid.put(d.getId(), pidTemp);
             did.add(d.getId());
             if (age == Age.TOTAL) {
                 districtPopulations.put(d.getCd(), d.getPopulation().getTotal());
@@ -101,7 +101,7 @@ public class JobService {
         AlgorithmSummary summary = new AlgorithmSummary(districtPopulations);
         session.setAttribute("summary", summary);
 
-        Algorithm algo = new Algorithm(dhash, dToP, did, pid, selected, constraints, age);
+        Algorithm algo = new Algorithm(dhash, /*dToP,*/ did, /*pid,*/ selected, constraints, age);
         startAlgorithm(algo, age, summary, selected, session);
         return getStatus();
     }

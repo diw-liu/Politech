@@ -15,20 +15,20 @@ import org.locationtech.jts.geom.*;
 
 public class Algorithm {
     private HashMap<String, District> districts;
-    private HashMap<String, HashMap<String, Precinct>> dToP;
+//    private HashMap<String, HashMap<String, Precinct>> dToP;
     private ArrayList<String> dids;
-    private HashMap<String, ArrayList<String>> pids;
+//    private HashMap<String, ArrayList<String>> pids;
     private Age age;
     private int badMoves;
 
     Districting redistricting;
     Constraints constraints;
 
-    public Algorithm(HashMap<String, District> districts, HashMap<String, HashMap<String, Precinct>> dToP, ArrayList<String> dids, HashMap<String, ArrayList<String>> pids, Districting redistricting, Constraints constraints, Age age) {
+    public Algorithm(HashMap<String, District> districts, /*HashMap<String, HashMap<String, Precinct>> dToP,*/ ArrayList<String> dids, /*HashMap<String, ArrayList<String>> pids,*/ Districting redistricting, Constraints constraints, Age age) {
         this.districts = districts;
-        this.dToP = dToP;
+//        this.dToP = dToP;
         this.dids = dids;
-        this.pids = pids;
+//        this.pids = pids;
         this.redistricting = redistricting;
         this.constraints = constraints;
         this.age = age;
@@ -51,11 +51,8 @@ public class Algorithm {
                 }
             }
         }
-        System.out.println("------------------- ( ) -----------------------");
         // select the precinct randomly from the valid
-        Precinct toGiveP = validPrecincts.get(rand.nextInt(validPrecincts.size()));
-        System.out.println(toGiveP.getId());
-        return toGiveP;
+        return validPrecincts.get(rand.nextInt(validPrecincts.size()));
     }
 
     public ArrayList<CensusBlock> findValidBlocks(Precinct toGiveP) {
@@ -80,11 +77,8 @@ public class Algorithm {
                 validPrecincts.add(neighbor.getPrecinct());
             }
         }
-        System.out.println("------------------- O O -----------------------");
         // select the precinct randomly from the valid
-        Precinct toTakeP = validPrecincts.get(rand.nextInt(validPrecincts.size()));
-        System.out.println(toTakeP.getId());
-        return toTakeP;
+        return validPrecincts.get(rand.nextInt(validPrecincts.size()));
     }
 
     public boolean move(double totalPop) {
@@ -101,10 +95,8 @@ public class Algorithm {
             toGiveP = findPrecinctToGive(toGiveD, rand);
             validBlocks = findValidBlocks(toGiveP);
         }
-        System.out.println("------------------- [ ] -----------------------");
         // select the precinct randomly from the valid
         CensusBlock toGiveC = validBlocks.get(rand.nextInt(validBlocks.size()));
-        System.out.println(toGiveC.getId());
 
         Precinct toTakeP = findPrecinctToTake(toGiveC, toGiveP, rand);
         District toTakeD = toTakeP.getDistrict();
@@ -243,7 +235,6 @@ public class Algorithm {
         newPE = (highest - lowest) / ideal;
 
         // if improved, keep move
-        System.out.println("newSS: " + newPE + " vs currentSS: " + currentPE);
         /*if (newSS <= currentSS)*/ if (newPE <= currentPE) {
             // generate new geometry
             toGiveD.setGeometry(LineDissolver.dissolve(toGiveD.getGeometry().difference(toGiveC.getGeometry())));
@@ -251,9 +242,7 @@ public class Algorithm {
             // adjust new border block creation
 
             for (CensusBlock newBorder : toGiveC.getNeighbors()) {
-                if (!newBorder.getPrecinct().getBorderBlocks().contains(newBorder)) {
-                    newBorder.getPrecinct().getBorderBlocks().add(newBorder);
-                }
+                newBorder.getPrecinct().getBorderBlocks().add(newBorder);
 
                 // if the block is surrounded by blocks of the same precinct, it is not a border block anymore
                 for (CensusBlock borderNeighbor : newBorder.getNeighbors()) {
@@ -272,7 +261,6 @@ public class Algorithm {
             }
 
             badMoves = 0; // reset badmoves counter
-            System.out.println("---------------------------------------- MADE MOVE ------------------------------------------------------");
             return true;
         }
         // if not improved, 50% to keep move
@@ -293,7 +281,7 @@ public class Algorithm {
             toTakeD.getPopulation().subtract(toGiveC.getPopulation());
             toTakeD.getVap().subtract(toGiveC.getPopulation());
 
-            badMoves = 0;
+            badMoves++;
             return false;
         }
         // bad move but do not undo
