@@ -36,7 +36,7 @@ import org.wololo.jts2geojson.GeoJSONWriter;
 
 @RestController
 @RequestMapping("/api")
-class MapController{
+class MapController {
     @Autowired
     private MapService mapService;
 
@@ -88,22 +88,13 @@ class MapController{
     }
 
     // COMPLETED - gives client the state and enacted districts pop + vap + elec info
-//    @GetMapping("/state")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
-//        StateSummaryProjection ssp = mapService.fetchStateByName(name);
-//        HttpSession session = request.getSession();
-//        session.setAttribute("state", ssp);
-//        return ssp;
-//    }
-
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody State getStateByName(@RequestParam String name, HttpServletRequest request) {
-        return stateRepository.findByName(name, State.class);
-//        HttpSession session = request.getSession();
-//        session.setAttribute("state", ssp);
-//        return ssp;
+    public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
+        StateSummaryProjection ssp = mapService.fetchStateByName(name);
+        HttpSession session = request.getSession();
+        session.setAttribute("state", ssp.getName());
+        return ssp;
     }
 
     // TODO - check if this is necessary since we should have just gotten that in the /state now
@@ -115,8 +106,22 @@ class MapController{
 //        return null;
 //    }
 
-
     @GetMapping("/selectplan")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public DistrictingDataProjection getPlan(@RequestParam String id, HttpServletRequest request) {
+        Districting plan = mapService.fetchPlan(id);
+        DistrictingDataProjection ddp = mapService.fetchPlanSummary(id);
+//        System.out.println("-----------------------------------------------");
+//        System.out.println(plan.getDistricts().size());
+//        System.out.println("-----------------------------------------------");
+        HttpSession session = request.getSession();
+        session.setAttribute("selected", plan);
+        return ddp; // TODO - change this later to be something else
+    }
+
+
+    @GetMapping("/selectplanSummary")
     @Produces(MediaType.APPLICATION_JSON)
     @ResponseBody
     public DistrictingDataProjection getPlanSummary(@RequestParam String id, HttpServletRequest request) {

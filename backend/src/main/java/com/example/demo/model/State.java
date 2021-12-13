@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Polygon;
@@ -86,8 +87,9 @@ public class State {
     public void setElection(Election e) { election = e; }
 
     @Transient
-    @JsonSerialize(using = GeometrySerializer.class)
-    @JsonDeserialize(contentUsing = GeometryDeserializer.class)
+//    @JsonSerialize(using = GeometrySerializer.class)
+//    @JsonDeserialize(contentUsing = GeometryDeserializer.class)
+    @JsonIgnore
     public Geometry getGeometry() { return geometry; }
     public void setGeometry(Geometry p) { geometry = p; }
 

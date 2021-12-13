@@ -90,8 +90,9 @@ public class District {
     public void setNeighbors(Set<District> n) { neighbors = n; }
 
     @Transient
-    @JsonSerialize(using = GeometrySerializer.class)
-    @JsonDeserialize(contentUsing = GeometryDeserializer.class)
+//    @JsonSerialize(using = GeometrySerializer.class)
+//    @JsonDeserialize(contentUsing = GeometryDeserializer.class)
+    @JsonIgnore
     public Geometry getGeometry() { return geometry; }
     public void setGeometry(Geometry p) { geometry = p; }
 

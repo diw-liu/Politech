@@ -24,20 +24,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
-class JobController{
-    private final JobService jobService;
+@RequestMapping("/job")
+public class JobController {
     @Autowired
-    public JobController(JobService jobService){
-        this.jobService = jobService;
-    }
+    private JobService jobService;
 
-    @PostMapping("/startJob")
-    public Status startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, HttpServletRequest request){
+    @GetMapping("/start")
+    public String startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, HttpServletRequest request){
         Constraints constraints = new Constraints(goal, lower, higher);
         HttpSession session = request.getSession();
         session.setAttribute("constraints", constraints);
-        return jobService.startJob(constraints, session);
+        jobService.startJob(constraints, session);
+        String thing = session.getAttribute("districtToPrecincts").toString();
+        return thing;
     }
 
     //

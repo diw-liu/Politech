@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.wololo.geojson.GeoJSON;
 import org.wololo.jts2geojson.GeoJSONWriter;
 
+import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -34,10 +35,32 @@ public class TestController {
 
     @GetMapping("/testSession")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody String getSession(HttpSession session) {
-        String state = (String) session.getAttribute("state");
+    public @ResponseBody State getSession(HttpSession session) {
+        State state = (State) session.getAttribute("stateWhole");
         return state;
     }
+
+    @GetMapping("/testWholeState")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody String getWholeState(HttpSession session) {
+        Optional<State> sr = stateRepository.findById("24", State.class);
+        session.setAttribute("stateWhole", sr.get());
+        return "done";
+    }
+
+//    @GetMapping("/testSession")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public @ResponseBody String getSession(HttpSession session) {
+//        String state = (String) session.getAttribute("state");
+//        return state;
+//    }
+//
+//    @GetMapping("/testSession")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public @ResponseBody String getSession(HttpSession session) {
+//        String state = (String) session.getAttribute("state");
+//        return state;
+//    }
 
     @GetMapping("/planTest")
     @Produces(MediaType.APPLICATION_JSON)

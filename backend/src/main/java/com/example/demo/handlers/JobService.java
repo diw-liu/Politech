@@ -43,6 +43,9 @@ public class JobService {
         if(status != Status.IDLE) {
             return Status.FAILED;
         }
+        @SuppressWarnings("unchecked")
+        HashMap<String, HashMap<String, Precinct>> dToP = (HashMap<String, HashMap<String, Precinct>>)
+                session.getAttribute("districtToPrecincts");
 
         @SuppressWarnings("unchecked")
         HashMap<String, District> dhash = (HashMap<String, District>) session.getAttribute("selectedDistricts");
@@ -75,6 +78,12 @@ public class JobService {
         }
         session.removeAttribute("selectedPrecincts");
         session.setAttribute("selectedPrecincts", phash);
+
+        System.out.println(dhash.get("24PL0D1").getNeighbors());
+        System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+        System.out.println(dToP.get("24PL0D1").get("24P1842"));
+        System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+        System.out.println(phash.get("24P1842"));
         // instantiate an algorithm class
         // call on that to start the algorithm
         return null;
