@@ -141,10 +141,15 @@ public class JobService {
             }
             algoRunnningLock = false; // unlocks algo iteration when the iteration is done
         }
-        this.status = Status.COMPLETED;
+        if(this.status == Status.PROCESSING){ // if algo is complete naturally(not by stop or pause), return completed status
+            this.status = Status.COMPLETED;
+        }
     }
 
     public Status pauseJob(){
+        if(status != Status.PROCESSING){
+            return Status.FAILED;
+        }
         status = Status.PAUSE;
         while(this.algoRunnningLock == true){ // wait until the current algo running is done, then return pause status
             try{
@@ -158,6 +163,9 @@ public class JobService {
     }
 
     public Status resumeJob(HttpSession session){
+        if(status != Status.PAUSE){
+            return Status.FAILED;
+        }
         status = Status.PROCESSING;
         while(this.algoRunnningLock == true){ // wait until the current algo running is done, then start the algo running again.
             try{
@@ -172,7 +180,9 @@ public class JobService {
     }
 
     public Status stopJob(HttpSession session){
-        if(this.status != Status.PROCESSING || this.status != Status.PAUSE){ return Status.FAILED; } // if the algo is not processing or paused, return failed status
+        if(this.status != Status.PROCESSING || this.status != Status.PAUSE){  // if the algo is not processing or paused, return failed status
+            return Status.FAILED; 
+        } 
         status = Status.COMPLETED;
         while(this.algoRunnningLock == true){ // wait until the current algo running is done, then return stop status
             try{
