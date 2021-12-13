@@ -8,13 +8,16 @@ import com.example.demo.model.Districting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Service
 public class JobService {
     Status status;
-    State state;
+    Districting redistricting;
     Algorithm algorithm;
     boolean algoRunnningLock;
     int cyclesThreshold = 1000;
@@ -26,12 +29,12 @@ public class JobService {
         this.status = Status.IDLE;
     }
 
-    public Status startJob(Constraints constraints, HttpSession session){
-        if(status != Status.IDLE) {
+    public Status startJob(Districting redistricting, Constraints constraints, HttpSession session){
+        if(status == Status.PROCESSING) {
             return Status.FAILED;
         }
-        setstate(state);
-        algorithm = new Algorithm(state.getRedistricted(), constraints);
+        setredistricting(redistricting);
+        algorithm = new Algorithm(redistricting, constraints);
         setStatus(Status.PROCESSING);
         startAlgorithm(session);
         return getStatus();
@@ -64,6 +67,7 @@ public class JobService {
     }
 
     public void startAlgorithm(HttpSession session) {
+        int i = 0;
         while (algorithm.getAlgorithmCycles() < cyclesThreshold && status == Status.PROCESSING) {
             this.algoRunnningLock = true; // lock the algo running, so it can't be running again until it is done.
             boolean success = algorithm.runAlgorithm();
@@ -84,6 +88,18 @@ public class JobService {
             if(failedAttempts >= attemptsThreshold){
                 break;
             }
+            try {
+                File myObj = new File("src/main/algoSummary/" + i++ + ".txt");
+                if (myObj.createNewFile()) {
+                  System.out.println("File created: " + myObj.getName());
+                } else {
+                  System.out.println("File already exists.");
+                }
+              } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+              }
+            
         }
         terminateAlgorithm(session);
     }
@@ -98,12 +114,12 @@ public class JobService {
         return false;
     }
 
-    public State getstate(){
-        return this.state;
+    public Districting getredistricting(){
+        return this.redistricting;
     }
 
-    public void setstate(State state){
-        this.state = state;
+    public void setredistricting(Districting redistricting){
+        this.redistricting = redistricting;
     }
 
     public Status getStatus(){

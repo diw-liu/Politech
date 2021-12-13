@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.algo.*;
 import com.example.demo.enums.*;
 import com.example.demo.handlers.JobService;
+import com.example.demo.model.Districting;
 import com.example.demo.model.State;
 
 import org.apache.commons.io.IOUtils;
@@ -29,14 +30,17 @@ class JobController{
     }
 
     @PostMapping("/startJob")
-    public Status startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, HttpServletRequest request){
-//        State state = (State) session.getAttribute(StateName); // get state from session
+    public Status startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, HttpSession session){
+        Districting redistricting = (Districting) session.getAttribute("enacted"); // get state from session
         Constraints constraints = new Constraints(goal, lower, higher);
+        return jobService.startJob(redistricting, constraints, session);
+    }
 
-        HttpSession session = request.getSession();
-        session.setAttribute("constraints", constraints);
-//        return jobService.startJob(state, constraints, session);
-        return null;
+    @PostMapping("/testEnacted")
+    public void testEnacted(HttpSession session){
+        Districting redistricting = (Districting) session.getAttribute("enacted"); // get state from session
+        System.out.println("redistricting id=" + redistricting.getId());
+        System.out.println("redistricting size=" + redistricting.getDistricts().size());
     }
 
     @GetMapping("/summary")

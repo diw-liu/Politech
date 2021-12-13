@@ -69,12 +69,13 @@ public class Algorithm {
         // List<CensusBlock> censusBlocksGivenTo = givenTo.getCensusBlocks();
         // censusBlocksTakenFrom.remove(toGive);
         // censusBlocksGivenTo.add(toGive);
-        double populationEquality = redistricting.getMeasures().getPopulationEquality();
+        // double populationEquality = redistricting.getMeasures().getPopulationEquality();
+        double populationEquality = 1;
         // double newPopulationEquality = caclculatePopulationEquality();
         double newPopulationEquality = 0; // @TODO made a change so we need to fix this later
         // if the new Population Equality is lower than the old one and the constraint set by user, then the move is going to be processed
         if(newPopulationEquality < populationEquality && newPopulationEquality < constraints.getPopulationEquality()){
-            redistricting.getMeasures().setPopulationEquality(newPopulationEquality);
+            // redistricting.getMeasures().setPopulationEquality(newPopulationEquality);
             isMoveBetter = true;
         }
         if(isMoveBetter == false){

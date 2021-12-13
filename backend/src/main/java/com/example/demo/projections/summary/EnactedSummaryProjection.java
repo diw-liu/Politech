@@ -2,7 +2,7 @@ package com.example.demo.projections.summary;
 
 import java.util.List;
 
-public interface EnactedSummaryPopulation {
+public interface EnactedSummaryProjection {
     String getId();
-    List<DistrictSummaryPopulation> getDistricts();
+    List<DistrictSummaryProjection> getDistricts();
 }

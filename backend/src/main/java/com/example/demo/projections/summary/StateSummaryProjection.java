@@ -13,7 +13,7 @@ public interface StateSummaryProjection {
     Population getPopulation();
     VotingAgePopulation getVap();
     Election getElection();
-    EnactedSummaryPopulation getEnacted();
+    EnactedSummaryProjection getEnacted();
     List<DistrictingId> getDistrictings();
 
     interface DistrictingId {

@@ -4,7 +4,7 @@ import com.example.demo.model.Election;
 import com.example.demo.model.Population;
 import com.example.demo.model.VotingAgePopulation;
 
-public interface DistrictSummaryPopulation {
+public interface DistrictSummaryProjection {
     String getId();
     Population getPopulation();
     VotingAgePopulation getVap();

@@ -4,7 +4,9 @@ import com.example.demo.handlers.MapService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -19,6 +21,9 @@ import com.example.demo.model.*;
 import com.example.demo.projections.data.DistrictingDataProjection;
 import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -88,14 +93,16 @@ class MapController{
     }
 
     // COMPLETED - gives client the state and enacted districts pop + vap + elec info
-    @GetMapping("/state")
-    @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
-        StateSummaryProjection ssp = mapService.fetchStateByName(name);
-        HttpSession session = request.getSession();
-        session.setAttribute("state", ssp);
-        return ssp;
-    }
+    // @GetMapping("/state")
+    // @Produces(MediaType.APPLICATION_JSON)
+    // public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
+    //     StateSummaryProjection ssp = mapService.fetchStateByName(name);
+    //     HttpSession session = request.getSession();
+    //     session.setAttribute("state", ssp);
+    //     return ssp;
+    // }
+
+
 
     // TODO - check if this is necessary since we should have just gotten that in the /state now
 //    @GetMapping("/plans")
@@ -105,6 +112,18 @@ class MapController{
 ////        String
 //        return null;
 //    }
+
+    @GetMapping("/state")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody String getStateByName(@RequestParam String id, HttpServletRequest request) {
+        // State s = stateRepository.findByName(name, State.class);
+
+        Districting enacted = mapService.fetchPlan(id);
+        HttpSession session = request.getSession();
+        // session.setAttribute("stateMD", s);
+        session.setAttribute("enacted", enacted);
+        return "Done";
+    }
 
     @GetMapping("/selectplan")
     @Produces(MediaType.APPLICATION_JSON)

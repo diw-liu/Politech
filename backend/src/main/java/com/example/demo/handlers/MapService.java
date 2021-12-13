@@ -1,5 +1,6 @@
 package com.example.demo.handlers;
 
+import com.example.demo.model.Districting;
 import com.example.demo.projections.data.DistrictingDataProjection;
 import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.*;
@@ -32,5 +33,11 @@ public class MapService {
         Optional<DistrictingDataProjection> planResponse = districtingRepository.findById(id, DistrictingDataProjection.class);
         DistrictingDataProjection planSummary = planResponse.get();
         return planSummary;
+    }
+    
+    public Districting fetchPlan(String id) {
+        Optional<Districting> planResponse = districtingRepository.findById(id, Districting.class);
+        Districting plan = planResponse.get();
+        return plan;
     }
 }
