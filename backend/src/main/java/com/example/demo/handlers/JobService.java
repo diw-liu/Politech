@@ -29,7 +29,14 @@ public class JobService {
     PrecinctRepository precinctRepository;
 
     private Status status;
+    private int iterations; // make it global so it can be reused after resume
+    private Algorithm algo; // make it global so it can be reused after resume
+    AlgorithmSummary summary; // make it global so it can be reused after resume
+    Districting selected; // make it global so it can be reused after resume
+    Age age; // make it global so it can be reused after resume
+    boolean algoRunnningLock; // locks when the algo is in processing status
     final int interationThreshold = 10000;
+
 
     public JobService(){
         this.status = Status.IDLE;
@@ -51,7 +58,7 @@ public class JobService {
     }
 
     public Status startJob(Constraints constraints, Age age, HttpSession session){
-        if(status != Status.IDLE) {
+        if(status == Status.PROCESSING) {
             return Status.FAILED;
         } else {
             setStatus(Status.PROCESSING);
@@ -98,18 +105,19 @@ public class JobService {
                 districtPopulations.put(d.getCd(), d.getVap().getTotal());
             }
         }
-        AlgorithmSummary summary = new AlgorithmSummary(districtPopulations);
+        summary = new AlgorithmSummary(districtPopulations);
         session.setAttribute("summary", summary);
-
-        Algorithm algo = new Algorithm(dhash, /*dToP,*/ did, /*pid,*/ selected, constraints, age);
+        this.algo = new Algorithm(dhash, /*dToP,*/ did, /*pid,*/ selected, constraints, age);
+        this.age = age;
+        this.iterations++;
         startAlgorithm(algo, age, summary, selected, session);
         return getStatus();
     }
 
     @Async
     public void startAlgorithm(Algorithm algo, Age age, AlgorithmSummary summary, Districting selected, HttpSession session) {
-        int iterations = 0;
         while (iterations < getInterationThreshold() && getStatus() == Status.PROCESSING) {
+            algoRunnningLock = true; // locks each algo iteration, so there can be only one algo runnning at a time
             StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
             int totalPop;
             if (age == Age.TOTAL) {
@@ -131,7 +139,50 @@ public class JobService {
                 }
                 summary.setDistrictPopulations(districtPops);
             }
+            algoRunnningLock = false; // unlocks algo iteration when the iteration is done
         }
+        this.status = Status.COMPLETED;
+    }
+
+    public Status pauseJob(){
+        status = Status.PAUSE;
+        while(this.algoRunnningLock == true){ // wait until the current algo running is done, then return pause status
+            try{
+                Thread.sleep(1000);
+            }
+            catch(InterruptedException ex){
+                Thread.currentThread().interrupt();
+            }
+        }
+        return getStatus();
+    }
+
+    public Status resumeJob(HttpSession session){
+        status = Status.PROCESSING;
+        while(this.algoRunnningLock == true){ // wait until the current algo running is done, then start the algo running again.
+            try{
+                Thread.sleep(1000);
+            }
+            catch(InterruptedException ex){
+                Thread.currentThread().interrupt();
+            }
+        }
+        startAlgorithm(algo, age, summary, selected, session);
+        return getStatus();
+    }
+
+    public Status stopJob(HttpSession session){
+        if(this.status != Status.PROCESSING || this.status != Status.PAUSE){ return Status.FAILED; } // if the algo is not processing or paused, return failed status
+        status = Status.COMPLETED;
+        while(this.algoRunnningLock == true){ // wait until the current algo running is done, then return stop status
+            try{
+                Thread.sleep(1000);
+            }
+            catch(InterruptedException ex){
+                Thread.currentThread().interrupt();
+            }
+        }
+        return getStatus();
     }
 }
 

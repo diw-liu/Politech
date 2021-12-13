@@ -35,9 +35,9 @@ public class JobController {
         Constraints constraints = new Constraints(goal, lower, higher);
         HttpSession session = request.getSession();
         session.setAttribute("constraints", constraints);
-//        session.setAttribute("age", Age.valueOf(age));
+        // session.setAttribute("age", Age.valueOf(age));
         jobService.loadPlan(session);
-        return jobService.startJob(constraints, Age.valueOf(age), session);
+        return jobService.startJob(constraints, Age.valueOf(age), session);;
     }
 
     @GetMapping("/summary")
@@ -45,5 +45,20 @@ public class JobController {
     public @ResponseBody AlgorithmSummary getSummary(HttpSession session) {
         AlgorithmSummary summary = (AlgorithmSummary) session.getAttribute("summary");
         return summary;
+    }
+
+    @GetMapping("/pauseJob")
+    public Status pauseJob(){
+        return jobService.pauseJob();
+    }
+
+    @GetMapping("/resumeJob")
+    public Status resumeJob(HttpSession session){
+        return jobService.resumeJob(session);
+    }
+
+    @GetMapping("/stopJob")
+    public Status stopJob(@RequestParam String StateName){
+        return jobService.getStatus();
     }
 }
