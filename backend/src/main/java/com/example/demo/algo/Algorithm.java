@@ -39,32 +39,85 @@ public class Algorithm {
     }
 
     public boolean move(double totalPop) {
+        // select a random district
         Random rand = new Random();
         int numD = districts.size();
         String did = dids.get(rand.nextInt(numD));
         District toGiveD = districts.get(did);
 
-        int numP = dToP.get(did).size();
-        String pid = pids.get(did).get(rand.nextInt(numP));
-        Precinct toGiveP = dToP.get(did).get(pid);
-        ArrayList<CensusBlock> validBlocks = new ArrayList<>();
-        System.out.println("NNNNNNOONONONONONONONONONONONONONONONONONONONONO");
-        boolean found = false;
-        while (toGiveP.getNeighbors() == null || toGiveP.getBorderBlocks() == null ||
-                toGiveP.getNeighbors().size() == 0 || toGiveP.getBorderBlocks().size() == 0 || !found) {
-            pid = pids.get(did).get(rand.nextInt(numP));
-            toGiveP = dToP.get(did).get(pid);
-            for (CensusBlock candidate : toGiveP.getBorderBlocks()) {
-                if(toGiveP.getNeighbors().contains(candidate.getPrecinct())) {
-                    validBlocks.add(candidate);
+        // from the random district, list out all the precincts that have neighbors in different districts
+        ArrayList<Precinct> validPrecincts = new ArrayList<>();
+        for (Precinct candidatePrecinct : toGiveD.getBorderPrecincts()) {
+            if (candidatePrecinct.getNeighbors() == null || candidatePrecinct.getNeighbors().size() == 0) { continue; }
+            for (Precinct candidateNeighbor : candidatePrecinct.getNeighbors()) {
+                if (toGiveD.getNeighbors().contains(candidateNeighbor.getDistrict())) {
+                    validPrecincts.add(candidatePrecinct);
+                    break;
                 }
             }
-            if (validBlocks.size() > 0) {
-                found = true;
+        }
+        System.out.println("------------------- ( ) -----------------------");
+        // select the precinct randomly from the valid
+        Precinct toGiveP = validPrecincts.get(rand.nextInt(validPrecincts.size()));
+        System.out.println(toGiveP.getId());
+
+        // from the random precinct, list out all the valid census blocks
+        ArrayList<CensusBlock> validBlocks = new ArrayList<>();
+        for (CensusBlock candidateCb : toGiveP.getBorderBlocks()) {
+            for (CensusBlock candidateNeighbor : candidateCb.getNeighbors()) {
+                if (toGiveP.getNeighbors().contains(candidateNeighbor.getPrecinct())) {
+                    validBlocks.add(candidateCb);
+                    break;
+                }
             }
         }
+        System.out.println("------------------- [ ] -----------------------");
+        // select the precinct randomly from the valid
         CensusBlock toGiveC = validBlocks.get(rand.nextInt(validBlocks.size()));
-        Precinct toTakeP = toGiveC.getPrecinct();
+        System.out.println(toGiveC.getId());
+
+        // find a neighbor of cb to give that has a different precinct and choose that precinct to move to
+        validPrecincts.clear();
+        for (CensusBlock neighbor : toGiveC.getNeighbors()) {
+            if (!neighbor.getPrecinct().equals(toGiveP) && !validPrecincts.contains(neighbor.getPrecinct())) {
+                validPrecincts.add(neighbor.getPrecinct());
+            }
+        }
+        System.out.println("------------------- O O -----------------------");
+        // select the precinct randomly from the valid
+        Precinct toTakeP = validPrecincts.get(rand.nextInt(validPrecincts.size()));
+        System.out.println(toTakeP.getId());
+
+        District toTakeD = toTakeP.getDistrict();
+
+
+        //--------------------------------------------------------------------------
+
+//        int numP = dToP.get(did).size();
+//        String pid = pids.get(did).get(rand.nextInt(numP));
+//        Precinct toGiveP = dToP.get(did).get(pid);
+//        ArrayList<CensusBlock> validBlocks = new ArrayList<>();
+//        System.out.println("NNNNNNOONONONONONONONONONONONONONONONONONONONONO");
+//        boolean found = false;
+//        while (toGiveP.getNeighbors() == null || toGiveP.getBorderBlocks() == null ||
+//                toGiveP.getNeighbors().size() == 0 || toGiveP.getBorderBlocks().size() == 0 || !found) {
+//            pid = pids.get(did).get(rand.nextInt(numP));
+//            toGiveP = dToP.get(did).get(pid);
+//            for (CensusBlock candidate : toGiveP.getBorderBlocks()) {
+//                if(toGiveP.getNeighbors().contains(candidate.getPrecinct())) {
+//                    validBlocks.add(candidate);
+//                }
+//            }
+//            if (validBlocks.size() > 0) {
+//                found = true;
+//            }
+//        }
+//        CensusBlock toGiveC = validBlocks.get(rand.nextInt(validBlocks.size()));
+//        Precinct toTakeP = toGiveC.getPrecinct();
+
+        // --------------------------------------------------------------------------
+
+
 //        boolean isBlock = false;
 //        while (!isBlock) {
 //            if (toGiveC.getNeighbors() != null) {
@@ -77,7 +130,7 @@ public class Algorithm {
 //            toGiveC = toGiveP.selectRandomBorderCensusBlock();
 //        }
 
-        District toTakeD = toGiveC.getParentDistrict();
+//        District toTakeD = toGiveP.getDistrict();
 
         double ideal = (totalPop / (double) districts.size());
         // this is so stupid. it doesnt even fucking work
