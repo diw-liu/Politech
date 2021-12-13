@@ -97,26 +97,13 @@ class MapController {
         return ssp;
     }
 
-    // TODO - check if this is necessary since we should have just gotten that in the /state now
-//    @GetMapping("/plans")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @ResponseBody
-//    public String getPlans(HttpServletRequest request) {
-////        String
-//        return null;
-//    }
-
     @GetMapping("/selectplan")
     @Produces(MediaType.APPLICATION_JSON)
     @ResponseBody
     public DistrictingDataProjection getPlan(@RequestParam String id, HttpServletRequest request) {
-        Districting plan = mapService.fetchPlan(id);
         DistrictingDataProjection ddp = mapService.fetchPlanSummary(id);
-//        System.out.println("-----------------------------------------------");
-//        System.out.println(plan.getDistricts().size());
-//        System.out.println("-----------------------------------------------");
         HttpSession session = request.getSession();
-        session.setAttribute("enacted", plan);
+        session.setAttribute("selected", ddp.getId());
         return ddp; // TODO - change this later to be something else
     }
 
@@ -130,32 +117,32 @@ class MapController {
         HashMap<String, Precinct> selectedPrecincts = new HashMap<>();
         HashMap<String, HashMap<String, Precinct>> districtToPrecincts = new HashMap<>();
 
-        for (DistrictingDataProjection.DistrictData d : ddp.getDistricts()) {
-            District partialD = new District();
-            partialD.setId(d.getId());
-            partialD.setCd(d.getCd());
-            partialD.setElection(d.getElection());
-            partialD.setPopulation(d.getPopulation());
-            partialD.setVap(d.getVap());
-            partialD.setGeometryString(d.getGeometryString());
-            partialD.convertStringToGeometry();
-            Set<Precinct> bp = new HashSet<>();
-            for (DistrictingDataProjection.PrecinctBones p : d.getBorderPrecincts()) {
-                Precinct partialP = new Precinct();
-                partialP.setId(p.getId());
-                partialP.setDistrict(partialD);
-                bp.add(partialP);
-                selectedPrecincts.put(partialP.getId(), partialP);
-            }
-            districtToPrecincts.put(partialD.getId(), selectedPrecincts);
-            partialD.setBorderPrecincts(bp);
-            selectedDistricts.put(partialD.getId(), partialD);
-        }
-        HttpSession session = request.getSession();
-        session.setAttribute("selected", ddp); // selected plan part
-        session.setAttribute("selectedDistricts", selectedDistricts);
-        session.setAttribute("selectedPrecincts", selectedPrecincts);
-        session.setAttribute("districtToPrecincts", districtToPrecincts);
+//        for (DistrictingDataProjection.DistrictData d : ddp.getDistricts()) {
+//            District partialD = new District();
+//            partialD.setId(d.getId());
+//            partialD.setCd(d.getCd());
+//            partialD.setElection(d.getElection());
+//            partialD.setPopulation(d.getPopulation());
+//            partialD.setVap(d.getVap());
+//            partialD.setGeometryString(d.getGeometryString());
+//            partialD.convertStringToGeometry();
+//            Set<Precinct> bp = new HashSet<>();
+//            for (DistrictingDataProjection.PrecinctBones p : d.getBorderPrecincts()) {
+//                Precinct partialP = new Precinct();
+//                partialP.setId(p.getId());
+//                partialP.setDistrict(partialD);
+//                bp.add(partialP);
+//                selectedPrecincts.put(partialP.getId(), partialP);
+//            }
+//            districtToPrecincts.put(partialD.getId(), selectedPrecincts);
+//            partialD.setBorderPrecincts(bp);
+//            selectedDistricts.put(partialD.getId(), partialD);
+//        }
+//        HttpSession session = request.getSession();
+//        session.setAttribute("selected", ddp); // selected plan part
+//        session.setAttribute("selectedDistricts", selectedDistricts);
+//        session.setAttribute("selectedPrecincts", selectedPrecincts);
+//        session.setAttribute("districtToPrecincts", districtToPrecincts);
         return ddp; // TODO - change this later to be something else
     }
 
@@ -274,4 +261,13 @@ class MapController {
         String jsonstring = json.toString();
         return json;
     }
+
+    // TODO - check if this is necessary since we should have just gotten that in the /state now
+//    @GetMapping("/plans")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @ResponseBody
+//    public String getPlans(HttpServletRequest request) {
+////        String
+//        return null;
+//    }
 }

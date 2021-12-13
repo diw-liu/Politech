@@ -30,62 +30,11 @@ public class JobController {
     private JobService jobService;
 
     @GetMapping("/start")
-    public String startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, HttpServletRequest request){
+    public void startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, HttpServletRequest request){
         Constraints constraints = new Constraints(goal, lower, higher);
         HttpSession session = request.getSession();
         session.setAttribute("constraints", constraints);
+        jobService.loadPlan(session);
         jobService.startJob(constraints, session);
-        String thing = session.getAttribute("districtToPrecincts").toString();
-        return thing;
     }
-
-    //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    @GetMapping("/summary")
-//    public AlgorithmSummary getSummary(HttpSession session){
-//        AlgorithmSummary algorithmSummary = (AlgorithmSummary) session.getAttribute("summary");
-//        return algorithmSummary;
-//    }
-//
-//    @GetMapping("/result")
-//    public AlgorithmResult getResult(HttpSession session){
-//        AlgorithmResult algorithmResult = (AlgorithmResult) session.getAttribute("result");
-//        return algorithmResult;
-//    }
-//
-//    @PostMapping("/pauseJob")
-//    public Status pauseJob(){
-//        return jobService.pauseJob();
-//    }
-//
-//    @PostMapping("/resumeJob")
-//    public Status resumeJob(HttpSession session){
-//        return jobService.resumeJob(session);
-//    }
-//
-//    @PostMapping("/stopJob")
-//    public Status stopJob(@RequestParam String StateName){
-//        return jobService.getStatus();
-//    }
-
 }

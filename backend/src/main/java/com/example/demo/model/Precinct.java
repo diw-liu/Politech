@@ -72,7 +72,7 @@ public class Precinct {
     public Set<Precinct> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<Precinct> n) { neighbors = n; }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="PrecinctCensusBlocks",
             joinColumns = @JoinColumn(name="precinctId"),
@@ -82,7 +82,7 @@ public class Precinct {
     public Set<CensusBlock> getCensusBlocks() { return censusBlocks; }
     public void setCensusBlocks(Set<CensusBlock> n) { censusBlocks = n; }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="PrecinctBorderBlocks",
             joinColumns = @JoinColumn(name="precinctId"),
@@ -130,6 +130,7 @@ public class Precinct {
     }
 
     public CensusBlock selectRandomBorderCensusBlock(){
+        if (borderBlocks.size() == 0) { return null; }
         Random rand = new Random();
         int index = rand.nextInt(borderBlocks.size());
         int i = 0;

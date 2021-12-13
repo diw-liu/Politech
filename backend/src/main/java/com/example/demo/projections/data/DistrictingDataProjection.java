@@ -19,10 +19,10 @@ public interface DistrictingDataProjection {
         Population getPopulation();
         VotingAgePopulation getVap();
         String getGeometryString();
-        Set<PrecinctBones> getBorderPrecincts();
+//        Set<PrecinctBones> getBorderPrecincts();
     }
 
-    interface PrecinctBones {
-        String getId();
-    }
+//    interface PrecinctBones {
+//        String getId();
+//    }
 }

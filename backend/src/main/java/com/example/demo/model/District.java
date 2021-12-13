@@ -109,6 +109,7 @@ public class District {
     }
 
     public Precinct selectRandomBorderPrecinct(){
+        if (borderPrecincts.size() == 0) { return null; }
         Random rand = new Random();
         int index = rand.nextInt(borderPrecincts.size());
         int i = 0;
