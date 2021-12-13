@@ -116,7 +116,7 @@ class MapController {
 //        System.out.println(plan.getDistricts().size());
 //        System.out.println("-----------------------------------------------");
         HttpSession session = request.getSession();
-        session.setAttribute("selected", plan);
+        session.setAttribute("enacted", plan);
         return ddp; // TODO - change this later to be something else
     }
 
