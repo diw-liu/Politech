@@ -18,7 +18,7 @@ const StateSelector = (props) => {
     props.setStateName("")
     props.setShowInfo(false)
     props.setView(INITIAL_VIEW_STATE)
-    props.setState([])
+    props.setLayers({})
     // setSelected(defaultOption)
   }
 

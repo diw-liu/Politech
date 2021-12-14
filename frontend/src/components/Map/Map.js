@@ -17,11 +17,11 @@ const Map = (props) => {
     //   console.log(variable);
     //   console.log(props.layers[variable]);
     // }
-    console.log(props.enacted);
+    console.log(props.enactedInfo);
     console.log(Object.keys(props.layers).length === 0);
     // }
 
-    // if (Object.keys(props.layers).length === 0){
+    if (Object.keys(props.layers).length === 0){
       for(var i = 0; i < props.all.length; i++){
         var name = props.all[i].features[0].properties.STUSPS20
         display.push(new GeoJsonLayer({
@@ -45,36 +45,54 @@ const Map = (props) => {
                     }
           }));
       }
-    // }
-    // else{
-    //   let map = {};
+    }
+    else{
+      let map = {};
 
-    //   const districtMap = (Id) => {
-    //     if(Id in map ){
-    //       return map[Id]
-    //     }
-    //     var temp = [Math.random()*256, Math.random()*256, Math.random()*256];
-    //     map[Id] = temp;
-    //     return temp
-    //   }
-    //   // delete Object.assign(props.enacted, {['geometry']: props.enacted['geometryString'] })['geometryString'];
-    //   const districtColor = new GeoJsonLayer({
-    //     id: 'districtColor',
-    //     data : props.layers['district'],
-    //     filled: true,
-    //     extruded: false,
-    //     getFillColor: d => districtMap(d.properties.CD116FP),
-    //   })
+      const districtMap = (Id) => {
+        if(Id in map ){
+          return map[Id]
+        }
+        var temp = [Math.random()*256, Math.random()*256, Math.random()*256];
+        map[Id] = temp;
+        return temp
+      }
 
-      // display.push(districtColor)
+      console.log(props.enactedGeo)
+      console.log(props.layers['district'])
+      // delete Object.assign(props.enacted, {['geometry']: props.enacted['geometryString'] })['geometryString'];
+      const districtColor = new GeoJsonLayer({
+        id: 'districtColor',
+        data : props.enactedGeo,
+        filled: true,
+        stroked: false,
+        extruded: false,
+        getFillColor: d => districtMap(d.properties.cd),
+        pointType: 'circle',
+      })
 
-      // for (const variable in props.layers) {
-      //   if(props.flag[variable]){
-      //     console.log(variable);
-      //     console.log(props.layers[variable]);
-      //   }
+      display.push(districtColor)
 
-      // }
+      for (const variable in props.layers) {
+        if(props.flag[variable]){
+          display.push(new GeoJsonLayer({
+                  id: variable,
+                  data : props.layers[variable],
+                  stroked: true,
+                  filled: false,
+                  extruded: false,
+                  pointType: 'circle',
+                  lineWidthScale: 20,
+                  lineWidthMinPixels: 2,
+                  getLineColor: [228,220,220],
+                  getLineWidth: 1,
+                }));
+          // console.log(variable);
+          // console.log(props.layers[variable]);
+        }
+
+      }
+
       // for(var i = 0; i < props.layers.length; i++){
       //   if(props.flag[i]){
       //     display.push(new GeoJsonLayer({
@@ -91,7 +109,7 @@ const Map = (props) => {
       //     }));
       //   }
       
-    // }
+    }
    
     // let temp = []
     // props.layers.forEach((element,index) => {

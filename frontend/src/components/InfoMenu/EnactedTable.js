@@ -5,7 +5,7 @@ import districts from '../../data/mock.js';
 const EnactedTable = (props) => {
     // const [districts, setDistricts] = useState(districts);
     const [numDistricts, setNumDistricts] = useState(Math.round(Math.random() * 5) + 5);
-    console.log(props.enacted)
+    console.log(props.enactedInfo)
     return(
         <div>
             <table style={{ width: '100%' }}>
@@ -16,7 +16,7 @@ const EnactedTable = (props) => {
                     <th>Deviation</th>
                 </tr>
                 {
-                    Object.keys(props.enacted).length != 0 ? props.enacted.districts.map(x =>
+                    Object.keys(props.enactedInfo).length != 0 ? props.enactedInfo.districts.map(x =>
                                                                 <tr key={x.cd} style={{ textAlign: 'right' }} align="start">
                                                                     <td className="number" style={{ width: '15%' }}>{x.cd}</td>
                                                                     <td className="population">{x.population.total}</td>

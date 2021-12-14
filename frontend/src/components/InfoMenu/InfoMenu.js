@@ -83,7 +83,7 @@ const InfoMenu = (props) =>{
                   <DemoData />
                 </Tab>
                 <Tab eventKey="Districts" title="Districts">
-                  <EnactedTable enacted={props.enacted}/>
+                  <EnactedTable enactedInfo={props.enactedInfo}/>
                 </Tab>
               </Tabs>
             </div>

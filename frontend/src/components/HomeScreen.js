@@ -17,7 +17,8 @@ const HomeScreen = (props) =>{
 
   const [showInfo, setShowInfo] = useState(true)
 
-  const [enacted, setEnacted] = useState({})
+  const [enactedInfo, setEnactedInfo] = useState({})
+  const [enactedGeo, setEnactedGeo] = useState({})
   const [all, setAll] = useState([])
   const [layers, setLayers] = useState({})
   const [flag, setFlag] = useState({'district':true,'county':false,'precinct':true})
@@ -112,15 +113,20 @@ const HomeScreen = (props) =>{
 
     const data = await getState(name)
     console.log(data)
+
     setElection(data.election)
     setPopulation(data.population)
     setVap(data.vap)
     setDistrictings(data.districtings)
-    setEnacted(data.enacted)
+    setEnactedInfo(data.enacted)
+
     const district = await getDistrict()
     const county = await getCounty()
     const precinct = await getPrecinct()
+
     setLayers({'district':district,'county':county,'precinct':precinct})
+    setEnactedGeo(district)
+
     console.log(data.districting)
 
     setGen(false)
@@ -128,7 +134,7 @@ const HomeScreen = (props) =>{
     console.log(county)
     console.log(precinct)
     console.log(layers)
-    console.log(enacted)
+    console.log(enactedInfo)
     console.log(population)
     // setState(data)
     // const temp = await getDistrict(name)
@@ -149,7 +155,7 @@ const HomeScreen = (props) =>{
       
       { showInfo && (
         <div>
-          <InfoMenu enacted={enacted} saved={saved} stateName={stateName} plan={plan} setPlan={setPlan} setSaved={setSaved}/>
+          <InfoMenu enactedInfo={enactedInfo} saved={saved} stateName={stateName} plan={plan} setPlan={setPlan} setSaved={setSaved}/>
           <LeftBar stateName={stateName} plan={plan} setGen={setGen} 
                 layers={layers} setLayers={setLayers} setSaved={setSaved} saved={saved}/>
           <LayerSelector flag={flag} setFlag={setFlag}/>  
@@ -159,7 +165,7 @@ const HomeScreen = (props) =>{
         gen != true ? <div></div>
                     : <div className="spinner-border spinner-border-sm text-info reset" style={{width: "15rem",height: "15rem",position: 'absolute', left: '40%', top: '40%' }}></div>
       }
-      <Map flag={flag} layers={layers} enacted={enacted} all={all}
+      <Map flag={flag} layers={layers} enactedInfo={enactedInfo} enactedGeo={enactedGeo} all={all}
           view={view} showClick={showClick} showInfo={showInfo}
           />
     </div>
