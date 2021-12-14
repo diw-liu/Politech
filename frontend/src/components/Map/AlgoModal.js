@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {CanvasJSChart} from 'canvasjs-react-charts'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -26,12 +27,16 @@ const AlgoModal = (props) => {
                         <h4 className="modal-title">Algorithm Status </h4>
                         </div>
                         <div className="modal-body">
-                            <p>Some text in the modal.</p>
+                            <CanvasJSChart />
                         </div>
                         <div className="modal-footer">
-                        <button style={{marginTop:'16px'}} className='btn btn-warning' onClick={handlePause} > Pause </button>
-                        <button style={{marginTop:'16px'}} className='btn btn-success' onClick={handleResume} > Resume </button>
-                        <button style={{marginTop:'16px'}} className='btn btn-danger' onClick={handleStop} > Stop </button>
+                            <div>Time: </div>
+                            <hr/>
+                        </div>
+                        <div className="modal-footer">
+                            <button style={{marginTop:'16px'}} className='btn btn-warning' onClick={handlePause} > Pause </button>
+                            <button style={{marginTop:'16px'}} className='btn btn-success' onClick={handleResume} > Resume </button>
+                            <button style={{marginTop:'16px'}} className='btn btn-danger' onClick={handleStop} > Stop </button>
                         </div>
                     </div>
                 </div>

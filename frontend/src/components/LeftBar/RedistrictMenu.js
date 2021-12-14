@@ -40,12 +40,7 @@ const RedistrictMenu = (props) => {
             <span>Efficiency gap: {Math.round(effGap * 100)/100}</span>
             <Slider style={{width:'100%'}} axis='x' x={effGap} xmax={1} xstep={0.01} onChange={ ({x}) => setEffGap(x) }/>
           </div>
-          <div>
-            <span>Graph compactness: {Math.round(compactness * 100)/100}</span>
-            <Slider style={{width:'100%'}} axis='x' x={compactness} xmax={1} xstep={0.01} onChange={ ({x}) => setCompactness(x) }/>
-          </div>
           <button style={{marginTop:'16px'}} className='btn btn-primary' onClick={handleLoading} > Redistrict </button>
-          
       </div>
     );
 } 

@@ -150,6 +150,7 @@ const HomeScreen = (props) =>{
     // props.setSaved(true);
     // props.setGen(true)
     console.log(showModal)
+    console.log("Loading")
     setShowModal(true)
     // setTimeout(() => props.setGen(false), 5000)
     // fetch("/api/newDistricting",{
@@ -159,18 +160,17 @@ const HomeScreen = (props) =>{
     //   .then(res => res.json()) 
     //   .then(message => {
     //     // localStorage.setItem("All",JSON.stringify(message));
-    //     var result = message.map(x => 
-    
-    //       JSON.parse(x).features[0]
-    //       );
-    //     console.log(props.state)
+    //     var result = message.map(x => JSON.parse(x).features[0]);
+    //     // console.log(props.state)
     //     console.log(result)
     //     // props.setState(result)
-    //     props.setState(redistrict(result, 0))
+    //     // props.setState(redistrict(result, 0))
     //   })
-    // fetch("/api/state?name=MD");
-    // fetch("/api/selectplan?id=24PL0");
-    // fetch("/job/start?goal=0.08&lower=3&higher=7&age=0");
+    fetch("/api/state?name=MD");
+    fetch("/api/selectplan?id=24PL1")
+      .then(data => console.log(data.json()));
+    fetch("/job/start?goal=0.08&lower=3&higher=7&age=0")
+      .then(data => console.log(data.json()));
   }
 
   return (

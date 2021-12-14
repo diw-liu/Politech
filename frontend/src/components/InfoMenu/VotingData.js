@@ -32,7 +32,6 @@ const VotingData = (props) => {
                     party = variable
                     vote = temp
                 }
-                console.log(count[ElectionEnum[variable]]['total'])
                 count[ElectionEnum[variable]]['total'] += temp
                 count['Total']['total'] += temp
             }
