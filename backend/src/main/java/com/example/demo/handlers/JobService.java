@@ -49,6 +49,7 @@ public class JobService {
 
     public Status getStatus() { return status; }
     public int getInterationThreshold() { return interationThreshold; }
+    public int getIterations() { return this.iterations; }
 
     public void loadPlan(HttpSession session) {
         String id = (String) session.getAttribute("selected");

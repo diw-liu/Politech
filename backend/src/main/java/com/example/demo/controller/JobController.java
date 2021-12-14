@@ -67,4 +67,9 @@ public class JobController {
     public Status getStatus(){
         return jobService.getStatus();
     }
+
+    @GetMapping("/getIterations")
+    public int getIterations(){
+        return jobService.getIterations();
+    }
 }
