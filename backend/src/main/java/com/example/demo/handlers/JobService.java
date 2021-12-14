@@ -34,6 +34,7 @@ public class JobService {
     AlgorithmSummary summary; // make it global so it can be reused after resume
     Districting selected; // make it global so it can be reused after resume
     Age age; // make it global so it can be reused after resume
+    HttpSession session; // make it global so it can be reused after resume
     boolean algoRunnningLock; // locks when the algo is in processing status
     final int interationThreshold = 10000;
 
@@ -60,9 +61,9 @@ public class JobService {
     public Status startJob(Constraints constraints, Age age, HttpSession session){
         if(status == Status.PROCESSING) {
             return Status.FAILED;
-        } else {
-            setStatus(Status.PROCESSING);
         }
+        setStatus(Status.PROCESSING);
+        this.session = session; 
 //        Age age = (Age) session.getAttribute("age");
         // converting geoString to geo for every district, precinct, cb
         HashMap<String, Integer> districtPopulations = new HashMap<>();
@@ -74,8 +75,8 @@ public class JobService {
 //        HashMap<String, ArrayList<String>> pid = new HashMap<>();
 //        ArrayList<String> cid = new ArrayList<>();
 
-        Districting selected = (Districting) session.getAttribute("selected");
-        for (District d : selected.getDistricts()) {
+        this.selected = (Districting) session.getAttribute("selected");
+        for (District d : this.selected.getDistricts()) {
             d.convertStringToGeometry();
             HashMap<String, Precinct> phash = new HashMap<>();
             ArrayList<String> pidTemp = new ArrayList<>();
@@ -105,13 +106,16 @@ public class JobService {
                 districtPopulations.put(d.getCd(), d.getVap().getTotal());
             }
         }
-        summary = new AlgorithmSummary(districtPopulations);
+        this.summary = new AlgorithmSummary(districtPopulations);
         session.setAttribute("summary", summary);
         this.algo = new Algorithm(dhash, /*dToP,*/ did, /*pid,*/ selected, constraints, age);
         this.age = age;
-        this.iterations++;
-        startAlgorithm(algo, age, summary, selected, session);
+        test();
         return getStatus();
+    }
+
+    public void test(){
+        startAlgorithm(this.algo, this.age, this.summary, this.selected, this.session);
     }
 
     @Async
@@ -126,7 +130,6 @@ public class JobService {
                 totalPop = ssp.getVap().getTotal();
             }
             algo.runAlgorithm(totalPop);
-            iterations++;
             if (iterations % 10 == 0) {
                 // update the summary
                 summary.setIterations(iterations);
@@ -139,6 +142,7 @@ public class JobService {
                 }
                 summary.setDistrictPopulations(districtPops);
             }
+            iterations++;
             algoRunnningLock = false; // unlocks algo iteration when the iteration is done
         }
         if(this.status == Status.PROCESSING){ // if algo is complete naturally(not by stop or pause), return completed status
@@ -146,51 +150,47 @@ public class JobService {
         }
     }
 
+
     public Status pauseJob(){
         if(status != Status.PROCESSING){
             return Status.FAILED;
         }
         status = Status.PAUSE;
-        while(this.algoRunnningLock == true){ // wait until the current algo running is done, then return pause status
-            try{
-                Thread.sleep(1000);
-            }
-            catch(InterruptedException ex){
-                Thread.currentThread().interrupt();
-            }
-        }
+        while(this.algoRunnningLock == true){} // wait until the current algo running is done, then return pause status
         return getStatus();
     }
 
-    public Status resumeJob(HttpSession session){
+
+    public Status resumeJob(){
         if(status != Status.PAUSE){
             return Status.FAILED;
         }
         status = Status.PROCESSING;
         while(this.algoRunnningLock == true){ // wait until the current algo running is done, then start the algo running again.
-            try{
-                Thread.sleep(1000);
-            }
-            catch(InterruptedException ex){
-                Thread.currentThread().interrupt();
-            }
+            // try{
+            //     Thread.sleep(1000);
+            // }
+            // catch(InterruptedException ex){
+            //     Thread.currentThread().interrupt();
+            // }
         }
-        startAlgorithm(algo, age, summary, selected, session);
+        startAlgorithm(this.algo, this.age, this.summary, this.selected, this.session);
         return getStatus();
     }
 
-    public Status stopJob(HttpSession session){
-        if(this.status != Status.PROCESSING || this.status != Status.PAUSE){  // if the algo is not processing or paused, return failed status
+
+    public Status stopJob(){
+        if(this.status != Status.PROCESSING && this.status != Status.PAUSE){  // if the algo is not processing or paused, return failed status
             return Status.FAILED; 
         } 
         status = Status.COMPLETED;
         while(this.algoRunnningLock == true){ // wait until the current algo running is done, then return stop status
-            try{
-                Thread.sleep(1000);
-            }
-            catch(InterruptedException ex){
-                Thread.currentThread().interrupt();
-            }
+            // try{
+            //     Thread.sleep(1000);
+            // }
+            // catch(InterruptedException ex){
+            //     Thread.currentThread().interrupt();
+            // }
         }
         return getStatus();
     }

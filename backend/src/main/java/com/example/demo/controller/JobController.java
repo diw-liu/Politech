@@ -37,7 +37,8 @@ public class JobController {
         session.setAttribute("constraints", constraints);
         // session.setAttribute("age", Age.valueOf(age));
         jobService.loadPlan(session);
-        return jobService.startJob(constraints, Age.valueOf(age), session);;
+        jobService.startJob(constraints, Age.valueOf(age), session);
+        return jobService.getStatus();
     }
 
     @GetMapping("/summary")
@@ -53,12 +54,17 @@ public class JobController {
     }
 
     @GetMapping("/resumeJob")
-    public Status resumeJob(HttpSession session){
-        return jobService.resumeJob(session);
+    public Status resumeJob(){
+        return jobService.resumeJob();
     }
 
     @GetMapping("/stopJob")
-    public Status stopJob(@RequestParam String StateName){
+    public Status stopJob(){
+        return jobService.stopJob();
+    }
+
+    @GetMapping("/getStatus")
+    public Status getStatus(){
         return jobService.getStatus();
     }
 }
