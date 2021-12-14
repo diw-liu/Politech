@@ -154,7 +154,7 @@ public class JobService {
             return Status.FAILED;
         }
         status = Status.PAUSE;
-        while(this.algoRunnningLock == true){} // wait until the current algo running is done, then return pause status
+        while(this.algoRunnningLock){} // wait until the current algo running is done, then return pause status
         return getStatus();
     }
 
@@ -164,7 +164,7 @@ public class JobService {
             return Status.FAILED;
         }
         status = Status.PROCESSING;
-        while(this.algoRunnningLock == true){ // wait until the current algo running is done, then start the algo running again.
+        while(this.algoRunnningLock){ // wait until the current algo running is done, then start the algo running again.
             // try{
             //     Thread.sleep(1000);
             // }

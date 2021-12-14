@@ -166,13 +166,4 @@ class MapController {
         }
         return result;
     }
-
-    // TODO - check if this is necessary since we should have just gotten that in the /state now
-//    @GetMapping("/plans")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @ResponseBody
-//    public String getPlans(HttpServletRequest request) {
-////        String
-//        return null;
-//    }
 }
