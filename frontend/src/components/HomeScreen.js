@@ -29,6 +29,7 @@ const HomeScreen = (props) =>{
   const [election, setElection] = useState({})
   const [population, setPopulation] = useState({})
   const [vap, setVap]  = useState({})
+  const [plots, setPlots] = useState({})
 
   const [stateName, setStateName] = useState('')
 
@@ -91,6 +92,7 @@ const HomeScreen = (props) =>{
     setPopulation(data.population)
     setVap(data.vap)
     setDistrictings(data.districtings)
+    setPlots(data.plots)
 
     setLayers({'district':district,'county':county,'precinct':precinct})
     setEnactedGeo(district)
@@ -221,7 +223,7 @@ const HomeScreen = (props) =>{
       
       { showInfo && (
         <div>
-          <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} plan={plan} setPlan={setPlan}/>
+          <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} plan={plan} setPlan={setPlan} plots={plots} setPlots={setPlots}/>
           <LeftBar stateName={stateName} plan={plan} loading={loading}
                 setGen={setGen} showModal={showModal} setShowModal={setShowModal}
                 layers={layers} setLayers={setLayers} />

@@ -91,7 +91,7 @@ const InfoMenu = (props) =>{
               <GeneratedTable districtings={props.districtings} setPlan={props.setPlan}/>
             </div>
             <div class='tab-pane fade' id='plots' role='tabpanel' aria-labelledby='plots-tab'>
-              <BoxAndWhisker stateName={props.stateName} plan={props.plan} setPlan={props.setPlan}/>
+              <BoxAndWhisker stateName={props.stateName} plan={props.plan} setPlan={props.setPlan} plots={props.plots} setPlots={props.setPlots}/>
             </div>
           </div>
         </div>
