@@ -11,13 +11,18 @@ import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.DistrictRepository;
 import com.example.demo.repositories.DistrictingRepository;
 import com.example.demo.repositories.PrecinctRepository;
+import org.json.simple.JSONObject;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.wololo.geojson.Feature;
+import org.wololo.jts2geojson.GeoJSONWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class JobService {
@@ -37,6 +42,8 @@ public class JobService {
     HttpSession session; // make it global so it can be reused after resume
     boolean algoRunnningLock; // locks when the algo is in processing status
     final int interationThreshold = 10000;
+    private long timeStart;
+    private long timeEnd;
 
 
     public JobService(){
@@ -62,35 +69,25 @@ public class JobService {
     @Async
     public Status startJob(Constraints constraints, Age age, HttpSession session){
         if(status == Status.PROCESSING) {
+            session.setAttribute("selected", selected.getId());
             return Status.FAILED;
         }
         setStatus(Status.PROCESSING);
         this.session = session;
+        timeStart = System.nanoTime();
 
         this.selected = (Districting) session.getAttribute("selected");
-        if (selected.getMeasures().getOpportunityDistricts() < constraints.getLowerOpportunity() ||
-                selected.getMeasures().getOpportunityDistricts() > constraints.getHigherOpportunity()) {return Status.FAILED; }
-
-        if (selected.getMeasures().getPopulationEquality() < constraints.getPopulationEquality()) {
-            return Status.FAILED;
-        }
-//        Age age = (Age) session.getAttribute("age");
-        // converting geoString to geo for every district, precinct, cb
         HashMap<String, Integer> districtPopulations = new HashMap<>();
 
         HashMap<String, District> dhash = new HashMap<>();
-//        HashMap<String, HashMap<String, Precinct>> dToP = new HashMap<>();
-//        HashMap<String, HashMap<String, CensusBlock>> dToC = new HashMap<>();
         ArrayList<String> did = new ArrayList<>();
-//        HashMap<String, ArrayList<String>> pid = new HashMap<>();
-//        ArrayList<String> cid = new ArrayList<>();
 
-
+        System.out.println(selected.getId());
+        System.out.println(selected.getDistricts().size());
         for (District d : this.selected.getDistricts()) {
             d.convertStringToGeometry();
             HashMap<String, Precinct> phash = new HashMap<>();
             ArrayList<String> pidTemp = new ArrayList<>();
-//            HashMap<String, CensusBlock> chash = new HashMap<>();
             for (Precinct p : d.getBorderPrecincts()) {
                 p.convertStringToGeometry();
                 // removing neighbors that are in the same district so we will only have precincts in other districts in the set
@@ -98,17 +95,12 @@ public class JobService {
                 for (CensusBlock cb : p.getCensusBlocks()) {
                     cb.convertStringToGeometry();
                     cb.setParentDistrict(p.getDistrict());
-//                    chash.put(d.getId(), cb);
-//                    cid.add(cb.getId());
                 }
                 phash.put(p.getId(), p);
                 pidTemp.add(p.getId());
             }
 
-//            dToC.put(d.getId(), chash);
             dhash.put(d.getId(), d);
-//            dToP.put(d.getId(), phash);
-//            pid.put(d.getId(), pidTemp);
             did.add(d.getId());
             if (age == Age.TOTAL) {
                 districtPopulations.put(d.getCd(), d.getPopulation().getTotal());
@@ -118,13 +110,57 @@ public class JobService {
         }
         this.summary = new AlgorithmSummary(districtPopulations);
         session.setAttribute("summary", summary);
-        this.algo = new Algorithm(dhash, /*dToP,*/ did, /*pid,*/ selected, constraints, age);
+        this.algo = new Algorithm(dhash, did, selected, constraints, age);
         this.age = age;
-        // startAlgorithm(algo, age, summary, selected, session);
         startAlgorithm();
         // create algorithm result with calculations
-
+        timeEnd = System.nanoTime();
+        createResult();
+        session.setAttribute("selected", selected.getId());
         return getStatus();
+    }
+
+    public AlgorithmResult createResult() {
+        int changedPrecincts = 0;
+        long runTime = timeEnd - timeStart;
+        double timeSeconds = TimeUnit.SECONDS.convert(runTime, TimeUnit.NANOSECONDS);
+        // getting compactness for each district
+        HashMap<String, Double> districtCompactness = new HashMap<>();
+        for (District d : selected.getDistricts()) {
+            double compactness = 4.0 * Math.PI * (d.getGeometry().getArea() / Math.pow(d.getGeometry().getLength(), 2));
+            districtCompactness.put(d.getCd(), compactness);
+
+            for (Precinct p : d.getBorderPrecincts()) {
+                if (p.getHasChanged()) {
+                    changedPrecincts++;
+                    // TODO here is also where we get the geometries for changed precincts should we need them
+                }
+            }
+
+        }
+        // now getting population equality
+        int totalPop;
+        StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
+        if (age == Age.TOTAL) {
+            totalPop = ssp.getPopulation().getTotal();
+        } else {
+            totalPop = ssp.getVap().getTotal();
+        }
+        double ideal = (totalPop / (double) selected.getDistricts().size());
+        double currentSS = 0;
+        if (age == Age.TOTAL) {
+            for (District d : selected.getDistricts()) {
+                currentSS += Math.pow((d.getPopulation().getTotal() / ideal) - 1.0, 2);
+            }
+        } else {
+            for (District d : selected.getDistricts()) {
+                currentSS += Math.pow((d.getVap().getTotal() / ideal) - 1.0, 2);
+            }
+        }
+        double popeq = Math.sqrt(currentSS);
+        AlgorithmResult algorithmResult = new AlgorithmResult(iterations, changedPrecincts, popeq, districtCompactness);
+        session.setAttribute("result", algorithmResult);
+        return algorithmResult;
     }
 
     public void startAlgorithm() {
@@ -192,6 +228,10 @@ public class JobService {
         } 
         status = Status.COMPLETED;
         while(this.algoRunnningLock){} // wait until the current algo running is done, then return stop status
+        timeEnd = System.nanoTime();
+        createResult();
+        session.setAttribute("selected", selected.getId());
+        iterations = 0;
         return getStatus();
     }
 }
