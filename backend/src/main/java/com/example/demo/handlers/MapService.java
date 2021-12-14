@@ -61,7 +61,7 @@ public class MapService {
         featureCollection.put("type", "FeatureCollection");
         JSONObject crsprops = new JSONObject();
         JSONObject crs = new JSONObject();
-        crsprops.put("properties", "urn:ogc:def:crs:EPSG::4269");
+        crsprops.put("name", "urn:ogc:def:crs:EPSG::4269");
         crs.put("type", "name");
         crs.put("properties", crsprops);
         featureCollection.put("crs", crs);
@@ -82,13 +82,20 @@ public class MapService {
         }
 
         featureCollection.put("features", features);
-//        GeoJSONWriter writer1 = new GeoJSONWriter();
-//        FeatureCollection json = writer1.write(features);
         return featureCollection;
     }
 
-    public FeatureCollection fetchCountyGeometry(String stateId) {
+    public JSONObject fetchCountyGeometry(String stateId) {
         List<County> csp = countyRepository.findByState(stateId); //stateId
+
+        JSONObject featureCollection = new JSONObject();
+        featureCollection.put("type", "FeatureCollection");
+        JSONObject crsprops = new JSONObject();
+        JSONObject crs = new JSONObject();
+        crsprops.put("name", "urn:ogc:def:crs:EPSG::4269");
+        crs.put("type", "name");
+        crs.put("properties", crsprops);
+        featureCollection.put("crs", crs);
 
         List<Feature> features = new ArrayList<Feature>();
         WKTReader reader = new WKTReader();
@@ -104,10 +111,10 @@ public class MapService {
                 System.out.println("Error reading County LONGTEXT to Geometry using JTS");
             }
         }
-        GeoJSONWriter writer1 = new GeoJSONWriter();
-        FeatureCollection json = writer1.write(features);
-
-        return json;
+//        GeoJSONWriter writer1 = new GeoJSONWriter();
+//        FeatureCollection json = writer1.write(features);
+        featureCollection.put("features", features);
+        return featureCollection;
     }
 
 }
