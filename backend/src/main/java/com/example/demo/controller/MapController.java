@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -26,6 +27,7 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.simple.parser.ParseException;
@@ -33,6 +35,9 @@ import org.wololo.geojson.Feature;
 import org.wololo.geojson.FeatureCollection;
 import org.wololo.geojson.GeoJSON;
 import org.wololo.jts2geojson.GeoJSONWriter;
+import org.springframework.core.io.AbstractResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 //import java.util.ArrayList;
 //import java.util.List;
@@ -256,5 +261,29 @@ class MapController {
             }
         }
         return result;
+    }
+
+    @GetMapping("/preview")
+    public ResponseEntity<List<FileSystemResource>> getPreview(@RequestParam String state){
+        File folder = new File("src/main/preview/" + state + "_previews/");
+        File[] listOfFiles = folder.listFiles();
+        List<FileSystemResource> previewList = new ArrayList<>();
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                Path path = listOfFiles[i].toPath();
+                FileSystemResource resource = new FileSystemResource(path);
+                previewList.add(resource);
+            } 
+        }        
+        return ResponseEntity.ok().body(previewList);
+    }
+
+    @GetMapping("/preview/{state}/{name}")
+    public ResponseEntity<Resource> viewImg(@PathVariable String name) throws IOException {
+        String inputFile = "src/main/preview/MD_previews/" + name + ".svg";
+        Path path = new File(inputFile).toPath();
+        FileSystemResource resource = new FileSystemResource(path);
+        return ResponseEntity.ok()
+                .body(resource);
     }
 }
