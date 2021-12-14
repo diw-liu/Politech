@@ -148,16 +148,67 @@ const HomeScreen = (props) =>{
     setShowModal(false)
   }
 
-  const loading = () => {
-    console.log(showModal)
-    console.log("Loading")
+  const loading = async () => {
+    // console.log(showModal)
+    // console.log("Loading")
     setShowModal(true)
-    console.log(props);
-    // fetch("/api/selectplan?id=24PL0")
-    //   .then(data => console.log(data.json()));
-    // fetch("/job/start?goal=0.08&lower=3&higher=7&age=0")
-    //   .then(data => console.log(data.json()));
+    await getStateTesting()
+    await getPlanTesting()
+    getStartTesting()
+    // setTimeout(function(){
+    //   getStartTesting()
+    // }, 3000);
+    getSummaryTesting()
   }
+
+
+  const getStateTesting = async () =>{
+    return fetch("/api/state?name=MD")
+            .then(data => data.json())
+  }
+  const getPlanTesting = async () =>{
+    return fetch("/api/selectplan?id=24PL0")
+            .then(data => data.json())
+  }
+  const getStartTesting = async () =>{
+    try {
+      const response = await fetch("/job/start?goal=0.08&lower=3&higher=7&age=0");
+      if (response.status === 200) {
+          console.log("Machine successfully found.");
+          const myJson = await response.json(); //extract JSON from the http response
+          console.log(myJson);               
+      } else {
+          console.log("not a 200");
+      }
+    } catch (err) {
+        // catches errors both in fetch and response.json
+        console.log(err);
+    } finally {
+        // do it again in 2 seconds
+        setTimeout(getStartTesting , 10000);
+    }
+  }
+  const getSummaryTesting = async () =>{
+    try {
+      const response = await fetch("/job/summary");
+      if (response.status === 200) {
+          console.log("Machine successfully found.");
+          const myJson = await response.json(); //extract JSON from the http response
+          console.log(myJson);               
+      } else {
+          console.log("not a 200");
+      }
+    } catch (err) {
+        // catches errors both in fetch and response.json
+        console.log(err);
+    } finally {
+        // do it again in 2 seconds
+        setTimeout(getSummaryTesting , 10000);
+    }
+    // return fetch("/job/summary")
+    //         .then(data => data.json())
+  }
+  
 
   return (
     <div >
