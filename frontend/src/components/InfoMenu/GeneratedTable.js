@@ -25,14 +25,14 @@ const GeneratedTable = (props) => {
         console.log(id)
     }
 
-    useEffect(() =>{
-        fetch("/api/plan")
-        .then(res => res.json())
-        .then(function(data) {
-            console.log(data);
-            setPlans(data);
-        });
-    },[])
+    // useEffect(() =>{
+    //     fetch("/api/plan")
+    //     .then(res => res.json())
+    //     .then(function(data) {
+    //         console.log(data);
+    //         setPlans(data);
+    //     });
+    // },[])
 
     return(
         <div class='table-responsive overflow-scroll'>

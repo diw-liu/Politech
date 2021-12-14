@@ -37,8 +37,7 @@ public class JobController {
         session.setAttribute("constraints", constraints);
         // session.setAttribute("age", Age.valueOf(age));
         jobService.loadPlan(session);
-        jobService.startJob(constraints, Age.valueOf(age), session);
-        return jobService.getStatus();
+        return jobService.startJob(constraints, Age.valueOf(age), session);
     }
 
     @GetMapping("/summary")

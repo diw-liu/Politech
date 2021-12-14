@@ -183,7 +183,6 @@ public class JobService {
         return getStatus();
     }
 
-
     public Status stopJob(){
         if(this.status != Status.PROCESSING && this.status != Status.PAUSE){  // if the algo is not processing or paused, return failed status
             return Status.FAILED; 

@@ -24,22 +24,22 @@ const InfoMenu = (props) =>{
   const [demos, setDemos] = useState([]);
   const [totalPopDem, setTotalPopDem] = useState([]);
 
-  useEffect(() =>{
-    fetch("/api/voting")
-      .then(res => res.json())
-      .then(function(data) {
-          setParties(data);
-      });
-  }, []);
+  // useEffect(() =>{
+  //   fetch("/api/voting")
+  //     .then(res => res.json())
+  //     .then(function(data) {
+  //         setParties(data);
+  //     });
+  // }, []);
 
-  useEffect(() =>{
-    fetch("/api/population?name=" + props.stateName)
-    .then(res => res.json())
-    .then(function(data) {
-        setTotalPopDem(data.populations.filter(population => population.type == "TOTAL")[0].population);
-        setDemos(data.populations);
-    });
-  }, []);
+  // useEffect(() =>{
+  //   fetch("/api/population?name=" + props.stateName)
+  //   .then(res => res.json())
+  //   .then(function(data) {
+  //       setTotalPopDem(data.populations.filter(population => population.type == "TOTAL")[0].population);
+  //       setDemos(data.populations);
+  //   });
+  // }, []);
 
     return (
       <div className='info-menu'>

@@ -259,7 +259,8 @@ public class Algorithm {
                     }
                 }
             }
-
+            toGiveP.setHasChanged(true);
+            toTakeP.setHasChanged(true);
             badMoves = 0; // reset badmoves counter
             return true;
         }
@@ -310,7 +311,8 @@ public class Algorithm {
                 }
             }
         }
-
+        toGiveP.setHasChanged(true);
+        toTakeP.setHasChanged(true);
         badMoves++;
         return false;
     }
