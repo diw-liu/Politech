@@ -181,10 +181,10 @@ public class JobService {
 
     public Status stopJob(HttpSession session){
         if(this.status != Status.PROCESSING || this.status != Status.PAUSE){  // if the algo is not processing or paused, return failed status
-            return Status.FAILED; 
-        } 
+            return Status.FAILED;
+        }
         status = Status.COMPLETED;
-        while(this.algoRunnningLock == true){ // wait until the current algo running is done, then return stop status
+        while(this.algoRunnningLock){ // wait until the current algo running is done, then return stop status
             try{
                 Thread.sleep(1000);
             }
