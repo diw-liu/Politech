@@ -6,40 +6,64 @@ import {CanvasJSChart} from 'canvasjs-react-charts'
 
 const BoxAndWhisker = (props) => {
     
+    console.log(props);
+    console.log(props.plots);
     const [ensemble, setEnsemble] = useState([]);
     const [enactedPoints, setEnactedPoints] = useState([]);
     const [selectedPointsAll, setSelectedPointsAll] = useState({"recombination_of_districts-0": []});
 
-    // useEffect(() =>{
-    //     console.log(props.stateName);
-    //     fetch("/api/ensemble?state="+props.stateName)
-    //       .then(res => res.json())
-    //       .then(function(data) {
-    //           var districtStats = [];
-    //           for (let i = 0; i < data.length; i++) {
-    //               districtStats.push({
-    //                 label: "District " + data[i][0],
-    //                 y: [parseFloat(data[i][1]), // min
-    //                     parseFloat(data[i][2]), // q1
-    //                     parseFloat(data[i][3]), // q3
-    //                     parseFloat(data[i][4]), // max
-    //                     parseFloat(data[i][5]), // med (q2)
-    //                 ]
-    //             });
-    //           }
-    //           districtStats.sort((a,b) => (a.label > b.label) ? 1 : -1);
-    //           setEnsemble(districtStats);
-    //       });
-    //       fetch("/api/plotPoints")
-    //       .then(res => res.json())
-    //       .then(function(data) {
-    //         console.log(data);
-    //         setEnactedPoints(Object.values(data["enacted"]));
-    //         data["recombination_of_districts-0"] = [];
-    //         console.log(data);
-    //         setSelectedPointsAll(data);
-    //       });
-    // }, []);
+    const [plots, setPlots] = useState(props.plots);
+
+    function compare( a, b ) {
+        if ( a.min < b.min ){
+            return -1;
+        }
+        if ( a.min > b.min ){
+            return 1;
+        }
+        return 0;
+        }
+    var boxes = props.plots;
+    console.log(boxes);
+    console.log(boxes.sort( compare ))
+
+    useEffect(() =>{
+        plots.sort();
+        setPlots(plots);
+        // var districtStats = [];
+        // for (let i = 0; i < props.plots.length; i++) {
+
+        // }
+        
+        // console.log(props.stateName);
+        // fetch("/api/ensemble?state="+props.stateName)
+        //   .then(res => res.json())
+        //   .then(function(data) {
+        //       var districtStats = [];
+        //       for (let i = 0; i < data.length; i++) {
+        //           districtStats.push({
+        //             label: "District " + data[i][0],
+        //             y: [parseFloat(data[i][1]), // min
+        //                 parseFloat(data[i][2]), // q1
+        //                 parseFloat(data[i][3]), // q3
+        //                 parseFloat(data[i][4]), // max
+        //                 parseFloat(data[i][5]), // med (q2)
+        //             ]
+        //         });
+        //       }
+        //       districtStats.sort((a,b) => (a.label > b.label) ? 1 : -1);
+        //       setEnsemble(districtStats);
+        //   });
+        //   fetch("/api/plotPoints")
+        //   .then(res => res.json())
+        //   .then(function(data) {
+        //     console.log(data);
+        //     setEnactedPoints(Object.values(data["enacted"]));
+        //     data["recombination_of_districts-0"] = [];
+        //     console.log(data);
+        //     setSelectedPointsAll(data);
+        //   });
+    }, []);
 
     function getData(data,k){
         let dataPoints = [];
