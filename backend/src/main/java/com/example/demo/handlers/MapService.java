@@ -59,9 +59,9 @@ public class MapService {
         List<Feature> features = new ArrayList<Feature>();
         WKTReader reader = new WKTReader();
         GeoJSONWriter writer = new GeoJSONWriter();
-        Map<String, Object> properties = new HashMap<String, Object>();
 
         for (PrecinctSummaryProjection p : psp) {
+            Map<String, Object> properties = new HashMap<String, Object>();
             try{
                 Geometry pgeo = reader.read(p.getGeometryString());
                 properties.put("id", p.getId());
@@ -81,9 +81,9 @@ public class MapService {
         List<Feature> features = new ArrayList<Feature>();
         WKTReader reader = new WKTReader();
         GeoJSONWriter writer = new GeoJSONWriter();
-        Map<String, Object> properties = new HashMap<String, Object>();
 
         for (County c : csp) {
+            Map<String, Object> properties = new HashMap<String, Object>();
             try{
                 Geometry pgeo = reader.read(c.getGeometryString());
                 properties.put("county", c.getCounty());

@@ -133,9 +133,9 @@ class MapController {
         List<Feature> features = new ArrayList<Feature>();
         WKTReader reader = new WKTReader();
         GeoJSONWriter writer = new GeoJSONWriter();
-        Map<String, Object> properties = new HashMap<String, Object>();
 
         for (DistrictSummaryProjection dsp : ssp.getEnacted().getDistricts()) {
+            Map<String, Object> properties = new HashMap<String, Object>();
             try{
                 Geometry pgeo = reader.read(dsp.getGeometryString());
                 properties.put("cd", dsp.getCd());
