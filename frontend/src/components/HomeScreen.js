@@ -37,11 +37,9 @@ const HomeScreen = (props) =>{
   const [showModal, setShowModal] = useState(false)
   const [gen, setGen] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [algoGraph, setAlgoGraph] = useState({});
 
 
-  
-  // console.log(state)
-  
   useEffect(() =>{
     fetch("/api/all",{
       method: 'GET',
@@ -53,24 +51,6 @@ const HomeScreen = (props) =>{
       })
   },[])
 
-
-  // const getLayers = async (id) =>{
-  //   let name = "MD"
-  //   switch(id){
-  //       case "0":
-  //           name = "MD";
-  //           break;
-  //       case "1":
-  //           name = "MI";
-  //           break;
-  //       case "2":
-  //           name = "PA";
-  //           break;
-  //       default:
-  //   }
-  //   return fetch("/api/" + name)
-  //           .then(data => data.json())
-  // }
   const getState = async (state) =>{
     return fetch("/api/state?" + new URLSearchParams({
               name: state
@@ -133,24 +113,24 @@ const HomeScreen = (props) =>{
     setView(getView(name))
   }
 
-  const pause = () => {
-    // fetch("/job/pause");
+  const pause = async () => {
+    await getPauseTesting()
   }
 
-  const resume = () => {
-    // fetch("/job/resume");
+  const resume = async () => {
+    await getResumeTesting()
   }
 
-  const stop = () => {
-    // fetch("/job/stop");
-    setShowModal(false)
+  const stop = async () => {
+    const data = await getStopTesting()
+    if (data) {setShowModal(false)}
   }
 
   const loading = async () => {
     // console.log(showModal)
     // console.log("Loading")
     setShowModal(true)
-    await getStateTesting()
+    // await getStateTesting()
     await getPlanTesting()
     getStartTesting()
     // setTimeout(function(){
@@ -160,54 +140,77 @@ const HomeScreen = (props) =>{
   }
 
 
-  const getStateTesting = async () =>{
-    return fetch("/api/state?name=MD")
-            .then(data => data.json())
-  }
+  // const getStateTesting = async () =>{
+  //   return fetch("/api/state?name=MD")
+  //           .then(data => data.json())
+  // }
   const getPlanTesting = async () =>{
     return fetch("/api/selectplan?id=24PL0")
             .then(data => data.json())
   }
+
+  const getPauseTesting = async() => {
+    if (Object.keys(algoGraph).length != 0){
+      return fetch("/job/pause")
+              .then(data => data.json())
+    } 
+  }
+
+  const getResumeTesting = async() => {
+    if (Object.keys(algoGraph).length != 0){
+      return fetch("/job/resume")
+              .then(data => data.json())
+    } 
+  }
+
+  const getStopTesting = async() => {
+    if (Object.keys(algoGraph).length != 0){
+      return fetch("/job/stop")
+              .then(data => data.json())
+    } 
+  }
+
   const getStartTesting = async () =>{
     try {
       const response = await fetch("/job/start?goal=0.08&lower=3&higher=7&age=0");
       if (response.status === 200) {
           console.log("Machine successfully found.");
-          const myJson = await response.json(); //extract JSON from the http response
-          console.log(myJson);               
+          // const myJson = await response.json(); //extract JSON from the http response
+          // console.log(myJson);               
       } else {
-          console.log("not a 200");
+          console.log("not a 200 Start");
       }
     } catch (err) {
         // catches errors both in fetch and response.json
         console.log(err);
     } finally {
         // do it again in 2 seconds
-        setTimeout(getStartTesting , 10000);
+        if(showModal){
+          setTimeout(getStartTesting , 10000);
+        } 
     }
   }
+
   const getSummaryTesting = async () =>{
     try {
       const response = await fetch("/job/summary");
       if (response.status === 200) {
-          console.log("Machine successfully found.");
           const myJson = await response.json(); //extract JSON from the http response
-          console.log(myJson);               
+          // console.log(myJson);  
+          setAlgoGraph(myJson)             
       } else {
-          console.log("not a 200");
+          console.log("not a 200 Summary");
       }
     } catch (err) {
-        // catches errors both in fetch and response.json
         console.log(err);
     } finally {
-        // do it again in 2 seconds
+      if(showModal){
         setTimeout(getSummaryTesting , 10000);
+      } 
+        // do it again in 2 seconds
     }
-    // return fetch("/job/summary")
-    //         .then(data => data.json())
   }
   
-
   return (
     <div >
       <StateSelector stateName={stateName} showClick={showClick}
@@ -233,7 +236,7 @@ const HomeScreen = (props) =>{
 
       {
         showModal != true ? <div></div>
-                          : <AlgoModal pause={pause} resume={resume} stop={stop}/>
+                          : <AlgoModal algoGraph={algoGraph} pause={pause} resume={resume} stop={stop}/>
       }
 
       <Map flag={flag} layers={layers} enactedInfo={enactedInfo} enactedGeo={enactedGeo} all={all}

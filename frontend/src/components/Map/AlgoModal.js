@@ -26,9 +26,9 @@ const AlgoModal = (props) => {
                         <div className="modal-header">
                         <h4 className="modal-title">Algorithm Status </h4>
                         </div>
-                        <div className="modal-body">
+                        {/* <div className="modal-body">
                             <CanvasJSChart />
-                        </div>
+                        </div> */}
                         <div className="modal-footer">
                             <div>Iterations: </div>
                             <hr/>
