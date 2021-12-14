@@ -20,6 +20,7 @@ import com.example.demo.projections.data.DistrictingDataProjection;
 import com.example.demo.projections.summary.DistrictSummaryProjection;
 import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.*;
+import org.json.simple.JSONObject;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,11 +114,13 @@ class MapController {
     // COMPLETED
     @GetMapping("/precinctgeometry")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody FeatureCollection getPrecinctGeometry(HttpSession session) {
+    public @ResponseBody
+    JSONObject getPrecinctGeometry(HttpSession session) {
         StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
         return mapService.fetchPrecinctGeometry(ssp.getId() + "PL0");
     }
 
+    // COMPLETED
     @GetMapping("/countygeometry")
     @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody FeatureCollection getCountyGeometry(HttpSession session) {
@@ -125,6 +128,7 @@ class MapController {
         return mapService.fetchCountyGeometry(ssp.getId());
     }
 
+    // COMPLETED
     @GetMapping("/districtgeometry")
     @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody FeatureCollection getDistrictGeometry(HttpSession session) {
@@ -158,7 +162,6 @@ class MapController {
         session.setAttribute("selected", ddp.getId());
         return ddp; // TODO - change this later to be something else
     }
-
 
     @GetMapping("/all")
     @Produces({MediaType.APPLICATION_JSON})

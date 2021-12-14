@@ -59,12 +59,21 @@ public class JobService {
         session.setAttribute("selected", plan);
     }
 
+    @Async
     public Status startJob(Constraints constraints, Age age, HttpSession session){
         if(status == Status.PROCESSING) {
             return Status.FAILED;
         }
         setStatus(Status.PROCESSING);
-        this.session = session; 
+        this.session = session;
+
+        this.selected = (Districting) session.getAttribute("selected");
+        if (selected.getMeasures().getOpportunityDistricts() < constraints.getLowerOpportunity() ||
+                selected.getMeasures().getOpportunityDistricts() > constraints.getHigherOpportunity()) {return Status.FAILED; }
+
+        if (selected.getMeasures().getPopulationEquality() < constraints.getPopulationEquality()) {
+            return Status.FAILED;
+        }
 //        Age age = (Age) session.getAttribute("age");
         // converting geoString to geo for every district, precinct, cb
         HashMap<String, Integer> districtPopulations = new HashMap<>();
@@ -76,7 +85,7 @@ public class JobService {
 //        HashMap<String, ArrayList<String>> pid = new HashMap<>();
 //        ArrayList<String> cid = new ArrayList<>();
 
-        this.selected = (Districting) session.getAttribute("selected");
+
         for (District d : this.selected.getDistricts()) {
             d.convertStringToGeometry();
             HashMap<String, Precinct> phash = new HashMap<>();
@@ -113,10 +122,11 @@ public class JobService {
         this.age = age;
         // startAlgorithm(algo, age, summary, selected, session);
         startAlgorithm();
+        // create algorithm result with calculations
+
         return getStatus();
     }
-    
-    @Async
+
     public void startAlgorithm() {
         while (iterations < getInterationThreshold() && (getStatus() == Status.PROCESSING || getStatus() == Status.PAUSE)) {
             while(getStatus() == Status.PAUSE){
@@ -136,7 +146,7 @@ public class JobService {
                 totalPop = ssp.getVap().getTotal();
             }
             algo.runAlgorithm(totalPop);
-            if (iterations % 10 == 0) {
+            if (iterations % 17 == 0) {
                 // update the summary
                 summary.setIterations(iterations);
                 HashMap<String, Integer> districtPops = new HashMap<>();
@@ -172,14 +182,7 @@ public class JobService {
             return Status.FAILED;
         }
         status = Status.PROCESSING;
-        while(this.algoRunnningLock){ // wait until the current algo running is done, then start the algo running again.
-            // try{
-            //     Thread.sleep(1000);
-            // }
-            // catch(InterruptedException ex){
-            //     Thread.currentThread().interrupt();
-            // }
-        }
+        while(this.algoRunnningLock){} // wait until the current algo running is done, then start the algo running again.
         return getStatus();
     }
 
@@ -188,14 +191,7 @@ public class JobService {
             return Status.FAILED; 
         } 
         status = Status.COMPLETED;
-        while(this.algoRunnningLock == true){ // wait until the current algo running is done, then return stop status
-            // try{
-            //     Thread.sleep(1000);
-            // }
-            // catch(InterruptedException ex){
-            //     Thread.currentThread().interrupt();
-            // }
-        }
+        while(this.algoRunnningLock){} // wait until the current algo running is done, then return stop status
         return getStatus();
     }
 }

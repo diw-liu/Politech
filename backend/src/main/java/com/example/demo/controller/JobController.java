@@ -32,6 +32,7 @@ public class JobController {
 
     @GetMapping("/start")
     public Status startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, @RequestParam int age, HttpServletRequest request){
+        if (goal < 0 || goal > 1 || higher < lower) { return Status.FAILED; }
         Constraints constraints = new Constraints(goal, lower, higher);
         HttpSession session = request.getSession();
         session.setAttribute("constraints", constraints);
