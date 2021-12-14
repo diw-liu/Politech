@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.enums.Basis;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,6 +25,7 @@ public class BoxAndWhisker{
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="stateId")
+    @JsonBackReference
     public State getState() { return this.state; }
     public void setState(State d) { this.state = d; }
 

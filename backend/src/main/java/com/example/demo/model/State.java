@@ -93,14 +93,15 @@ public class State {
     public Geometry getGeometry() { return geometry; }
     public void setGeometry(Geometry p) { geometry = p; }
 
-    @OneToMany(mappedBy="state", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="state")
     @JsonManagedReference
     public List<Districting> getDistrictings() { return this.districtings; }
     public void setDistrictings(List<Districting> seawulfDistrictings) {
         this.districtings = seawulfDistrictings;
     }
 
-    @OneToMany(mappedBy="state", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="state")
+    @JsonManagedReference
     public List<BoxAndWhisker> getPlots() { return plots; }
     public void setPlots(List<BoxAndWhisker> p) { plots = p; }
 
