@@ -195,7 +195,7 @@ class MapController {
     @Produces({MediaType.APPLICATION_JSON})
     @ResponseBody public JSONObject getAll() {
         // get all state outlines
-        List<StateGeometryProjection> sgplist = stateRepository.findAllStates();
+        List<StateGeometryProjection> sgplist = stateRepository.findAllProjectedBy();
 
         JSONObject featureCollection = new JSONObject();
         featureCollection.put("type", "FeatureCollection");

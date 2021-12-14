@@ -13,5 +13,5 @@ public interface StateRepository extends CrudRepository<State, String> {
     <T> T findByName(String name, Class<T> tClass);
     <T> Optional<T> findById(String id, Class<T> type);
 
-    List<StateGeometryProjection> findAllStates();
+    List<StateGeometryProjection> findAllProjectedBy();
 }
