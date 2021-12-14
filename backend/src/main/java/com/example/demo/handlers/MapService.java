@@ -9,6 +9,7 @@ import com.example.demo.projections.summary.DistrictSummaryProjection;
 import com.example.demo.projections.summary.PrecinctSummaryProjection;
 import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.*;
+import org.json.simple.JSONObject;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +54,17 @@ public class MapService {
         return planSummary;
     }
 
-    public FeatureCollection fetchPrecinctGeometry(String id) {
+    public JSONObject fetchPrecinctGeometry(String id) {
         List<PrecinctSummaryProjection> psp = precinctRepository.findByDistrictIdStartsWith(id);
+
+        JSONObject featureCollection = new JSONObject();
+        featureCollection.put("type", "FeatureCollection");
+        JSONObject crsprops = new JSONObject();
+        JSONObject crs = new JSONObject();
+        crsprops.put("properties", "urn:ogc:def:crs:EPSG::4269");
+        crs.put("type", "name");
+        crs.put("properties", crsprops);
+        featureCollection.put("crs", crs);
 
         List<Feature> features = new ArrayList<Feature>();
         WKTReader reader = new WKTReader();
@@ -70,9 +80,11 @@ public class MapService {
                 System.out.println("Error reading Precinct LONGTEXT to Geometry using JTS");
             }
         }
-        GeoJSONWriter writer1 = new GeoJSONWriter();
-        FeatureCollection json = writer1.write(features);
-        return json;
+
+        featureCollection.put("features", features);
+//        GeoJSONWriter writer1 = new GeoJSONWriter();
+//        FeatureCollection json = writer1.write(features);
+        return featureCollection;
     }
 
     public FeatureCollection fetchCountyGeometry(String stateId) {
@@ -94,6 +106,7 @@ public class MapService {
         }
         GeoJSONWriter writer1 = new GeoJSONWriter();
         FeatureCollection json = writer1.write(features);
+
         return json;
     }
 

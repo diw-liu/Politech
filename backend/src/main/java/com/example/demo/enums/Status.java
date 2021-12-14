@@ -5,6 +5,5 @@ public enum Status {
     PROCESSING,
     PAUSE,
     COMPLETED,
-    STOP,
     FAILED
 }
