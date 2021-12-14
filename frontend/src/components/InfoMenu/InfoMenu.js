@@ -78,7 +78,7 @@ const InfoMenu = (props) =>{
             <div class='tab-pane fade show active' id='enacted' role='tabpanel' aria-labelledby='enacted-tab'>
               <Tabs>
                 <Tab eventKey="State" title="State">
-                  <VotingData />
+                  <VotingData enactedInfo={props.enactedInfo}/>
                   <hr/>
                   <DemoData />
                 </Tab>
