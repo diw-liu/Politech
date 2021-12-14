@@ -130,6 +130,7 @@ const HomeScreen = (props) =>{
     console.log(data.districting)
 
     setGen(false)
+    
     console.log(district)
     console.log(county)
     console.log(precinct)

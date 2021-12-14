@@ -19,6 +19,7 @@ const Map = (props) => {
     // }
     console.log(props.enactedInfo);
     console.log(Object.keys(props.layers).length === 0);
+    console.log(props.flag)
     // }
 
     if (Object.keys(props.layers).length === 0){
@@ -59,6 +60,7 @@ const Map = (props) => {
       }
 
       console.log(props.enactedGeo)
+      console.log(props.flag)
       console.log(props.layers['district'])
       // delete Object.assign(props.enacted, {['geometry']: props.enacted['geometryString'] })['geometryString'];
       const districtColor = new GeoJsonLayer({
@@ -72,7 +74,8 @@ const Map = (props) => {
       })
 
       display.push(districtColor)
-
+      
+      // Finetune the lines with function
       for (const variable in props.layers) {
         if(props.flag[variable]){
           display.push(new GeoJsonLayer({

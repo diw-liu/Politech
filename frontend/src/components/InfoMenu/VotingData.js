@@ -6,12 +6,37 @@ const VotingData = (props) => {
     //     newArr[index] = !newArr[index]; 
     //     props.setFlag(newArr);
     // }
+    console.log(props.enactedInfo)
+    for(var i = 0; i< props.enactedInfo.districts.length; i++){
+
+    }
     return(
         <div>
             <h5>Voting Data</h5>
             <table style={{ width: '100%' }}>
                 <tr className="item">
                     <th style={{ textAlign: 'left' }}>Party</th>
+                    <th style={{ textAlign: 'right' }}>Districts</th>
+                    <th style={{ textAlign: 'right' }}>Votes</th>
+                    <th style={{ textAlign: 'right' }}>District Percentage</th>
+                    <th style={{ textAlign: 'right' }}>Vote Percentage</th>
+                </tr>
+                <tr className="item">
+                    <th style={{ textAlign: 'left' }}>Democratic</th>
+                    <th style={{ textAlign: 'right' }}>Districts</th>
+                    <th style={{ textAlign: 'right' }}>Votes</th>
+                    <th style={{ textAlign: 'right' }}>District Percentage</th>
+                    <th style={{ textAlign: 'right' }}>Vote Percentage</th>
+                </tr>
+                <tr className="item">
+                    <th style={{ textAlign: 'left' }}>Republican</th>
+                    <th style={{ textAlign: 'right' }}>Districts</th>
+                    <th style={{ textAlign: 'right' }}>Votes</th>
+                    <th style={{ textAlign: 'right' }}>District Percentage</th>
+                    <th style={{ textAlign: 'right' }}>Vote Percentage</th>
+                </tr>
+                <tr className="item">
+                    <th style={{ textAlign: 'left' }}>Other</th>
                     <th style={{ textAlign: 'right' }}>Districts</th>
                     <th style={{ textAlign: 'right' }}>Votes</th>
                     <th style={{ textAlign: 'right' }}>District Percentage</th>

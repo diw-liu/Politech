@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 const LayerSelector = (props) => {
+
     const handleOnChange = (level) =>{
-        let newObj = props.flag; 
-        newObj.level = !newObj.level; 
+        let newObj = {...props.flag}; 
+        newObj[level] = !newObj[level]; 
         props.setFlag(newObj);
     }
+
     return(
         <div className="LayerSelector">
             <div class="form-check form-check-inline">
