@@ -110,13 +110,10 @@ public class JobService {
         session.setAttribute("summary", summary);
         this.algo = new Algorithm(dhash, /*dToP,*/ did, /*pid,*/ selected, constraints, age);
         this.age = age;
-        test();
+        startAlgorithm(algo, age, summary, selected, session);
         return getStatus();
     }
-
-    public void test(){
-        startAlgorithm(this.algo, this.age, this.summary, this.selected, this.session);
-    }
+    
 
     @Async
     public void startAlgorithm(Algorithm algo, Age age, AlgorithmSummary summary, Districting selected, HttpSession session) {
