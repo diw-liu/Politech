@@ -166,10 +166,10 @@ const HomeScreen = (props) =>{
     //     // props.setState(result)
     //     // props.setState(redistrict(result, 0))
     //   })
-    fetch("/api/state?name=MD");
-    fetch("/api/selectplan?id=24PL1")
+    await fetch("/api/state?name=MD");
+    await fetch("/api/selectplan?id=24PL0")
       .then(data => console.log(data.json()));
-    fetch("/job/start?goal=0.08&lower=3&higher=7&age=0")
+    await fetch("/job/start?goal=0.08&lower=3&higher=7&age=0")
       .then(data => console.log(data.json()));
   }
 
