@@ -78,9 +78,9 @@ const InfoMenu = (props) =>{
             <div class='tab-pane fade show active' id='enacted' role='tabpanel' aria-labelledby='enacted-tab'>
               <Tabs>
                 <Tab eventKey="State" title="State">
-                  <VotingData />
+                  <VotingData enactedInfo={props.enactedInfo}/>
                   <hr/>
-                  <DemoData />
+                  <DemoData enactedInfo={props.enactedInfo}/>
                 </Tab>
                 <Tab eventKey="Districts" title="Districts">
                   <EnactedTable enactedInfo={props.enactedInfo}/>
@@ -88,12 +88,11 @@ const InfoMenu = (props) =>{
               </Tabs>
             </div>
             <div class='tab-pane fade' id='generated' role='tabpanel' aria-labelledby='generated-tab'>
-              <GeneratedTable setPlan={props.setPlan}/>
+              <GeneratedTable districtings={props.districtings} setPlan={props.setPlan}/>
             </div>
             <div class='tab-pane fade' id='plots' role='tabpanel' aria-labelledby='plots-tab'>
               <BoxAndWhisker stateName={props.stateName} plan={props.plan} setPlan={props.setPlan}/>
             </div>
-            
           </div>
         </div>
       </div>

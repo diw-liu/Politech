@@ -9,16 +9,19 @@ const defaultOption = 'Select a state...'
 const StateSelector = (props) => {
 
   const handleStateSelect = (key) => {
-    props.setStateName(key)
+    console.log(key)
+    // props.setStateName(key)
     props.showClick(key)
     // setSelected(NAMES[key])
   }
 
   const handleReset = () => {
-    props.setStateName("")
+    // props.setStateName("")
     props.setShowInfo(false)
     props.setView(INITIAL_VIEW_STATE)
     props.setLayers({})
+    props.setEnactedInfo({})
+    props.setEnactedGeo({})
     // setSelected(defaultOption)
   }
 
@@ -31,22 +34,13 @@ const StateSelector = (props) => {
           onSelect={handleStateSelect}
       >
         <>
-        <Dropdown.Item 
-          key={"Maryland"}
-          eventKey={[0]}
-        >
+        <Dropdown.Item key={"MD"} eventKey={"MD"}>
           Maryland
         </Dropdown.Item>
-        <Dropdown.Item 
-          key={"Michigan"}
-          eventKey={1}
-        >
+        <Dropdown.Item key={"MI"}eventKey={"MI"}>
           Michigan
         </Dropdown.Item>
-        <Dropdown.Item 
-          key={"Pennsylvania"}
-          eventKey={2}
-        >
+        <Dropdown.Item key={"PA"} eventKey={"PA"}>
           Pennsylvania
         </Dropdown.Item>
         </>

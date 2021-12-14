@@ -7,10 +7,12 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 import RedistrictMenu from './RedistrictMenu';
 import PlanStatistics from './PlanStatistics';
+import PopulationSelector from './PopulationSelector';
 // import LayerSelector from '../Map/LayerSelector';
 
 const LeftBar = (props) => {
-    const [numDistricts, setNumDistricts] = useState('7')
+    const [popType, setPopType] = useState(0)
+
     return (
       <div className='left-bar'>
         {/* <Menu>
@@ -21,11 +23,9 @@ const LeftBar = (props) => {
           <hr/>
           <PlanStatistics props={props}/>
           <hr/>
-          { <RedistrictMenu numDistricts={numDistricts} setGen={props.setGen} 
-                                  state={props.state} setState={props.setState} saved={props.saved} setSaved={props.setSaved}/>}
-        </div>
-        <div class='container'> 
-        
+          <PopulationSelector popType={popType} setPopType={setPopType}/>
+          <hr/>
+          <RedistrictMenu setGen={props.setGen} loading={props.loading}/>
         </div>
       </div>
     );
