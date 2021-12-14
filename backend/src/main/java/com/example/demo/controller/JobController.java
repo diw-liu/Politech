@@ -32,7 +32,7 @@ public class JobController {
 
     @GetMapping("/start")
     public Status startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, @RequestParam int age, HttpServletRequest request){
-        if (goal < 0 || goal > 1 || higher < lower) { return Status.FAILED; }
+//        if (goal < 0 || goal > 1 ) { return Status.FAILED; }
         Constraints constraints = new Constraints(goal, lower, higher);
         HttpSession session = request.getSession();
         session.setAttribute("constraints", constraints);
@@ -46,6 +46,13 @@ public class JobController {
     public @ResponseBody AlgorithmSummary getSummary(HttpSession session) {
         AlgorithmSummary summary = (AlgorithmSummary) session.getAttribute("summary");
         return summary;
+    }
+
+    @GetMapping("/result")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody AlgorithmResult getResult(HttpSession session) {
+        AlgorithmResult result = (AlgorithmResult) session.getAttribute("result");
+        return result;
     }
 
     @GetMapping("/pause")

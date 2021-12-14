@@ -189,6 +189,7 @@ public class Algorithm {
 
         toGiveD.getPopulation().subtract(toGiveC.getPopulation());
         toGiveD.getVap().subtract(toGiveC.getPopulation());
+        toGiveD.getElection().subtract(toGiveC.getElection());
 
         toGiveP.getBorderBlocks().remove(toGiveC);
         toGiveP.getCensusBlocks().remove(toGiveC);
@@ -198,6 +199,7 @@ public class Algorithm {
 
         toTakeD.getPopulation().add(toGiveC.getPopulation());
         toTakeD.getVap().add(toGiveC.getPopulation());
+        toTakeD.getElection().add(toGiveC.getElection());
 
         // calculate new sum squares
 //        double newSS = 0;
