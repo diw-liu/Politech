@@ -24,6 +24,9 @@ const LeftBar = (props) => {
           {props.plan != 0 && <RedistrictMenu numDistricts={numDistricts} setGen={props.setGen} 
                                   state={props.state} setState={props.setState} saved={props.saved} setSaved={props.setSaved}/>}
         </div>
+        <div class='container'> 
+        
+        </div>
       </div>
     );
 } 

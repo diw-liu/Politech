@@ -13,10 +13,12 @@ const StateSelector = (props) => {
     props.showClick(key)
     // setSelected(NAMES[key])
   }
+
   const handleReset = () => {
     props.setStateName("")
     props.setShowInfo(false)
     props.setView(INITIAL_VIEW_STATE)
+    props.setState([])
     // setSelected(defaultOption)
   }
 

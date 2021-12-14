@@ -16,14 +16,18 @@ export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
 const HomeScreen = (props) =>{
 
   const [showInfo, setShowInfo] = useState(false)
+
   const [state, setState] = useState([])
+  const [all, setAll] = useState([])
+
   const [flag, setFlag] = useState([true, true])
   const [stateName, setStateName] = useState('')
   const [view, setView] = useState(INITIAL_VIEW_STATE)
   const [plan, setPlan] = useState(0)
   const [gen, setGen] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [all, setAll] = useState([]);
+
+
   
   console.log(state)
   
@@ -45,10 +49,32 @@ const HomeScreen = (props) =>{
     }
   },[])
 
-  const showClick = async ( name ) =>{
-    setShowInfo(true) 
+  const getLayers = async (id) =>{
+    let name = "MD"
+    switch(id){
+        case "0":
+            name = "MD";
+            break;
+        case "1":
+            name = "MI";
+            break;
+        case "2":
+            name = "PA";
+            break;
+        default:
+    }
+    return fetch("/api/" + name)
+            .then(data => data.json())
+  }
+  const showClick = async (name) =>{
     //showState(name)
-    setState(await showState(name))
+    setGen(true)
+    const data = await getLayers(name)
+    // console.log(data)
+    setGen(false)
+    setState(data)
+    setShowInfo(true) 
+    // showState(state,flag)
     setStateName(NAMES[name])
     setView(getView(name))
   }
@@ -56,8 +82,9 @@ const HomeScreen = (props) =>{
 
   return (
     <div >
-      <StateSelector setShowInfo={setShowInfo} showClick={showClick}
-        setView={setView} stateName={stateName} setStateName={setStateName}
+      <StateSelector stateName={stateName} showClick={showClick}
+        setView={setView} setShowInfo={setShowInfo} 
+        setState={setState}  setStateName={setStateName}
         />   
       
       { showInfo && (
