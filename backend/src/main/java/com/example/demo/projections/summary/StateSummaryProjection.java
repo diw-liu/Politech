@@ -1,9 +1,6 @@
 package com.example.demo.projections.summary;
 
-import com.example.demo.model.Election;
-import com.example.demo.model.Measures;
-import com.example.demo.model.Population;
-import com.example.demo.model.VotingAgePopulation;
+import com.example.demo.model.*;
 
 import java.util.List;
 
@@ -14,6 +11,7 @@ public interface StateSummaryProjection {
     VotingAgePopulation getVap();
     Election getElection();
     EnactedSummaryProjection getEnacted();
+    List<BoxAndWhisker> getPlots();
     List<DistrictingId> getDistrictings();
 
     interface DistrictingId {
