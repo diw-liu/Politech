@@ -21,7 +21,7 @@ const LeftBar = (props) => {
         <div class='container'>
           <h2> {props.stateName} {(props.plan == 0) ? 'Enacted' : props.plan }</h2>
           <hr/>
-          <PlanStatistics props={props}/>
+          <PlanStatistics plan={props.plan}/>
           <hr/>
           <PopulationSelector popType={popType} setPopType={setPopType}/>
           <hr/>
