@@ -21,22 +21,25 @@ const RedistrictMenu = (props) => {
       props.setGen(true)
       setShowAlgoButton(true)
       setTimeout(() => props.setGen(false), 5000)
-      fetch("/api/newDistricting",{
-        method: 'GET',
-        headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-      })
-        .then(res => res.json()) 
-        .then(message => {
-          // localStorage.setItem("All",JSON.stringify(message));
-          var result = message.map(x => 
+      // fetch("/api/newDistricting",{
+      //   method: 'GET',
+      //   headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+      // })
+      //   .then(res => res.json()) 
+      //   .then(message => {
+      //     // localStorage.setItem("All",JSON.stringify(message));
+      //     var result = message.map(x => 
        
-            JSON.parse(x).features[0]
-            );
-          console.log(props.state)
-          console.log(result)
-          // props.setState(result)
-          props.setState(redistrict(result, 0))
-        })
+      //       JSON.parse(x).features[0]
+      //       );
+      //     console.log(props.state)
+      //     console.log(result)
+      //     // props.setState(result)
+      //     props.setState(redistrict(result, 0))
+      //   })
+      fetch("/api/state?name=MD");
+      fetch("/api/selectplan?id=24PL0");
+      fetch("/job/start?goal=0.08&lower=3&higher=7&age=0");
     }
 
     const pause = () =>{
