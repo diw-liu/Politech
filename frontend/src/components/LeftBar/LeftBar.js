@@ -21,7 +21,7 @@ const LeftBar = (props) => {
           <hr/>
           <PlanStatistics props={props}/>
           <hr/>
-          {props.plan != 0 && <RedistrictMenu numDistricts={numDistricts} setGen={props.setGen} 
+          { <RedistrictMenu numDistricts={numDistricts} setGen={props.setGen} 
                                   state={props.state} setState={props.setState} saved={props.saved} setSaved={props.setSaved}/>}
         </div>
         <div class='container'> 
