@@ -25,7 +25,7 @@ const RedistrictMenu = (props) => {
           <h2>Redistrict </h2>
           <hr/>
           <div>
-            <span>Population Equality (%): {Math.round(popEq * 100)/100}</span>
+            <span>Population Equality: {Math.round(popEq * 100)/100}</span>
             <Slider style={{width:'100%'}} axis='x' x={popEq} xmax={0.7} xstep={0.001} onChange={ ({x}) => setPopEq(x) }/>
           </div>
           <div>
