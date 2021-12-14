@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const PopulationSelector = (props) => {
+const SliderSection = (props) => {
 
     const handleOnChange = (value) =>{
         props.setPopType(value)
@@ -30,4 +30,4 @@ const PopulationSelector = (props) => {
     )
 }
 
-export default PopulationSelector;
+export default SliderSection;

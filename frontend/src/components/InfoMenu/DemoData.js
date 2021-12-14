@@ -32,23 +32,6 @@ const DemoData = (props) => {
         for(var i = 0; i< length; i++){
             for(const variable in PopulationEnum){ 
                 count[PopulationEnum[variable]] += props.enactedInfo.districts[i].population[variable]
-            // var party = ""
-            // var vote = 0
-            // for(const variable in ElectionEnum){
-            //     // console.log(props.enactedInfo.districts[i].election["democraticVotes"])
-            //     const temp = props.enactedInfo.districts[i].election[variable]
-            //     if(temp > vote){
-            //         party = variable
-            //         vote = temp
-            //     }
-            //     console.log(count[ElectionEnum[variable]]['total'])
-            //     count[ElectionEnum[variable]]['total'] += temp
-            //     count['Total']['total'] += temp
-            // }
-            // count[ElectionEnum[party]]['districts']+= 1
-            // count['Total']['districts'] += 1
-            // console.log(props.enactedInfo.districts[i])
-            // console.log(party+" "+ vote)
             }
         }
     }
@@ -56,7 +39,7 @@ const DemoData = (props) => {
     return(
         <div>
             <h5>Demographic Data </h5>
-            (Total Population: )
+            (Total Population: {count["Total"]})
             <table style={{ width: '100%' }}>
                 <tr className="item">
                 <th style={{ textAlign: 'left' }}>Demographic</th>

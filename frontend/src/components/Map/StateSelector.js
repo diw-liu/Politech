@@ -34,22 +34,13 @@ const StateSelector = (props) => {
           onSelect={handleStateSelect}
       >
         <>
-        <Dropdown.Item 
-          key={"MD"}
-          eventKey={"MD"}
-        >
+        <Dropdown.Item key={"MD"} eventKey={"MD"}>
           Maryland
         </Dropdown.Item>
-        <Dropdown.Item 
-          key={"MI"}
-          eventKey={"MI"}
-        >
+        <Dropdown.Item key={"MI"}eventKey={"MI"}>
           Michigan
         </Dropdown.Item>
-        <Dropdown.Item 
-          key={"PA"}
-          eventKey={"PA"}
-        >
+        <Dropdown.Item key={"PA"} eventKey={"PA"}>
           Pennsylvania
         </Dropdown.Item>
         </>

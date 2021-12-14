@@ -6,7 +6,7 @@ import '../../css/InfoMenu.css'
 
 const GeneratedTable = (props) => {
 
-    const [plans, setPlans] = useState([]);
+    // const [plans, setPlans] = useState([]);
 
     // const request = async () => {
     //     const response = await fetch("/api/plan");
@@ -17,7 +17,9 @@ const GeneratedTable = (props) => {
     // request();
 
     const [highLight, setHighLight] = useState();
-    var districts = Districts;
+    // var districts = Districts;
+    console.log(props.districtings)
+    console.log(props.districtings[0])
 
     const toggleActive = (id) =>{
         setHighLight(id)
@@ -40,24 +42,24 @@ const GeneratedTable = (props) => {
                 <thead> 
                     <tr>
                         <th>Plan</th>
+                        <th>Objective Function</th>
+                        <th>Opportunity Districts</th>
                         <th>Population Equality</th>
-                        <th>Majority Minority Districts</th>
-                        <th>Graph Compactness %</th>
-                        <th>Racial Deviation %</th>
+                        <th>PolsbyPopper</th>
                     </tr>
                 </thead>
                 <tbody>
                 {
-                    plans.map(plan => (
-                        <tr key={plan.id} align="start" onClick = {() => toggleActive(plan.id)}
-                            style={{background: highLight == plan.id ? '#00afec' : 'white',
-                            color: highLight == plan.id ? 'white' : 'black'}}
+                    props.districtings.slice(1).map(districting => (
+                        <tr key={districting.id} align="start" onClick = {() => toggleActive(districting.id)}
+                            style={{background: highLight == districting.id ? '#00afec' : 'white',
+                            color: highLight == districting.id ? 'white' : 'black'}}
                             > 
-                            <td className="PlanNumber" style={{ textAlign: 'left' }}>{plan.id}</td>
-                            <td className="PopulationEquality" style={{ textAlign: 'right' }}>{plan.pop_eq}</td>
-                            <td className="MajorityMinorityDistrictsNumber" style={{ textAlign: 'right' }}>{plan.maj_min}</td>
-                            <td className="GraphCompactness" style={{ textAlign: 'right' }}>{plan.compactness}</td>
-                            <td className="RacialDeviation" style={{ textAlign: 'right' }}>{plan.dev}</td>
+                            <td className="PlanNumber" style={{ textAlign: 'left' }}>{districting.measures.id}</td>
+                            <td className="PopulationEquality" style={{ textAlign: 'right' }}>{districting.measures.objectiveFunction.toFixed(2)}</td>
+                            <td className="MajorityMinorityDistrictsNumber" style={{ textAlign: 'right' }}>{districting.measures.opportunityDistricts.toFixed(2)}</td>
+                            <td className="GraphCompactness" style={{ textAlign: 'right' }}>{districting.measures.polsbyPopper.toFixed(2)}</td>
+                            <td className="RacialDeviation" style={{ textAlign: 'right' }}>{districting.measures.populationEquality.toFixed(2)}</td>
                         </tr>
                     ))
                 }

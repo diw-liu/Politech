@@ -4,12 +4,14 @@ import LeftBar from './LeftBar/LeftBar';
 import Map from './Map/Map';
 import StateSelector from './Map/StateSelector';
 import LayerSelector from './Map/LayerSelector';
+import AlgoModal from './Map/AlgoModal';
 
 import { showState } from './Map/Preprocess'
 import { INITIAL_VIEW_STATE, getView } from './Map/ViewState'
 import '../css/StateSelector.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
+
 
 export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
 
@@ -32,6 +34,7 @@ const HomeScreen = (props) =>{
 
   const [view, setView] = useState(INITIAL_VIEW_STATE)
   const [plan, setPlan] = useState(0)
+  const [showModal, setShowModal] = useState(false)
   const [gen, setGen] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -50,25 +53,24 @@ const HomeScreen = (props) =>{
       })
   },[])
 
-  console.log(all)
 
-  const getLayers = async (id) =>{
-    let name = "MD"
-    switch(id){
-        case "0":
-            name = "MD";
-            break;
-        case "1":
-            name = "MI";
-            break;
-        case "2":
-            name = "PA";
-            break;
-        default:
-    }
-    return fetch("/api/" + name)
-            .then(data => data.json())
-  }
+  // const getLayers = async (id) =>{
+  //   let name = "MD"
+  //   switch(id){
+  //       case "0":
+  //           name = "MD";
+  //           break;
+  //       case "1":
+  //           name = "MI";
+  //           break;
+  //       case "2":
+  //           name = "PA";
+  //           break;
+  //       default:
+  //   }
+  //   return fetch("/api/" + name)
+  //           .then(data => data.json())
+  // }
   const getState = async (state) =>{
     return fetch("/api/state?" + new URLSearchParams({
               name: state
@@ -95,7 +97,6 @@ const HomeScreen = (props) =>{
 
     const data = await getState(name)
     console.log(data)
-    
     // const district = await getDistrict()
     // const county = await getCounty()
     // const precinct = await getPrecinct()
@@ -104,7 +105,6 @@ const HomeScreen = (props) =>{
       getCounty(),
       getPrecinct()
     ]);
-
 
     setEnactedInfo(data.enacted)
     setElection(data.election)
@@ -115,14 +115,7 @@ const HomeScreen = (props) =>{
     setLayers({'district':district,'county':county,'precinct':precinct})
     setEnactedGeo(district)
 
-    // setElection(data.election)
-    // setPopulation(data.population)
-    // setVap(data.vap)
-    // setDistrictings(data.districtings)
-    // setEnactedInfo(data.enacted)
-
     console.log(data.districting)
-
     setGen(false)
 
     console.log(district)
@@ -140,6 +133,45 @@ const HomeScreen = (props) =>{
     setView(getView(name))
   }
 
+  const pause = () =>{
+    // fetch("/job/pause");
+  }
+
+  const resume = () =>{
+    // fetch("/job/resume");
+  }
+
+  const stop = () =>{
+    // fetch("/job/stop");
+    setShowModal(false)
+  }
+
+  const loading = () =>{
+    // props.setSaved(true);
+    // props.setGen(true)
+    console.log(showModal)
+    setShowModal(true)
+    // setTimeout(() => props.setGen(false), 5000)
+    // fetch("/api/newDistricting",{
+    //   method: 'GET',
+    //   headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+    // })
+    //   .then(res => res.json()) 
+    //   .then(message => {
+    //     // localStorage.setItem("All",JSON.stringify(message));
+    //     var result = message.map(x => 
+    
+    //       JSON.parse(x).features[0]
+    //       );
+    //     console.log(props.state)
+    //     console.log(result)
+    //     // props.setState(result)
+    //     props.setState(redistrict(result, 0))
+    //   })
+    // fetch("/api/state?name=MD");
+    // fetch("/api/selectplan?id=24PL0");
+    // fetch("/job/start?goal=0.08&lower=3&higher=7&age=0");
+  }
 
   return (
     <div >
@@ -151,16 +183,24 @@ const HomeScreen = (props) =>{
       
       { showInfo && (
         <div>
-          <InfoMenu enactedInfo={enactedInfo} saved={saved} stateName={stateName} plan={plan} setPlan={setPlan} setSaved={setSaved}/>
-          <LeftBar stateName={stateName} plan={plan} setGen={setGen} 
-                layers={layers} setLayers={setLayers} setSaved={setSaved} saved={saved}/>
+          <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} plan={plan} setPlan={setPlan}/>
+          <LeftBar stateName={stateName} plan={plan} loading={loading}
+                setGen={setGen} showModal={showModal} setShowModal={setShowModal}
+                layers={layers} setLayers={setLayers} />
           <LayerSelector flag={flag} setFlag={setFlag}/>  
         </div>)
       } 
+
       {
         gen != true ? <div></div>
-                    : <div className="spinner-border spinner-border-sm text-info reset" style={{width: "15rem",height: "15rem",position: 'absolute', left: '40%', top: '40%' }}></div>
+                    : <div className="justify-content-center spinner-border spinner-border-sm text-info reset " style={{width: "15rem",height: "15rem",position: 'absolute', left: '40%', top: '40%' }}></div>
       }
+
+      {
+        showModal != true ? <div></div>
+                          : <AlgoModal pause={pause} resume={resume} stop={stop}/>
+      }
+
       <Map flag={flag} layers={layers} enactedInfo={enactedInfo} enactedGeo={enactedGeo} all={all}
           view={view} showClick={showClick} showInfo={showInfo}
           />

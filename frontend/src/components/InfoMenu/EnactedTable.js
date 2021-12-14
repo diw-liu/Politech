@@ -21,8 +21,7 @@ const EnactedTable = (props) => {
                             <td className="population">{x.population.total}</td>
                             <td className="minorities">{x.election.totalVotes}</td>
                         </tr>
-                    )) 
-                    
+                    ))   
                 }
             </table>
         </div>
