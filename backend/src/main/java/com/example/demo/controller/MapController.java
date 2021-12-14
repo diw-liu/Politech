@@ -123,7 +123,7 @@ class MapController {
     // COMPLETED
     @GetMapping("/countygeometry")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody FeatureCollection getCountyGeometry(HttpSession session) {
+    public @ResponseBody JSONObject getCountyGeometry(HttpSession session) {
         StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
         return mapService.fetchCountyGeometry(ssp.getId());
     }
@@ -131,8 +131,17 @@ class MapController {
     // COMPLETED
     @GetMapping("/districtgeometry")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody FeatureCollection getDistrictGeometry(HttpSession session) {
+    public @ResponseBody JSONObject getDistrictGeometry(HttpSession session) {
         StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
+
+        JSONObject featureCollection = new JSONObject();
+        featureCollection.put("type", "FeatureCollection");
+        JSONObject crsprops = new JSONObject();
+        JSONObject crs = new JSONObject();
+        crsprops.put("name", "urn:ogc:def:crs:EPSG::4269");
+        crs.put("type", "name");
+        crs.put("properties", crsprops);
+        featureCollection.put("crs", crs);
 
         List<Feature> features = new ArrayList<Feature>();
         WKTReader reader = new WKTReader();
@@ -148,9 +157,10 @@ class MapController {
                 System.out.println("Error reading District LONGTEXT to Geometry using JTS");
             }
         }
-        GeoJSONWriter writer1 = new GeoJSONWriter();
-        FeatureCollection json = writer1.write(features);
-        return json;
+//        GeoJSONWriter writer1 = new GeoJSONWriter();
+//        FeatureCollection json = writer1.write(features);
+        featureCollection.put("features", features);
+        return featureCollection;
     }
 
     @GetMapping("/selectplan")
