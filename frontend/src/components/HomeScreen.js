@@ -15,13 +15,20 @@ export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
 
 const HomeScreen = (props) =>{
 
-  const [showInfo, setShowInfo] = useState(false)
+  const [showInfo, setShowInfo] = useState(true)
 
-  const [state, setState] = useState([])
+  const [enacted, setEnacted] = useState({})
   const [all, setAll] = useState([])
+  const [layers, setLayers] = useState({})
+  const [flag, setFlag] = useState({'district':true,'county':false,'precinct':true})
+ 
+  const [districtings, setDistrictings] = useState([])
+  const [election, setElection] = useState({})
+  const [population, setPopulation] = useState({})
+  const [vap, setVap]  = useState({})
 
-  const [flag, setFlag] = useState([true, true])
   const [stateName, setStateName] = useState('')
+
   const [view, setView] = useState(INITIAL_VIEW_STATE)
   const [plan, setPlan] = useState(0)
   const [gen, setGen] = useState(false);
@@ -29,7 +36,7 @@ const HomeScreen = (props) =>{
 
 
   
-  console.log(state)
+  // console.log(state)
   
   useEffect(() =>{
     if (localStorage.getItem("All") == null){
@@ -66,17 +73,70 @@ const HomeScreen = (props) =>{
     return fetch("/api/" + name)
             .then(data => data.json())
   }
+  const getState = async (id) =>{
+    let state = "MD"
+    // switch(id){
+    //   case "0":
+    //       name = "MD";
+    //       break;
+    //   case "1":
+    //       name = "MI";
+    //       break;
+    //   case "2":
+    //       name = "PA";
+    //       break;
+    //   default:
+    // }
+    return fetch("/api/state?" + new URLSearchParams({
+              name: state
+            }))
+            .then(data => data.json())
+  }
+
+  const getDistrict = async () =>{
+    return fetch("/api/districtgeometry")
+            .then(data => data.json())
+  }
+  const getCounty = async () =>{
+    return fetch("/api/countygeometry")
+            .then(data => data.json())
+  }
+  const getPrecinct = async () =>{
+    return fetch("/api/precinctgeometry")
+            .then(data => data.json())
+  }
+
   const showClick = async (name) =>{
     //showState(name)
     setGen(true)
-    const data = await getLayers(name)
-    // console.log(data)
+
+    const data = await getState(name)
+    console.log(data)
+    setElection(data.election)
+    setPopulation(data.population)
+    setVap(data.vap)
+    setDistrictings(data.districtings)
+    setEnacted(data.enacted)
+    const district = await getDistrict()
+    const county = await getCounty()
+    const precinct = await getPrecinct()
+    setLayers({'district':district,'county':county,'precinct':precinct})
+    console.log(data.districting)
+
     setGen(false)
-    setState(data)
-    setShowInfo(true) 
-    // showState(state,flag)
-    setStateName(NAMES[name])
-    setView(getView(name))
+    console.log(district)
+    console.log(county)
+    console.log(precinct)
+    console.log(layers)
+    console.log(enacted)
+    console.log(population)
+    // setState(data)
+    // const temp = await getDistrict(name)
+    // console.log(temp)
+    // setShowInfo(true) 
+    // // showState(state,flag)
+    // setStateName(NAMES[name])
+    // setView(getView(name))
   }
 
 
@@ -84,14 +144,14 @@ const HomeScreen = (props) =>{
     <div >
       <StateSelector stateName={stateName} showClick={showClick}
         setView={setView} setShowInfo={setShowInfo} 
-        setState={setState}  setStateName={setStateName}
+        setLayers={setLayers}  setStateName={setStateName}
         />   
       
       { showInfo && (
         <div>
-          <InfoMenu stateName={stateName} plan={plan} setPlan={setPlan} setSaved={setSaved} saved={saved}/>
+          <InfoMenu enacted={enacted} saved={saved} stateName={stateName} plan={plan} setPlan={setPlan} setSaved={setSaved}/>
           <LeftBar stateName={stateName} plan={plan} setGen={setGen} 
-                state={state} setState={setState} setSaved={setSaved} saved={saved}/>
+                layers={layers} setLayers={setLayers} setSaved={setSaved} saved={saved}/>
           <LayerSelector flag={flag} setFlag={setFlag}/>  
         </div>)
       } 
@@ -99,7 +159,7 @@ const HomeScreen = (props) =>{
         gen != true ? <div></div>
                     : <div className="spinner-border spinner-border-sm text-info reset" style={{width: "15rem",height: "15rem",position: 'absolute', left: '40%', top: '40%' }}></div>
       }
-      <Map flag={flag} state={state} all={all}
+      <Map flag={flag} layers={layers} enacted={enacted} all={all}
           view={view} showClick={showClick} showInfo={showInfo}
           />
     </div>

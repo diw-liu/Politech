@@ -8,13 +8,23 @@ const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZGl3bGl1IiwiYSI6ImNrdHQ1M3hjdTFuZWcycXBx
 
 const Map = (props) => {
     // Set your mapbox access token here
-    var layers = [];
-    console.log(props.state)
+    var display = [];
 
-    if (props.state.length == 0){
+    // let state = fetch("/api/MD").then(function(data) {return data.json()});
+    // let precintData = state.then(function(data) {console.log(data[1]); });
+    // if (props.layers.length != undefined){
+    // for (const variable in props.layers) {
+    //   console.log(variable);
+    //   console.log(props.layers[variable]);
+    // }
+    console.log(props.enacted);
+    console.log(Object.keys(props.layers).length === 0);
+    // }
+
+    // if (Object.keys(props.layers).length === 0){
       for(var i = 0; i < props.all.length; i++){
         var name = props.all[i].features[0].properties.STUSPS20
-        layers.push(new GeoJsonLayer({
+        display.push(new GeoJsonLayer({
                     id: name,
                     data : props.all[i],
                     pickable: true,
@@ -35,48 +45,56 @@ const Map = (props) => {
                     }
           }));
       }
-    }else{
-      let map = {};
+    // }
+    // else{
+    //   let map = {};
 
-      const districtMap = (Id) => {
-        if(Id in map ){
-          return map[Id]
-        }
-        var temp = [Math.random()*256, Math.random()*256, Math.random()*256];
-        map[Id] = temp;
-        return temp
-      }
+    //   const districtMap = (Id) => {
+    //     if(Id in map ){
+    //       return map[Id]
+    //     }
+    //     var temp = [Math.random()*256, Math.random()*256, Math.random()*256];
+    //     map[Id] = temp;
+    //     return temp
+    //   }
+    //   // delete Object.assign(props.enacted, {['geometry']: props.enacted['geometryString'] })['geometryString'];
+    //   const districtColor = new GeoJsonLayer({
+    //     id: 'districtColor',
+    //     data : props.layers['district'],
+    //     filled: true,
+    //     extruded: false,
+    //     getFillColor: d => districtMap(d.properties.CD116FP),
+    //   })
 
-      const districtColor = new GeoJsonLayer({
-        id: 'districtColor',
-        data : props.state[0],
-        filled: true,
-        extruded: false,
-        getFillColor: d => districtMap(d.properties.CD116FP),
-      })
+      // display.push(districtColor)
 
-      layers.push(districtColor)
+      // for (const variable in props.layers) {
+      //   if(props.flag[variable]){
+      //     console.log(variable);
+      //     console.log(props.layers[variable]);
+      //   }
 
-      for(var i = 0; i < props.state.length; i++){
-        if(props.flag[i]){
-          layers.push(new GeoJsonLayer({
-            id: "Sublayer",
-            data : props.state[i],
-            stroked: true,
-            filled: false,
-            extruded: false,
-            pointType: 'circle',
-            lineWidthScale: 20,
-            lineWidthMinPixels: 2,
-            getLineColor: [228,220,220],
-            getLineWidth: 1,
-          }));
-        }
-      }
-    }
+      // }
+      // for(var i = 0; i < props.layers.length; i++){
+      //   if(props.flag[i]){
+      //     display.push(new GeoJsonLayer({
+      //       id: "Sublayer",
+      //       data : props.layers[i],
+      //       stroked: true,
+      //       filled: false,
+      //       extruded: false,
+      //       pointType: 'circle',
+      //       lineWidthScale: 20,
+      //       lineWidthMinPixels: 2,
+      //       getLineColor: [228,220,220],
+      //       getLineWidth: 1,
+      //     }));
+      //   }
+      
+    // }
    
     // let temp = []
-    // props.state.forEach((element,index) => {
+    // props.layers.forEach((element,index) => {
     //     if(props.flag[index]){
     //       temp.push(element)
     //     }
@@ -89,7 +107,7 @@ const Map = (props) => {
         <DeckGL
           initialViewState={props.view}
           controller={true}
-          layers={layers}
+          layers={display}
           // getTooltip={({object}) => object && (object.properties.name || object.properties.station)}
         >
           <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />

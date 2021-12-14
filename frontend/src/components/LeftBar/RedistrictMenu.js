@@ -14,10 +14,12 @@ const RedistrictMenu = (props) => {
     const [majMin, setMajMin] = useState(4)
     const [effGap, setEffGap] = useState(0.5)
     const [compactness, setCompactness] = useState(0.5)
+    const [showAlgoButton, setShowAlgoButton] = useState(false)
 
     const loading = () =>{
       props.setSaved(true);
       props.setGen(true)
+      setShowAlgoButton(true)
       setTimeout(() => props.setGen(false), 5000)
       fetch("/api/newDistricting",{
         method: 'GET',
@@ -35,6 +37,18 @@ const RedistrictMenu = (props) => {
           // props.setState(result)
           props.setState(redistrict(result, 0))
         })
+    }
+
+    const pause = () =>{
+      fetch("/job/pause");
+    }
+
+    const resume = () =>{
+      fetch("/job/resume");
+    }
+
+    const stop = () =>{
+      fetch("/job/stop");
     }
 
     return (
@@ -62,6 +76,12 @@ const RedistrictMenu = (props) => {
           <Slider style={{width:'100%'}} axis='x' x={compactness} xmax={1} xstep={0.01} onChange={ ({x}) => setCompactness(x) }/>
           </div>
           <button style={{marginTop:'16px'}} className='btn btn-primary' onClick={loading} > Redistrict </button>
+          <div style={showAlgoButton ? {} : { display: 'none' }}>
+            <button style={{marginTop:'16px'}} className='btn btn-primary' onClick={pause} > Pause </button>
+            <button style={{marginTop:'16px'}} className='btn btn-primary' onClick={resume} > Resume </button>
+            <button style={{marginTop:'16px'}} className='btn btn-primary' onClick={stop} > Stop </button>
+          </div>
+
       </div>
     );
 } 
