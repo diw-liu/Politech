@@ -28,8 +28,10 @@ export const MI_STATE = {
     bearing: 0
 }
 
-export const VIEW_STATES = [MD_STATE, MI_STATE, PA_STATE]
+export const VIEW_STATES = {"MD":MD_STATE,"MI":MI_STATE,"PA":PA_STATE}
 
 export const getView = (index) =>{
+    console.log("oa")
+    console.log(index)
     return VIEW_STATES[index]
 }

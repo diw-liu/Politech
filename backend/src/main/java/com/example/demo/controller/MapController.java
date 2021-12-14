@@ -58,8 +58,13 @@ class MapController {
         "MI", "MIdistrict.json",
         "PA", "PAdistrict.json"
         );
+    Map<String, String> COUNTY = Map.of(
+        "MD", "MDcounty.json",
+        "MI", "michigan.json",
+        "PA", "pennsylvania.json"
+        );
     Map<String, String> PRECINCT = Map.of(
-        "MD", "maryland.json",
+        "MD", "MDprecint.json",
         "MI", "michigan.json",
         "PA", "pennsylvania.json"
         );
@@ -77,9 +82,12 @@ class MapController {
         try{
             String district = String.format("%s/%s",dir,DISTRICT.get(stateName));  
             String precinct = String.format("%s/%s",dir,PRECINCT.get(stateName));
+            // String county = String.format("%s/%s",dir,COUNTY.get(stateName));
             String d = new String(Files.readAllBytes(Paths.get(district)));
             String p = new String(Files.readAllBytes(Paths.get(precinct)));
-            result = "[" + d + "," + p + "]";
+            // String c = new String(Files.readAllBytes(Paths.get(county)));
+            result = "[" + d + "," + p +"]";
+            // System.out.println(result);
         }catch (IOException ex){
             ex.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error reading file",ex);
