@@ -12,27 +12,17 @@ const EnactedTable = (props) => {
                 <tr>
                     <th>District</th>
                     <th>Population</th>
-                    <th>Minority %</th>
-                    <th>Deviation</th>
+                    <th>Vote</th>
                 </tr>
                 {
-                    Object.keys(props.enactedInfo).length != 0 ? props.enactedInfo.districts.map(x =>
-                                                                <tr key={x.cd} style={{ textAlign: 'right' }} align="start">
-                                                                    <td className="number" style={{ width: '15%' }}>{x.cd}</td>
-                                                                    <td className="population">{x.population.total}</td>
-                                                                    <td className="minorities">{Math.round(Math.random()*100)}</td>
-                                                                    <td className="deviation">{Math.round(Math.random()*100)/100}</td>
-                                                                </tr>)
-                                                            :<div></div>
+                    props.enactedInfo.districts.map(x => (
+                        <tr key={x.cd} style={{ textAlign: 'right' }} align="start">
+                            <td className="number" style={{ width: '15%' }}>{x.cd}</td>
+                            <td className="population">{x.population.total}</td>
+                            <td className="minorities">{x.election.totalVotes}</td>
+                        </tr>
+                    )) 
                     
-                    // Array.from({length: numDistricts - 1}, (elem, index) => elem = index + 1).map((i) => (
-                    //     <tr key={i} style={{ textAlign: 'right' }} align="start">
-                    //         <td className="number" style={{ width: '15%' }}>{i}</td>
-                    //         <td className="population">{(200000 + Math.round(Math.random()*50000)).toLocaleString('en-US')}</td>
-                    //         <td className="minorities">{Math.round(Math.random()*100)}</td>
-                    //         <td className="deviation">{Math.round(Math.random()*100)/100}</td>
-                    //     </tr>
-                    // ))
                 }
             </table>
         </div>

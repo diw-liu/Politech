@@ -18,33 +18,37 @@ const Map = (props) => {
     //   console.log(props.layers[variable]);
     // }
     console.log(props.enactedInfo);
-    console.log(Object.keys(props.layers).length === 0);
+    console.log(Object.keys(props.layers).length == 0);
     console.log(props.flag)
+    
     // }
 
-    if (Object.keys(props.layers).length === 0){
-      for(var i = 0; i < props.all.length; i++){
-        var name = props.all[i].features[0].properties.STUSPS20
-        display.push(new GeoJsonLayer({
-                    id: name,
-                    data : props.all[i],
-                    pickable: true,
-                    stroked: false,
-                    filled: true,
-                    extruded: true,
-                    pointType: 'circle',
-                    lineWidthScale: 20,
-                    lineWidthMinPixels: 2,
-                    getFillColor: [160, 160, 180, 200],
-                    getLineColor: [80, 80, 80],
-                    getPointRadius: 100,
-                    getLineWidth: 1,
-                    getElevation: 30,
-                    onClick: (info) => { 
-                      console.log(info.layer.id)
-                      props.showClick(info.layer.id)
-                    }
-          }));
+    if (Object.keys(props.layers).length == 0){
+      if(Object.keys(props.all).length != 0){
+        console.log(props.all.features)
+        for(var i = 0; i < props.all.features.length; i++){
+          var name = props.all.features[i].properties.state
+          display.push(new GeoJsonLayer({
+                      id: name,
+                      data : props.all.features[i],
+                      pickable: true,
+                      stroked: false,
+                      filled: true,
+                      extruded: true,
+                      pointType: 'circle',
+                      lineWidthScale: 20,
+                      lineWidthMinPixels: 2,
+                      getFillColor: [160, 160, 180, 200],
+                      getLineColor: [80, 80, 80],
+                      getPointRadius: 100,
+                      getLineWidth: 1,
+                      getElevation: 30,
+                      onClick: (info) => { 
+                        console.log(info.layer.id)
+                        props.showClick(info.layer.id)
+                      }
+            }));
+          }
       }
     }
     else{

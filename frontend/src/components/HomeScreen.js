@@ -15,11 +15,11 @@ export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
 
 const HomeScreen = (props) =>{
 
-  const [showInfo, setShowInfo] = useState(true)
+  const [showInfo, setShowInfo] = useState(false)
 
   const [enactedInfo, setEnactedInfo] = useState({})
   const [enactedGeo, setEnactedGeo] = useState({})
-  const [all, setAll] = useState([])
+  const [all, setAll] = useState({})
   const [layers, setLayers] = useState({})
   const [flag, setFlag] = useState({'district':true,'county':false,'precinct':true})
  
@@ -40,22 +40,17 @@ const HomeScreen = (props) =>{
   // console.log(state)
   
   useEffect(() =>{
-    if (localStorage.getItem("All") == null){
-      fetch("/api/all",{
-        method: 'GET',
-        headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+    fetch("/api/all",{
+      method: 'GET',
+      headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+    })
+      .then(res => res.json()) 
+      .then(message => {
+        setAll(message)
       })
-        .then(res => res.json()) 
-        .then(message => {
-          localStorage.setItem("All",JSON.stringify(message));
-          var result = message.map(x => JSON.parse(x));
-          setAll(result)
-        })
-    }else{
-      var result = JSON.parse(localStorage.getItem("All")).map(x => JSON.parse(x));
-      setAll(result)
-    }
   },[])
+
+  console.log(all)
 
   const getLayers = async (id) =>{
     let name = "MD"
@@ -74,20 +69,7 @@ const HomeScreen = (props) =>{
     return fetch("/api/" + name)
             .then(data => data.json())
   }
-  const getState = async (id) =>{
-    let state = "MD"
-    // switch(id){
-    //   case "0":
-    //       name = "MD";
-    //       break;
-    //   case "1":
-    //       name = "MI";
-    //       break;
-    //   case "2":
-    //       name = "PA";
-    //       break;
-    //   default:
-    // }
+  const getState = async (state) =>{
     return fetch("/api/state?" + new URLSearchParams({
               name: state
             }))
@@ -113,24 +95,36 @@ const HomeScreen = (props) =>{
 
     const data = await getState(name)
     console.log(data)
+    
+    // const district = await getDistrict()
+    // const county = await getCounty()
+    // const precinct = await getPrecinct()
+    const [district, county, precinct] = await Promise.all([
+      getDistrict(),
+      getCounty(),
+      getPrecinct()
+    ]);
 
+
+    setEnactedInfo(data.enacted)
     setElection(data.election)
     setPopulation(data.population)
     setVap(data.vap)
     setDistrictings(data.districtings)
-    setEnactedInfo(data.enacted)
-
-    const district = await getDistrict()
-    const county = await getCounty()
-    const precinct = await getPrecinct()
 
     setLayers({'district':district,'county':county,'precinct':precinct})
     setEnactedGeo(district)
 
+    // setElection(data.election)
+    // setPopulation(data.population)
+    // setVap(data.vap)
+    // setDistrictings(data.districtings)
+    // setEnactedInfo(data.enacted)
+
     console.log(data.districting)
 
     setGen(false)
-    
+
     console.log(district)
     console.log(county)
     console.log(precinct)
@@ -140,10 +134,10 @@ const HomeScreen = (props) =>{
     // setState(data)
     // const temp = await getDistrict(name)
     // console.log(temp)
-    // setShowInfo(true) 
+    setShowInfo(true) 
     // // showState(state,flag)
     // setStateName(NAMES[name])
-    // setView(getView(name))
+    setView(getView(name))
   }
 
 
@@ -152,6 +146,7 @@ const HomeScreen = (props) =>{
       <StateSelector stateName={stateName} showClick={showClick}
         setView={setView} setShowInfo={setShowInfo} 
         setLayers={setLayers}  setStateName={setStateName}
+        setEnactedGeo={setEnactedGeo} setEnactedInfo={setEnactedInfo}
         />   
       
       { showInfo && (
