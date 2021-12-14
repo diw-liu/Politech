@@ -5,6 +5,8 @@ import Tabs from "react-bootstrap/Tabs";
 import BoxAndWhisker from './BoxAndWhisker'
 import EnactedTable from './EnactedTable';
 import GeneratedTable from './GeneratedTable';
+import VotingData from './VotingData';
+import DemoData  from './DemoData';
 import '../../css/InfoMenu.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -76,53 +78,12 @@ const InfoMenu = (props) =>{
             <div class='tab-pane fade show active' id='enacted' role='tabpanel' aria-labelledby='enacted-tab'>
               <Tabs>
                 <Tab eventKey="State" title="State">
-                  <div>
-                  <h5>Voting Data</h5>
-                  <table style={{ width: '100%' }}>
-                      <tr className="item">
-                        <th style={{ textAlign: 'left' }}>Party</th>
-                        <th style={{ textAlign: 'right' }}>Districts</th>
-                        <th style={{ textAlign: 'right' }}>Votes</th>
-                        <th style={{ textAlign: 'right' }}>District Percentage</th>
-                        <th style={{ textAlign: 'right' }}>Vote Percentage</th>
-                      </tr>
-                      {
-                          parts.map(party => (
-                              <tr key={party.id} align="start">
-                                <td className="party_name" style={{ textAlign: 'left' }}>{party.id}</td>
-                                <td className="party_district" style={{ textAlign: 'right' }}>{party.districts}</td>
-                                <td className="party_vote" style={{ textAlign: 'right' }}>{party.votes.toLocaleString('en-US')}</td>
-                                <td className="party_dper" style={{ textAlign: 'right' }}>{party.dper.toLocaleString('en-US')}</td>
-                                <td className="party_vper" style={{ textAlign: 'right' }}>{party.vper.toLocaleString('en-US')}</td>
-                              </tr>
-                          ))
-                      }
-                  </table>
-                  </div>
-                  <br></br>
-                  <div>
-                  <h5>Demographic Data </h5>
-                  (Total Population: {totalPopDem.toLocaleString('en-US')})
-                  <table style={{ width: '100%' }}>
-                      <tr className="item">
-                        <th style={{ textAlign: 'left' }}>Demographic</th>
-                        <th style={{ textAlign: 'right' }}>Population</th>
-                        <th style={{ textAlign: 'right' }}>Population Percentage</th>
-                      </tr>
-                      {
-                          demos.map(demo => (
-                              <tr key={demo.id} align="start">
-                                <td className="demo_name" style={{ textAlign: 'left' }}>{demographicMapping[demo.type]}</td>
-                                <td className="demo_pop" style={{ textAlign: 'right' }}>{demo.population.toLocaleString('en-US')}</td>
-                                <td className="demo_pper" style={{ textAlign: 'right' }}>{parseFloat(((demo.population / totalPopDem) * 100).toFixed(2))}</td>
-                              </tr>
-                          ))
-                      }
-                  </table>
-                  </div>
+                  <VotingData />
+                  <hr/>
+                  <DemoData />
                 </Tab>
                 <Tab eventKey="Districts" title="Districts">
-                  <EnactedTable/>
+                  <EnactedTable enacted={props.enacted}/>
                 </Tab>
               </Tabs>
             </div>
@@ -130,7 +91,7 @@ const InfoMenu = (props) =>{
               <GeneratedTable setPlan={props.setPlan}/>
             </div>
             <div class='tab-pane fade' id='plots' role='tabpanel' aria-labelledby='plots-tab'>
-              <div><BoxAndWhisker stateName={props.stateName} plan={props.plan} setPlan={props.setPlan}/></div>
+              <BoxAndWhisker stateName={props.stateName} plan={props.plan} setPlan={props.setPlan}/>
             </div>
             
           </div>
