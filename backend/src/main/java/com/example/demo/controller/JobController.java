@@ -53,12 +53,22 @@ public class JobController {
     }
 
     @GetMapping("/resumeJob")
-    public Status resumeJob(HttpSession session){
-        return jobService.resumeJob(session);
+    public Status resumeJob(){
+        return jobService.resumeJob();
     }
 
     @GetMapping("/stopJob")
-    public Status stopJob(@RequestParam String StateName){
+    public Status stopJob(){
+        return jobService.stopJob();
+    }
+
+    @GetMapping("/getStatus")
+    public Status getStatus(){
         return jobService.getStatus();
+    }
+
+    @GetMapping("/getIterations")
+    public int getIterations(){
+        return jobService.getIterations();
     }
 }
