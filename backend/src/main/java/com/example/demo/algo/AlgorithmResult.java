@@ -7,13 +7,11 @@ public class AlgorithmResult {
     private int cyclesRan;
     private int numPrecinctsChanged;
     private double popeq;
-    private HashMap<String, Double> districtCompactness;
 
-    public AlgorithmResult(double seconds, int cyclesRan, int numPrecinctsChanged, double popeq, HashMap<String, Double> districtCompactness) {
+    public AlgorithmResult(double seconds, int cyclesRan, int numPrecinctsChanged, double popeq) {
         this.cyclesRan = cyclesRan;
         this.numPrecinctsChanged = numPrecinctsChanged;
         this.popeq = popeq;
-        this.districtCompactness = districtCompactness;
         this.seconds = seconds;
     }
 
@@ -39,14 +37,6 @@ public class AlgorithmResult {
 
     public void setPopeq(double popeq) {
         this.popeq = popeq;
-    }
-
-    public HashMap<String, Double> getDistrictCompactness() {
-        return districtCompactness;
-    }
-
-    public void setDistrictCompactness(HashMap<String, Double> districtCompactness) {
-        this.districtCompactness = districtCompactness;
     }
 
     public double getSeconds() {

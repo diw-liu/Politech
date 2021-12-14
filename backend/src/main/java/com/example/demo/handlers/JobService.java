@@ -112,29 +112,6 @@ public class JobService {
         session.setAttribute("summary", summary);
         this.algo = new Algorithm(dhash, did, selected, constraints, age);
         this.age = age;
-
-        // --------------------------------------------------------------------------------------------------------------------
-
-        System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println("--------------------------------------------------------------------------------------");
-
-        for (District d : selected.getDistricts()) {
-            System.out.println(d.getGeometry().getArea());
-            System.out.println(d.getGeometry().getLength());
-            double compactness = 4.0 * Math.PI * (d.getGeometry().getArea() / Math.pow(d.getGeometry().getLength(), 2));
-            System.out.println(compactness);
-            System.out.println("0000000000000000000000000000000000000000000");
-        }
-
-        System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println("--------------------------------------------------------------------------------------");
-
-        // --------------------------------------------------------------------------------------------------------------------
-
         startAlgorithm();
         // create algorithm result with calculations
         timeEnd = System.nanoTime();
@@ -148,20 +125,20 @@ public class JobService {
         long runTime = timeEnd - timeStart;
         double timeSeconds = TimeUnit.SECONDS.convert(runTime, TimeUnit.NANOSECONDS);
         // getting compactness for each district
-        HashMap<String, Double> districtCompactness = new HashMap<>();
-        for (District d : selected.getDistricts()) {
-            double compactness = 4.0 * Math.PI * (d.getGeometry().getArea() / Math.pow(d.getGeometry().getLength(), 2));
-            System.out.println(compactness);
-            districtCompactness.put(d.getCd(), compactness);
-
-            for (Precinct p : d.getBorderPrecincts()) {
-                if (p.getHasChanged()) {
-                    changedPrecincts++;
-                    // TODO here is also where we get the geometries for changed precincts should we need them
-                }
-            }
-
-        }
+//        HashMap<String, Double> districtCompactness = new HashMap<>();
+//        for (District d : selected.getDistricts()) {
+//            double compactness = 4.0 * Math.PI * (d.getGeometry().getArea() / Math.pow(d.getGeometry().getLength(), 2));
+//            System.out.println(compactness);
+//            districtCompactness.put(d.getCd(), compactness);
+//
+//            for (Precinct p : d.getBorderPrecincts()) {
+//                if (p.getHasChanged()) {
+//                    changedPrecincts++;
+//                    // TODO here is also where we get the geometries for changed precincts should we need them
+//                }
+//            }
+//
+//        }
         // now getting population equality
         int totalPop;
         StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
@@ -182,7 +159,7 @@ public class JobService {
             }
         }
         double popeq = Math.sqrt(currentSS);
-        AlgorithmResult algorithmResult = new AlgorithmResult(timeSeconds, iterations, changedPrecincts, popeq, districtCompactness);
+        AlgorithmResult algorithmResult = new AlgorithmResult(timeSeconds, iterations, changedPrecincts, popeq);
         session.setAttribute("result", algorithmResult);
         return algorithmResult;
     }
