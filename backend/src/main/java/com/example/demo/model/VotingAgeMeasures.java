@@ -23,7 +23,7 @@ public class VotingAgeMeasures {
 
     @OneToOne
     @JoinColumn(name="districtingId")
-//    @JsonBackReference
+    @JsonBackReference
     public Districting getDistricting() { return districting; }
     public void setDistricting(Districting d) { districting = d; }
 

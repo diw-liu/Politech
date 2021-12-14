@@ -144,15 +144,4 @@ public class District {
         final District other = (District) o;
         return this.id.equals(other.getId());
     }
-
-    //TODO
-//    public void giveBlock(District givenTo, CensusBlock toGive){
-//
-//    }
-
-    // //TODO
-    // public List<Precinct> getChangedPrecincts(){
-
-    // }
-
 }

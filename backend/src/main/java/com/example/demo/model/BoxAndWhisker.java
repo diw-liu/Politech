@@ -52,28 +52,4 @@ public class BoxAndWhisker{
     public double getMedian() { return median; }
     public void setMedian(double median) { this.median = median; }
 
-    // //TODO
-    // public List<Integer> fetchIntermediate(String name){
-
-    // }
-    // //TODO
-    // public List<String> fetchAllState(){
-
-    // }
-    // //TODO
-    // public List<String> fetchState(){
-
-    // }
-    // //TODO
-    // public List<String> fetchDistricting(){
-
-    // }
-    // //TODO
-    // public List<Integer> fetchDeviation(){
-
-    // }
-    // //TODO
-    // public List<Integer> fetchAverage(){
-
-    // }
 }

@@ -39,4 +39,18 @@ public class Election {
     @Column(name="type")
     public ElectionType getType() { return type; }
     public void setType(ElectionType t) { type = t; }
+
+    public void add(Election other) {
+        totalVotes += other.getTotalVotes();
+        democraticVotes += other.getDemocraticVotes();
+        republicanVotes += other.getRepublicanVotes();
+        otherVotes += other.getOtherVotes();
+    }
+
+    public void subtract(Election other) {
+        totalVotes -= other.getTotalVotes();
+        democraticVotes -= other.getDemocraticVotes();
+        republicanVotes -= other.getRepublicanVotes();
+        otherVotes -= other.getOtherVotes();
+    }
 }

@@ -17,14 +17,18 @@ import javax.ws.rs.core.MediaType;
 
 import com.example.demo.model.*;
 import com.example.demo.projections.data.DistrictingDataProjection;
+import com.example.demo.projections.summary.DistrictSummaryProjection;
 import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.*;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.simple.parser.ParseException;
+import org.wololo.geojson.Feature;
+import org.wololo.geojson.FeatureCollection;
 import org.wololo.geojson.GeoJSON;
 import org.wololo.jts2geojson.GeoJSONWriter;
 
@@ -98,11 +102,51 @@ class MapController {
     // COMPLETED - gives client the state and enacted districts pop + vap + elec info
     @GetMapping("/state")
     @Produces(MediaType.APPLICATION_JSON)
-    public @ResponseBody StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
+    public @ResponseBody
+    StateSummaryProjection getStateByName(@RequestParam String name, HttpServletRequest request) {
         StateSummaryProjection ssp = mapService.fetchStateByName(name);
         HttpSession session = request.getSession();
         session.setAttribute("state", ssp);
         return ssp;
+    }
+
+    // COMPLETED
+    @GetMapping("/precinctgeometry")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody FeatureCollection getPrecinctGeometry(HttpSession session) {
+        StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
+        return mapService.fetchPrecinctGeometry(ssp.getId() + "PL0");
+    }
+
+    @GetMapping("/countygeometry")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody FeatureCollection getCountyGeometry(HttpSession session) {
+        StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
+        return mapService.fetchCountyGeometry(ssp.getId());
+    }
+
+    @GetMapping("/districtgeometry")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody FeatureCollection getDistrictGeometry(HttpSession session) {
+        StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
+
+        List<Feature> features = new ArrayList<Feature>();
+        WKTReader reader = new WKTReader();
+        GeoJSONWriter writer = new GeoJSONWriter();
+        Map<String, Object> properties = new HashMap<String, Object>();
+
+        for (DistrictSummaryProjection dsp : ssp.getEnacted().getDistricts()) {
+            try{
+                Geometry pgeo = reader.read(dsp.getGeometryString());
+                properties.put("cd", dsp.getCd());
+                features.add(new Feature(writer.write(pgeo), properties));
+            } catch (Exception e){
+                System.out.println("Error reading District LONGTEXT to Geometry using JTS");
+            }
+        }
+        GeoJSONWriter writer1 = new GeoJSONWriter();
+        FeatureCollection json = writer1.write(features);
+        return json;
     }
 
     @GetMapping("/selectplan")

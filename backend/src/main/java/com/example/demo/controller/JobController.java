@@ -47,17 +47,17 @@ public class JobController {
         return summary;
     }
 
-    @GetMapping("/pauseJob")
+    @GetMapping("/pause")
     public Status pauseJob(){
         return jobService.pauseJob();
     }
 
-    @GetMapping("/resumeJob")
+    @GetMapping("/resume")
     public Status resumeJob(){
         return jobService.resumeJob();
     }
 
-    @GetMapping("/stopJob")
+    @GetMapping("/stop")
     public Status stopJob(){
         return jobService.stopJob();
     }

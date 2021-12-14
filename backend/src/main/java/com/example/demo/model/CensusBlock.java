@@ -112,10 +112,4 @@ public class CensusBlock {
         final CensusBlock other = (CensusBlock) o;
         return this.id.equals(other.getId());
     }
-
-    //TODO
-    // public CensusBlock findDistrictNeighbor(District d){
-
-    // }
-
 }

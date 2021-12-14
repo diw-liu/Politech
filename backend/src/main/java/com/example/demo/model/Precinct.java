@@ -72,7 +72,7 @@ public class Precinct {
     public Set<Precinct> getNeighbors() { return neighbors; }
     public void setNeighbors(Set<Precinct> n) { neighbors = n; }
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="PrecinctCensusBlocks",
             joinColumns = @JoinColumn(name="precinctId"),
@@ -82,7 +82,7 @@ public class Precinct {
     public Set<CensusBlock> getCensusBlocks() { return censusBlocks; }
     public void setCensusBlocks(Set<CensusBlock> n) { censusBlocks = n; }
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="PrecinctBorderBlocks",
             joinColumns = @JoinColumn(name="precinctId"),
