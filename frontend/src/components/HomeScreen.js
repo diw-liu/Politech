@@ -150,10 +150,10 @@ const HomeScreen = (props) =>{
     console.log(showModal)
     console.log("Loading")
     setShowModal(true)
-    fetch("/api/selectplan?id=24PL0")
-      .then(data => console.log(data.json()));
-    fetch("/job/start?goal=0.08&lower=3&higher=7&age=0")
-      .then(data => console.log(data.json()));
+    // fetch("/api/selectplan?id=24PL0")
+    //   .then(data => console.log(data.json()));
+    // fetch("/job/start?goal=0.08&lower=3&higher=7&age=0")
+    //   .then(data => console.log(data.json()));
   }
 
   return (
