@@ -111,14 +111,22 @@ public class JobService {
         session.setAttribute("summary", summary);
         this.algo = new Algorithm(dhash, /*dToP,*/ did, /*pid,*/ selected, constraints, age);
         this.age = age;
-        startAlgorithm(algo, age, summary, selected, session);
+        // startAlgorithm(algo, age, summary, selected, session);
+        startAlgorithm();
         return getStatus();
     }
     
-
     @Async
-    public void startAlgorithm(Algorithm algo, Age age, AlgorithmSummary summary, Districting selected, HttpSession session) {
-        while (iterations < getInterationThreshold() && getStatus() == Status.PROCESSING) {
+    public void startAlgorithm() {
+        while (iterations < getInterationThreshold() && (getStatus() == Status.PROCESSING || getStatus() == Status.PAUSE)) {
+            while(getStatus() == Status.PAUSE){
+                try{
+                    Thread.sleep(1000);
+                }
+                catch(InterruptedException ex){
+                    Thread.currentThread().interrupt();
+                }
+            }
             algoRunnningLock = true; // locks each algo iteration, so there can be only one algo runnning at a time
             StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
             int totalPop;
@@ -172,7 +180,6 @@ public class JobService {
             //     Thread.currentThread().interrupt();
             // }
         }
-        startAlgorithm(this.algo, this.age, this.summary, this.selected, this.session);
         return getStatus();
     }
 
