@@ -91,7 +91,7 @@ const HomeScreen = (props) =>{
             .then(data => data.json())
   }
 
-  const showClick = async (name) =>{
+  const showClick = async (name) => {
     //showState(name)
     setGen(true)
 
@@ -133,43 +133,26 @@ const HomeScreen = (props) =>{
     setView(getView(name))
   }
 
-  const pause = () =>{
+  const pause = () => {
     // fetch("/job/pause");
   }
 
-  const resume = () =>{
+  const resume = () => {
     // fetch("/job/resume");
   }
 
-  const stop = () =>{
+  const stop = () => {
     // fetch("/job/stop");
     setShowModal(false)
   }
 
-  const loading = () =>{
-    // props.setSaved(true);
-    // props.setGen(true)
+  const loading = () => {
     console.log(showModal)
     console.log("Loading")
     setShowModal(true)
-    // setTimeout(() => props.setGen(false), 5000)
-    // fetch("/api/newDistricting",{
-    //   method: 'GET',
-    //   headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-    // })
-    //   .then(res => res.json()) 
-    //   .then(message => {
-    //     // localStorage.setItem("All",JSON.stringify(message));
-    //     var result = message.map(x => JSON.parse(x).features[0]);
-    //     // console.log(props.state)
-    //     console.log(result)
-    //     // props.setState(result)
-    //     // props.setState(redistrict(result, 0))
-    //   })
-    await fetch("/api/state?name=MD");
-    await fetch("/api/selectplan?id=24PL0")
+    fetch("/api/selectplan?id=24PL0")
       .then(data => console.log(data.json()));
-    await fetch("/job/start?goal=0.08&lower=3&higher=7&age=0")
+    fetch("/job/start?goal=0.08&lower=3&higher=7&age=0")
       .then(data => console.log(data.json()));
   }
 

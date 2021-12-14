@@ -30,7 +30,7 @@ const AlgoModal = (props) => {
                             <CanvasJSChart />
                         </div>
                         <div className="modal-footer">
-                            <div>Time: </div>
+                            <div>Iterations: </div>
                             <hr/>
                         </div>
                         <div className="modal-footer">
