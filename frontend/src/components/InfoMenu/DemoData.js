@@ -38,8 +38,7 @@ const DemoData = (props) => {
     console.log(count)
     return(
         <div>
-            <h5>Demographic Data </h5>
-            (Total Population: {count["Total"]})
+            <h3>Demographic Data </h3>
             <table style={{ width: '100%' }}>
                 <tr className="item">
                 <th style={{ textAlign: 'left' }}>Demographic</th>
@@ -49,12 +48,13 @@ const DemoData = (props) => {
                 {
                     Object.keys(count).slice(0, -1).map(popu =>(
                         <tr className="item">
-                            <th style={{ textAlign: 'left' }}>{popu}</th>
-                            <th style={{ textAlign: 'right' }}>{count[popu]}</th>
-                            <th style={{ textAlign: 'right' }}>{((count[popu]/count.Total)*100).toFixed(2)+"%"}</th>
+                            <td style={{ textAlign: 'left' }}>{popu.replace("_", " ")}</td>
+                            <td style={{ textAlign: 'right' }}>{count[popu].toLocaleString()}</td>
+                            <td style={{ textAlign: 'right' }}>{((count[popu]/count.Total)*100).toFixed(2)+"%"}</td>
                         </tr>
                     ))
                 }
+            (Total Population: {count["Total"]})
             </table>
         </div>
     )

@@ -43,7 +43,7 @@ const VotingData = (props) => {
     }
     return(
         <div>
-            <h5>Voting Data</h5>
+            <h3>Voting Data</h3>
             <table style={{ width: '100%' }}>
                 <tr className="item">
                     <th style={{ textAlign: 'left' }}>Party</th>
@@ -55,11 +55,11 @@ const VotingData = (props) => {
                 {
                     Object.keys(count).slice(0, -1).map(party =>(
                         <tr className="item">
-                            <th style={{ textAlign: 'left' }}>{party}</th>
-                            <th style={{ textAlign: 'right' }}>{count[party]['districts']}</th>
-                            <th style={{ textAlign: 'right' }}>{count[party].total}</th>
-                            <th style={{ textAlign: 'right' }}>{count[party].districts/count.Total.districts}</th>
-                            <th style={{ textAlign: 'right' }}>{((count[party].total/count.Total.total)*100).toFixed(2)+"%"}</th>
+                            <td style={{ textAlign: 'left' }}>{party}</td>
+                            <td style={{ textAlign: 'right' }}>{count[party]['districts']}</td>
+                            <td style={{ textAlign: 'right' }}>{count[party].total.toLocaleString()}</td>
+                            <td style={{ textAlign: 'right' }}>{((count[party].districts/count.Total.districts)*100).toFixed(2)+"%"}</td>
+                            <td style={{ textAlign: 'right' }}>{((count[party].total/count.Total.total)*100).toFixed(2)+"%"}</td>
                         </tr>
                     ))
                 }
