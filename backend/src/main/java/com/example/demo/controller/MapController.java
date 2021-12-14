@@ -279,8 +279,8 @@ class MapController {
     }
 
     @GetMapping("/preview/{state}/{name}")
-    public ResponseEntity<Resource> viewImg(@PathVariable String name) throws IOException {
-        String inputFile = "src/main/preview/MD_previews/" + name + ".svg";
+    public ResponseEntity<Resource> viewImg(@PathVariable String state, @PathVariable String name) throws IOException {
+        String inputFile = "src/main/preview/" + state + "_previews/" + name + ".svg";
         Path path = new File(inputFile).toPath();
         FileSystemResource resource = new FileSystemResource(path);
         return ResponseEntity.ok()
