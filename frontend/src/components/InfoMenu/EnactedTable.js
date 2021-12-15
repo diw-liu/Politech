@@ -11,15 +11,15 @@ const EnactedTable = (props) => {
             <table style={{ width: '100%' }}>
                 <tr>
                     <th>District</th>
-                    <th>Population</th>
-                    <th>Vote</th>
+                    <th style={{ textAlign: 'right' }}>Population</th>
+                    <th style={{ textAlign: 'right' }}>Vote</th>
                 </tr>
                 {
                     props.enactedInfo.districts.map(x => (
                         <tr key={x.cd} style={{ textAlign: 'right' }} align="start">
                             <td className="number" style={{ width: '15%' }}>{x.cd}</td>
-                            <td className="population">{x.population.total}</td>
-                            <td className="minorities">{x.election.totalVotes}</td>
+                            <td className="population">{x.population.total.toLocaleString()}</td>
+                            <td className="minorities">{x.election.totalVotes.toLocaleString()}</td>
                         </tr>
                     ))   
                 }

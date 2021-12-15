@@ -11,21 +11,20 @@ import PopulationSelector from './PopulationSelector';
 // import LayerSelector from '../Map/LayerSelector';
 
 const LeftBar = (props) => {
-    const [popType, setPopType] = useState(0)
-
     return (
       <div className='left-bar'>
         {/* <Menu>
           in case we want to make the left bar collapseable https://github.com/negomi/react-burger-menu#styling
-        </Menu> */}
+        </Menu> */
+        }
         <div class='container'>
           <h2> {props.stateName} {(props.plan == 0) ? 'Enacted' : props.plan }</h2>
           <hr/>
           <PlanStatistics plan={props.plan}/>
           <hr/>
-          <PopulationSelector popType={popType} setPopType={setPopType}/>
+          <PopulationSelector popType={props.popType} setPopType={props.setPopType}/>
           <hr/>
-          <RedistrictMenu setGen={props.setGen} loading={props.loading}/>
+          <RedistrictMenu enactedInfo={props.enactedInfo} setGen={props.setGen} loading={props.loading}/>
         </div>
       </div>
     );

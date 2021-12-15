@@ -80,7 +80,7 @@ const InfoMenu = (props) =>{
                 <Tab eventKey="State" title="State">
                   <VotingData enactedInfo={props.enactedInfo}/>
                   <hr/>
-                  <DemoData enactedInfo={props.enactedInfo}/>
+                  <DemoData enactedInfo={props.enactedInfo} popType={props.popType}/>
                 </Tab>
                 <Tab eventKey="Districts" title="Districts">
                   <EnactedTable enactedInfo={props.enactedInfo}/>
