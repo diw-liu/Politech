@@ -35,7 +35,7 @@ const HomeScreen = (props) =>{
 
   const [view, setView] = useState(INITIAL_VIEW_STATE)
   const [plan, setPlan] = useState(0)
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false) // HERE IS WHERE I CHANGED THE FALSE TO TRUE
   const [gen, setGen] = useState(false);
   const [saved, setSaved] = useState(false);
   const [algoGraph, setAlgoGraph] = useState({});
@@ -244,7 +244,7 @@ const HomeScreen = (props) =>{
 
       {
         showModal != true ? <div></div>
-                          : <AlgoModal algoGraph={algoGraph} pause={pause} resume={resume} stop={stop}/>
+                          : <AlgoModal algoGraph={algoGraph} pause={pause} resume={resume} stop={stop} setShowModal={setShowModal}/>
       }
 
       <Map flag={flag} layers={layers} enactedInfo={enactedInfo} enactedGeo={enactedGeo} all={all}
