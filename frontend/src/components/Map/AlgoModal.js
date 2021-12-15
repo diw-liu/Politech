@@ -18,6 +18,34 @@ const AlgoModal = (props) => {
     const handleStop = () =>{
         props.stop()
     }
+
+    const options = {
+        animationEnabled: true,
+        theme: "light2",
+        title:{
+            text: "Most Popular Social Networking Sites"
+        },
+        axisX: {
+            title: "Social Network"
+        },
+        axisY: {
+            title: "Monthly Active Users",
+            includeZero: true,
+        },
+        data: [{
+            type: "column",
+            dataPoints: [
+                { label: "Facebook", y:  2200000000 },
+                { y:  1800000000, label: "YouTube" },
+                { y:  800000000, label: "Instagram" },
+                { y:  563000000, label: "Qzone" },
+                { y:  376000000, label: "Weibo" },
+                { y:  336000000, label: "Twitter" },
+                { y:  330000000, label: "Reddit" }
+            ]
+        }]
+    }
+    
     return(
         <div>
             <div className='algoModal'>
@@ -26,9 +54,9 @@ const AlgoModal = (props) => {
                         <div className="modal-header">
                         <h4 className="modal-title">Algorithm Status </h4>
                         </div>
-                        {/* <div className="modal-body">
-                            <CanvasJSChart />
-                        </div> */}
+                        <div className="modal-body">
+                            <CanvasJSChart options={options}/>
+                        </div>
                         <div className="modal-footer">
                             <div>Iterations: </div>
                             <hr/>
