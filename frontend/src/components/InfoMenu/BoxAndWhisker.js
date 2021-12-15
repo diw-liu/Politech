@@ -12,60 +12,35 @@ const basisMap = {
 
 const BoxAndWhisker = (props) => {
 
-    
-    console.log(props);
-    console.log(props.plots);
     const [basis, setBasis] = useState(basisMap["BLACK"]);
     const [ensemble, setEnsemble] = useState([]);
     const [enactedPoints, setEnactedPoints] = useState([]);
     const [selectedPointsAll, setSelectedPointsAll] = useState({"recombination_of_districts-0": []});
+    const [boxes, setBoxes] = useState(props.plots.filter( single => single.basis == 'BLACK').sort((a, b) => (a.min > b.min) ? 1 : -1));
 
-    const [plots, setPlots] = useState(props.plots);
 
-    console.log(plots);
-    console.log(plots[0].min)
+    // console.log(plots);
+    // console.log(plots[0].min)
     const handleBasisSelect = (key) => {
         setBasis(basisMap[key]);
+        setBoxes(props.plots.filter(single => single.basis == key).sort((a, b) => (a.max > b.max) ? 1 : -1));
+        console.log(boxes);
+        var districtStats = [];
+        for (let i = 0; i < boxes.length; i++) {
+            districtStats.push({
+                label: "District " + i,
+                y: [(boxes[i].min),
+                    (boxes[i].lowerQuartile),
+                    (boxes[i].upperQuartile),
+                    (boxes[i].max),
+                    (boxes[i].median)]
+            });
+        }
+        setEnsemble(districtStats);
+        console.log(ensemble);
     }
 
-    useEffect(() =>{
-        console.log("triggered");
-        // plots.sort();
-        // setPlots(plots);
-
-        // var districtStats = [];
-        // for (let i = 0; i < plots.length; i++) {
-
-        // }
-        
-        // console.log(props.stateName);
-        // fetch("/api/ensemble?state="+props.stateName)
-        //   .then(res => res.json())
-        //   .then(function(data) {
-        //       var districtStats = [];
-        //       for (let i = 0; i < data.length; i++) {
-        //           districtStats.push({
-        //             label: "District " + data[i][0],
-        //             y: [parseFloat(data[i][1]), // min
-        //                 parseFloat(data[i][2]), // q1
-        //                 parseFloat(data[i][3]), // q3
-        //                 parseFloat(data[i][4]), // max
-        //                 parseFloat(data[i][5]), // med (q2)
-        //             ]
-        //         });
-        //       }
-        //       districtStats.sort((a,b) => (a.label > b.label) ? 1 : -1);
-        //       setEnsemble(districtStats);
-        //   });
-        //   fetch("/api/plotPoints")
-        //   .then(res => res.json())
-        //   .then(function(data) {
-        //     console.log(data);
-        //     setEnactedPoints(Object.values(data["enacted"]));
-        //     data["recombination_of_districts-0"] = [];
-        //     console.log(data);
-        //     setSelectedPointsAll(data);
-        //   });
+    useEffect(() => {
     }, []);
 
     function getData(data,k){
@@ -89,20 +64,20 @@ const BoxAndWhisker = (props) => {
             title : basis,
             gridThickness: 0
         },
-        // data: [
-        //     {
-        //     type : "boxAndWhisker",
-        //     dataPoints : ensemble
-        //     },
-        //     {
-        //         type: "scatter",
-        //         name: "Enacted",
-        //         color: "steelblue",
-        //         markerType: "circle",
-        //         toolTipContent: "<span style=\"color:steelblue\">{labelPoints}</span>: {y}",
-        //         showInLegend: true,
-        //         dataPoints: getData(enactedPoints, "Enacted")
-        //     },
+        data: [
+            {
+            type : "boxAndWhisker",
+            dataPoints : ensemble
+            },
+            // {
+            //     type: "scatter",
+            //     name: "Enacted",
+            //     color: "steelblue",
+            //     markerType: "circle",
+            //     toolTipContent: "<span style=\"color:steelblue\">{labelPoints}</span>: {y}",
+            //     showInLegend: true,
+            //     dataPoints: getData([0.1, 0.1, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07], "Enacted")
+            // },
         //     {
         //         type: "scatter",
         //         name: "Proposed",
@@ -112,7 +87,7 @@ const BoxAndWhisker = (props) => {
         //         showInLegend: true,
         //         dataPoints: getData(Object.values(selectedPointsAll["recombination_of_districts-"+props.plan]),"Proposed")
         //     }
-        // ],
+        ],
     }
 
     return (

@@ -5,7 +5,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 function App() {
   return (
     <div className="App">
-      <HomeScreen />
+        <HomeScreen />
     </div>
   );
 }
