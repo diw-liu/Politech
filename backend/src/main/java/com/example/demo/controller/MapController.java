@@ -44,7 +44,7 @@ import org.springframework.core.io.Resource;
 //import java.util.Map;
 //import java.util.Optional;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 class MapController {
@@ -163,8 +163,6 @@ class MapController {
                 System.out.println("Error reading District LONGTEXT to Geometry using JTS");
             }
         }
-//        GeoJSONWriter writer1 = new GeoJSONWriter();
-//        FeatureCollection json = writer1.write(features);
         featureCollection.put("features", features);
         return featureCollection;
     }
@@ -178,23 +176,6 @@ class MapController {
         session.setAttribute("selected", ddp.getId());
         return ddp; // TODO - change this later to be something else
     }
-
-//    @GetMapping("/all")
-////    @Produces({MediaType.APPLICATION_JSON})
-////    @ResponseBody public List<String> getAll() throws FileNotFoundException, IOException, ParseException{
-////        File dir = new File("src/main/State/");
-////        List<String> result = new ArrayList<>();
-////        for(String file : dir.list()){
-////            try{
-////                String temp = String.format("%s/%s",dir.toString(),file);
-////                result.add(new String(Files.readAllBytes(Paths.get(temp))));
-////            }catch (IOException ex){
-////                ex.printStackTrace();
-////                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error reading file",ex);
-////            }
-////        }
-////        return result;
-////    }
 
     @GetMapping("/all")
     @Produces({MediaType.APPLICATION_JSON})

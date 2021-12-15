@@ -5,20 +5,32 @@ import com.example.demo.enums.Status;
 import com.example.demo.algo.*;
 import com.example.demo.model.*;
 
-import com.example.demo.projections.algorithm.DistrictNeighborsProjection;
-import com.example.demo.projections.algorithm.PrecinctNeighborsProjection;
 import com.example.demo.projections.summary.StateSummaryProjection;
 import com.example.demo.repositories.DistrictRepository;
 import com.example.demo.repositories.DistrictingRepository;
 import com.example.demo.repositories.PrecinctRepository;
-import org.json.simple.JSONObject;
-import org.locationtech.jts.io.WKTReader;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
+import org.geotools.geometry.jts.JTS;
+import org.geotools.referencing.CRS;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.locationtech.jts.io.WKTWriter;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.wololo.geojson.Feature;
 import org.wololo.jts2geojson.GeoJSONWriter;
 
+import javax.measure.Measure;
+import javax.measure.quantity.Area;
+import javax.measure.quantity.Length;
+import javax.measure.unit.SI;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -41,7 +53,7 @@ public class JobService {
     Age age; // make it global so it can be reused after resume
     HttpSession session; // make it global so it can be reused after resume
     boolean algoRunnningLock; // locks when the algo is in processing status
-    final int interationThreshold = 10000;
+    final int interationThreshold = 1000000;
     private long timeStart;
     private long timeEnd;
 
@@ -66,10 +78,10 @@ public class JobService {
         session.setAttribute("selected", plan);
     }
 
-    @Async
+//    @Async
     public Status startJob(Constraints constraints, Age age, HttpSession session){
         if(status == Status.PROCESSING) {
-            session.setAttribute("selected", selected.getId());
+//            session.setAttribute("selected", selected.getId());
             return Status.FAILED;
         }
         setStatus(Status.PROCESSING);
@@ -108,7 +120,54 @@ public class JobService {
                 districtPopulations.put(d.getCd(), d.getVap().getTotal());
             }
         }
-        this.summary = new AlgorithmSummary(districtPopulations);
+        // getting the population equality to start
+        int totalPop;
+        StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
+        if (age == Age.TOTAL) {
+            totalPop = ssp.getPopulation().getTotal();
+        } else {
+            totalPop = ssp.getVap().getTotal();
+        }
+        double ideal = (totalPop / (double) selected.getDistricts().size());
+
+        // no longer using polsby popper
+//        double currentSS = 0;
+//        if (age == Age.TOTAL) {
+//            for (District d : selected.getDistricts()) {
+//                currentSS += Math.pow((d.getPopulation().getTotal() / ideal) - 1.0, 2);
+//            }
+//        } else {
+//            for (District d : selected.getDistricts()) {
+//                currentSS += Math.pow((d.getVap().getTotal() / ideal) - 1.0, 2);
+//            }
+//        }
+//        double popeq = Math.sqrt(currentSS);
+
+        double highest = Double.POSITIVE_INFINITY;
+        double lowest = Double.NEGATIVE_INFINITY;
+
+        if (age == Age.TOTAL) {
+            for (District d : selected.getDistricts()) {
+                if (highest == Double.POSITIVE_INFINITY || highest < d.getPopulation().getTotal()) {
+                    highest = d.getPopulation().getTotal();
+                }
+                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getPopulation().getTotal()) {
+                    lowest = d.getPopulation().getTotal();
+                }
+            }
+        } else {
+            for (District d : selected.getDistricts()) {
+                if (highest == Double.POSITIVE_INFINITY || highest < d.getVap().getTotal()) {
+                    highest = d.getVap().getTotal();
+                }
+                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getVap().getTotal()) {
+                    lowest = d.getVap().getTotal();
+                }
+            }
+        }
+
+        double popeq = (highest - lowest) / ideal;
+        this.summary = new AlgorithmSummary(popeq, districtPopulations);
         session.setAttribute("summary", summary);
         this.algo = new Algorithm(dhash, did, selected, constraints, age);
         this.age = age;
@@ -116,7 +175,8 @@ public class JobService {
         // create algorithm result with calculations
         timeEnd = System.nanoTime();
         createResult();
-        session.setAttribute("selected", selected.getId());
+
+//        session.setAttribute("selected", selected.getId());
         return getStatus();
     }
 
@@ -126,40 +186,61 @@ public class JobService {
         double timeSeconds = TimeUnit.SECONDS.convert(runTime, TimeUnit.NANOSECONDS);
         // getting compactness for each district
 //        HashMap<String, Double> districtCompactness = new HashMap<>();
-//        for (District d : selected.getDistricts()) {
-//            double compactness = 4.0 * Math.PI * (d.getGeometry().getArea() / Math.pow(d.getGeometry().getLength(), 2));
-//            System.out.println(compactness);
-//            districtCompactness.put(d.getCd(), compactness);
+        for (District d : selected.getDistricts()) {
+//            System.out.println("--------------------------------------------------------------------------");
 //
-//            for (Precinct p : d.getBorderPrecincts()) {
-//                if (p.getHasChanged()) {
-//                    changedPrecincts++;
-//                    // TODO here is also where we get the geometries for changed precincts should we need them
-//                }
+//            WKTWriter writer = new WKTWriter();
+//            String wktGeo = writer.write(d.getGeometry());
+//            WKTReader reader = new WKTReader();
+//            Geometry vividGeo = null;
+//            try {
+//                vividGeo = reader.read(wktGeo);
+//            } catch (Exception e) {
+//                e.printStackTrace();
 //            }
 //
-//        }
-        // now getting population equality
-        int totalPop;
-        StateSummaryProjection ssp = (StateSummaryProjection) session.getAttribute("state");
-        if (age == Age.TOTAL) {
-            totalPop = ssp.getPopulation().getTotal();
-        } else {
-            totalPop = ssp.getVap().getTotal();
-        }
-        double ideal = (totalPop / (double) selected.getDistricts().size());
-        double currentSS = 0;
-        if (age == Age.TOTAL) {
-            for (District d : selected.getDistricts()) {
-                currentSS += Math.pow((d.getPopulation().getTotal() / ideal) - 1.0, 2);
+//
+//            Point centroid = vividGeo.getCentroid();
+//            System.out.println(centroid.toString());
+//            String autoCode = "AUTO:42001," + centroid.getX() + "," + centroid.getY();
+//            CoordinateReferenceSystem auto = null;
+//            try {
+//                auto = CRS.decode(autoCode);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            MathTransform transform = null;
+//            try {
+//                transform = CRS.findMathTransform(DefaultGeographicCRS.WGS84, auto);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            Geometry geometry1 = null;
+//            try {
+//                geometry1 = JTS.transform(vividGeo, transform);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            Measure<Double, Area> area = javax.measure.Measure.valueOf(geometry1.getArea(), SI.SQUARE_METRE);
+//
+//            System.out.println(area);
+//
+//            Measure<Double, Length> perimeter = Measure.valueOf(geometry1.getLength(), SI.METRE);
+//            System.out.println(perimeter);
+//
+//            double compactness = 4.0 * Math.PI * (area.getValue()/ Math.pow(perimeter.getValue(), 2));
+//            System.out.println(compactness);
+//            districtCompactness.put(d.getCd(), compactness);
+
+            for (Precinct p : d.getBorderPrecincts()) {
+                if (p.getHasChanged()) {
+                    changedPrecincts++;
+                    // TODO here is also where we get the geometries for changed precincts should we need them
+                }
             }
-        } else {
-            for (District d : selected.getDistricts()) {
-                currentSS += Math.pow((d.getVap().getTotal() / ideal) - 1.0, 2);
-            }
         }
-        double popeq = Math.sqrt(currentSS);
-        AlgorithmResult algorithmResult = new AlgorithmResult(timeSeconds, iterations, changedPrecincts, popeq);
+        AlgorithmResult algorithmResult = new AlgorithmResult(timeSeconds, iterations, changedPrecincts, this.summary.getCurrentPopEq());
         session.setAttribute("result", algorithmResult);
         return algorithmResult;
     }
@@ -185,6 +266,20 @@ public class JobService {
             algo.runAlgorithm(totalPop);
             if (iterations % 17 == 0) {
                 // update the summary
+
+                double ideal = (totalPop / (double) selected.getDistricts().size());
+                double currentSS = 0;
+                if (age == Age.TOTAL) {
+                    for (District d : selected.getDistricts()) {
+                        currentSS += Math.pow((d.getPopulation().getTotal() / ideal) - 1.0, 2);
+                    }
+                } else {
+                    for (District d : selected.getDistricts()) {
+                        currentSS += Math.pow((d.getVap().getTotal() / ideal) - 1.0, 2);
+                    }
+                }
+                double popeq = Math.sqrt(currentSS);
+                summary.setCurrentPopEq(popeq);
                 summary.setIterations(iterations);
                 HashMap<String, Integer> districtPops = new HashMap<>();
                 for (District d : selected.getDistricts())
@@ -231,8 +326,7 @@ public class JobService {
         while(this.algoRunnningLock){} // wait until the current algo running is done, then return stop status
         timeEnd = System.nanoTime();
         createResult();
-        session.setAttribute("selected", selected.getId());
-        iterations = 0;
+//        session.setAttribute("selected", selected.getId());
         return getStatus();
     }
 }

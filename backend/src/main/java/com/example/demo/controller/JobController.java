@@ -42,7 +42,7 @@ public class JobController {
 
     @GetMapping("/start")
     public Status startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, @RequestParam int age, HttpServletRequest request){
-//        if (goal < 0 || goal > 1 ) { return Status.FAILED; }
+//        if (goal < 0.0 || goal > 1.0 ) { return Status.FAILED; }
         Constraints constraints = new Constraints(goal, lower, higher);
         HttpSession session = request.getSession();
         session.setAttribute("constraints", constraints);
@@ -66,15 +66,20 @@ public class JobController {
         featureCollection.put("crs", crs);
 
         List<Feature> features = new ArrayList<Feature>();
-        WKTReader reader = new WKTReader();
         GeoJSONWriter writer = new GeoJSONWriter();
+
+        // cleaning up intersections, i think
+//        for (District d : districting.getDistricts()) {
+//            for (District neighbor : d.getNeighbors()) {
+//                d.setGeometry(d.getGeometry().difference(neighbor.getGeometry()));
+//            }
+//        }
 
         for (District d : districting.getDistricts()) {
             Map<String, Object> properties = new HashMap<String, Object>();
             try{
-                Geometry pgeo = reader.read(d.getGeometryString());
                 properties.put("cd", d.getCd());
-                features.add(new Feature(writer.write(pgeo), properties));
+                features.add(new Feature(writer.write(d.getGeometry()), properties));
             } catch (Exception e){
                 System.out.println("Error reading District LONGTEXT to Geometry using JTS");
             }

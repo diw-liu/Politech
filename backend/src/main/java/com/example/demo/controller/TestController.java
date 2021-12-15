@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.*;
+import com.example.demo.projections.StateGeometryProjection;
 import com.example.demo.projections.data.DistrictingDataProjection;
 import com.example.demo.projections.testing.DistrictGeometryProjection;
 import com.example.demo.repositories.*;
+import org.locationtech.jts.dissolve.LineDissolver;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -174,5 +177,39 @@ public class TestController {
 //        GeoJSON json = writer.write(b.getGeometry());
 //        return json;
         return b;
+    }
+
+    @GetMapping("/difference")
+    @Produces(MediaType.APPLICATION_JSON)
+    public @ResponseBody FeatureCollection checkDifference(HttpSession session) {
+        Optional<StateGeometryProjection> sgpr = stateRepository.findById("24", StateGeometryProjection.class);
+        StateGeometryProjection sgp = sgpr.get();
+        Geometry state = null;
+        try {
+            WKTReader reader = new WKTReader();
+            state = reader.read(sgp.getGeometryString());
+        } catch (Exception e){
+            System.out.println("Error reading State LONGTEXT to Geometry using JTS");
+        }
+
+        Optional<DistrictGeometryProjection> dgpresp = districtRepository.findById("24PL0D1", DistrictGeometryProjection.class);
+        DistrictGeometryProjection dgp = dgpresp.get();
+        District d = new District();
+        d.setId("24PL0D1");
+        d.setGeometryString(dgp.getGeometryString());
+        d.convertStringToGeometry();
+
+        Geometry difference = state.difference(d.getGeometry());
+        difference = difference.union();
+
+        List<Feature> features = new ArrayList<Feature>();
+        Map<String, Object> properties = new HashMap<String, Object>();
+
+        GeoJSONWriter writer = new GeoJSONWriter();
+
+        features.add(new Feature(writer.write(difference), null));
+        GeoJSONWriter writer1 = new GeoJSONWriter();
+        FeatureCollection json = writer1.write(features);
+        return json;
     }
 }

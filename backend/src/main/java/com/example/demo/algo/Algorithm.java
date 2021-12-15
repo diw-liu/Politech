@@ -101,48 +101,6 @@ public class Algorithm {
         Precinct toTakeP = findPrecinctToTake(toGiveC, toGiveP, rand);
         District toTakeD = toTakeP.getDistrict();
 
-
-        //--------------------------------------------------------------------------
-
-//        int numP = dToP.get(did).size();
-//        String pid = pids.get(did).get(rand.nextInt(numP));
-//        Precinct toGiveP = dToP.get(did).get(pid);
-//        ArrayList<CensusBlock> validBlocks = new ArrayList<>();
-//        System.out.println("NNNNNNOONONONONONONONONONONONONONONONONONONONONO");
-//        boolean found = false;
-//        while (toGiveP.getNeighbors() == null || toGiveP.getBorderBlocks() == null ||
-//                toGiveP.getNeighbors().size() == 0 || toGiveP.getBorderBlocks().size() == 0 || !found) {
-//            pid = pids.get(did).get(rand.nextInt(numP));
-//            toGiveP = dToP.get(did).get(pid);
-//            for (CensusBlock candidate : toGiveP.getBorderBlocks()) {
-//                if(toGiveP.getNeighbors().contains(candidate.getPrecinct())) {
-//                    validBlocks.add(candidate);
-//                }
-//            }
-//            if (validBlocks.size() > 0) {
-//                found = true;
-//            }
-//        }
-//        CensusBlock toGiveC = validBlocks.get(rand.nextInt(validBlocks.size()));
-//        Precinct toTakeP = toGiveC.getPrecinct();
-
-        // --------------------------------------------------------------------------
-
-
-//        boolean isBlock = false;
-//        while (!isBlock) {
-//            if (toGiveC.getNeighbors() != null) {
-//                for (CensusBlock neighborC : toGiveC.getNeighbors()) { // why did i get a null pointer exception here?
-//                    if (neighborC.getPrecinct().equals(toTakeP)) {
-//                        isBlock = true;
-//                    }
-//                }
-//            }
-//            toGiveC = toGiveP.selectRandomBorderCensusBlock();
-//        }
-
-//        District toTakeD = toGiveP.getDistrict();
-
         double ideal = (totalPop / (double) districts.size());
         // should we try this one?
 //        double currentSS = 0;
@@ -157,31 +115,40 @@ public class Algorithm {
 //        }
 //        currentSS = Math.sqrt(currentSS);
 
-        double lowest = Double.NEGATIVE_INFINITY;
-        double highest = Double.POSITIVE_INFINITY;
-        double currentPE;
+        // -----------------THIS WAS WHAT WAS BEING USED TO CALCULATE------------------------------------
+//        double lowest = Double.NEGATIVE_INFINITY;
+//        double highest = Double.POSITIVE_INFINITY;
+//        double currentPE;
+//        if (age == Age.TOTAL) {
+//            for (District d : districts.values()) {
+//                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getPopulation().getTotal()) {
+//                    lowest = d.getPopulation().getTotal();
+//                }
+//
+//                if (highest == Double.POSITIVE_INFINITY || highest < d.getPopulation().getTotal()) {
+//                    highest = d.getPopulation().getTotal();
+//                }
+//            }
+//        } else {
+//            for (District d : districts.values()) {
+//                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getVap().getTotal()) {
+//                    lowest = d.getVap().getTotal();
+//                }
+//
+//                if (highest == Double.POSITIVE_INFINITY || highest < d.getVap().getTotal()) {
+//                    highest = d.getVap().getTotal();
+//                }
+//            }
+//        }
+//        currentPE = (highest - lowest) / ideal;
+        // ----------------------------------------------------------------------------------------------
+
+        boolean improved = false;
         if (age == Age.TOTAL) {
-            for (District d : districts.values()) {
-                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getPopulation().getTotal()) {
-                    lowest = d.getPopulation().getTotal();
-                }
-
-                if (highest == Double.POSITIVE_INFINITY || highest < d.getPopulation().getTotal()) {
-                    highest = d.getPopulation().getTotal();
-                }
-            }
+            improved = toGiveD.getPopulation().getTotal() > toTakeD.getPopulation().getTotal();
         } else {
-            for (District d : districts.values()) {
-                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getVap().getTotal()) {
-                    lowest = d.getVap().getTotal();
-                }
-
-                if (highest == Double.POSITIVE_INFINITY || highest < d.getVap().getTotal()) {
-                    highest = d.getVap().getTotal();
-                }
-            }
+            improved = toGiveD.getVap().getTotal() > toTakeD.getPopulation().getTotal();
         }
-        currentPE = (highest - lowest) / ideal;
 
         // make the move
         toGiveC.setParentDistrict(toTakeD);
@@ -214,33 +181,41 @@ public class Algorithm {
 //        }
 //        newSS = Math.sqrt(newSS);
 
-        double newPE;
-        if (age == Age.TOTAL) {
-            for (District d : districts.values()) {
-                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getPopulation().getTotal()) {
-                    lowest = d.getPopulation().getTotal();
-                }
-                if (highest == Double.POSITIVE_INFINITY || highest < d.getPopulation().getTotal()) {
-                    highest = d.getPopulation().getTotal();
-                }
-            }
-        } else {
-            for (District d : districts.values()) {
-                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getVap().getTotal()) {
-                    lowest = d.getVap().getTotal();
-                }
-                if (highest == Double.POSITIVE_INFINITY || highest < d.getVap().getTotal()) {
-                    highest = d.getVap().getTotal();
-                }
-            }
-        }
-        newPE = (highest - lowest) / ideal;
+        // --------------------------THIS WAS WHAT WAS BEING USED TO CALCULATE -------------------------------
+//        double newPE;
+//        if (age == Age.TOTAL) {
+//            for (District d : districts.values()) {
+//                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getPopulation().getTotal()) {
+//                    lowest = d.getPopulation().getTotal();
+//                }
+//                if (highest == Double.POSITIVE_INFINITY || highest < d.getPopulation().getTotal()) {
+//                    highest = d.getPopulation().getTotal();
+//                }
+//            }
+//        } else {
+//            for (District d : districts.values()) {
+//                if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getVap().getTotal()) {
+//                    lowest = d.getVap().getTotal();
+//                }
+//                if (highest == Double.POSITIVE_INFINITY || highest < d.getVap().getTotal()) {
+//                    highest = d.getVap().getTotal();
+//                }
+//            }
+//        }
+//        newPE = (highest - lowest) / ideal;
+        // --------------------------------------------------------------------------------------------------------
 
         // if improved, keep move
-        /*if (newSS <= currentSS)*/ if (newPE <= currentPE) {
+        /*if (newSS <= currentSS)*/ /*if (newPE <= currentPE) */
+
+
+        if (improved) {
             // generate new geometry
             toGiveD.setGeometry(LineDissolver.dissolve(toGiveD.getGeometry().difference(toGiveC.getGeometry())));
             toTakeD.setGeometry(LineDissolver.dissolve(toTakeD.getGeometry().union(toGiveC.getGeometry())));
+
+//            toGiveD.setGeometry(toGiveD.getGeometry().buffer(0));
+//            toTakeD.setGeometry(toTakeD.getGeometry().buffer(0));
             // adjust new border block creation
 
             for (CensusBlock newBorder : toGiveC.getNeighbors()) {
@@ -266,8 +241,8 @@ public class Algorithm {
             badMoves = 0; // reset badmoves counter
             return true;
         }
-        // if not improved, 50% to keep move
-        if ((badMoves >= 5) || rand.nextBoolean()) {
+        // if not improved, 30% to keep move
+        if ((badMoves >= 5) || Math.random() < 0.3) {
             // undo move
             toGiveC.setParentDistrict(toGiveD);
             toGiveC.setPrecinct(toGiveP);
@@ -291,6 +266,9 @@ public class Algorithm {
 
         toGiveD.setGeometry(LineDissolver.dissolve(toGiveD.getGeometry().difference(toGiveC.getGeometry())));
         toTakeD.setGeometry(LineDissolver.dissolve(toTakeD.getGeometry().union(toGiveC.getGeometry())));
+
+//        toGiveD.setGeometry(toGiveD.getGeometry().buffer(0));
+//        toTakeD.setGeometry(toTakeD.getGeometry().buffer(0));
         // adjust new border block creation
 
         for (CensusBlock newBorder : toGiveC.getNeighbors()) {
