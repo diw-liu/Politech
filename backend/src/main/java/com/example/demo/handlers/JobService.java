@@ -46,6 +46,8 @@ public class JobService {
     PrecinctRepository precinctRepository;
 
     private Status status;
+    private Constraints constraints;
+    private double ideal;
     private int iterations; // make it global so it can be reused after resume
     private Algorithm algo; // make it global so it can be reused after resume
     AlgorithmSummary summary; // make it global so it can be reused after resume
@@ -81,6 +83,7 @@ public class JobService {
 
 //    @Async
     public Status startJob(Constraints constraints, Age age, HttpSession session){
+        this.constraints = constraints;
         if(status == Status.PROCESSING) {
 //            session.setAttribute("selected", selected.getId());
             return Status.FAILED;
@@ -129,7 +132,7 @@ public class JobService {
         } else {
             totalPop = ssp.getVap().getTotal();
         }
-        double ideal = (totalPop / (double) selected.getDistricts().size());
+        ideal = (totalPop / (double) selected.getDistricts().size());
 
         // no longer using polsby popper
 //        double currentSS = 0;
@@ -247,7 +250,8 @@ public class JobService {
     }
 
     public void startAlgorithm() {
-        while (iterations < getInterationThreshold() && (getStatus() == Status.PROCESSING || getStatus() == Status.PAUSE)) {
+        boolean acceptable = false;
+        while ((iterations < getInterationThreshold()) && (getStatus() == Status.PROCESSING || getStatus() == Status.PAUSE) && !acceptable) {
             while(getStatus() == Status.PAUSE){
                 try{
                     Thread.sleep(1000);
@@ -268,18 +272,49 @@ public class JobService {
             if (iterations % 17 == 0) {
                 // update the summary
 
-                double ideal = (totalPop / (double) selected.getDistricts().size());
-                double currentSS = 0;
+//                double ideal = (totalPop / (double) selected.getDistricts().size());
+//                double currentSS = 0;
+//                if (age == Age.TOTAL) {
+//                    for (District d : selected.getDistricts()) {
+//                        currentSS += Math.pow((d.getPopulation().getTotal() / ideal) - 1.0, 2);
+//                    }
+//                } else {
+//                    for (District d : selected.getDistricts()) {
+//                        currentSS += Math.pow((d.getVap().getTotal() / ideal) - 1.0, 2);
+//                    }
+//                }
+//                double popeq = Math.sqrt(currentSS);
+
+                // no longer using polsby popper
+                double highest = Double.POSITIVE_INFINITY;
+                double lowest = Double.NEGATIVE_INFINITY;
+
                 if (age == Age.TOTAL) {
                     for (District d : selected.getDistricts()) {
-                        currentSS += Math.pow((d.getPopulation().getTotal() / ideal) - 1.0, 2);
+                        if (highest == Double.POSITIVE_INFINITY || highest < d.getPopulation().getTotal()) {
+                            highest = d.getPopulation().getTotal();
+                        }
+                        if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getPopulation().getTotal()) {
+                            lowest = d.getPopulation().getTotal();
+                        }
                     }
                 } else {
                     for (District d : selected.getDistricts()) {
-                        currentSS += Math.pow((d.getVap().getTotal() / ideal) - 1.0, 2);
+                        if (highest == Double.POSITIVE_INFINITY || highest < d.getVap().getTotal()) {
+                            highest = d.getVap().getTotal();
+                        }
+                        if (lowest == Double.NEGATIVE_INFINITY || lowest > d.getVap().getTotal()) {
+                            lowest = d.getVap().getTotal();
+                        }
                     }
                 }
-                double popeq = Math.sqrt(currentSS);
+
+                double popeq = (highest - lowest) / ideal;
+
+                if (popeq <= constraints.getPopulationEquality()) {
+                    acceptable = true;
+                }
+
                 summary.setCurrentPopEq(popeq);
                 summary.setIterations(iterations);
                 HashMap<String, Integer> districtPops = new HashMap<>();
@@ -297,6 +332,7 @@ public class JobService {
         if(this.status == Status.PROCESSING){ // if algo is complete naturally(not by stop or pause), return completed status
             this.status = Status.COMPLETED;
         }
+
     }
 
 

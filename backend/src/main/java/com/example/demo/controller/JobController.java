@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin
+@CrossOrigin(maxAge = 36000)
 @RestController
 @RequestMapping("/job")
 public class JobController {

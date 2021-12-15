@@ -44,7 +44,7 @@ import org.springframework.core.io.Resource;
 //import java.util.Map;
 //import java.util.Optional;
 
-@CrossOrigin
+@CrossOrigin(maxAge = 36000)
 @RestController
 @RequestMapping("/api")
 class MapController {
