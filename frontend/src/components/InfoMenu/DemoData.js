@@ -59,7 +59,11 @@ const DemoData = (props) => {
                         </tr>
                     ))
                 }
-            Total Population: {count["Total"].toLocaleString()}
+                <tr>
+                    <td style={{ textAlign: 'left' }}>Total</td>
+                    <td style={{ textAlign: 'right' }}>{count["Total"].toLocaleString()}</td>
+                    <td style={{ textAlign: 'right' }}>{}</td>
+                </tr>
             </table>
         </div>
     )
