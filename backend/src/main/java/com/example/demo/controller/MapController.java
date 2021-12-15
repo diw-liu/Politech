@@ -170,9 +170,8 @@ class MapController {
     @GetMapping("/selectplan")
     @Produces(MediaType.APPLICATION_JSON)
     @ResponseBody
-    public DistrictingDataProjection getPlan(@RequestParam String id, HttpServletRequest request) {
+    public DistrictingDataProjection getPlan(@RequestParam String id, HttpSession session) {
         DistrictingDataProjection ddp = mapService.fetchPlanSummary(id);
-        HttpSession session = request.getSession();
         session.setAttribute("selected", ddp.getId());
         return ddp; // TODO - change this later to be something else
     }

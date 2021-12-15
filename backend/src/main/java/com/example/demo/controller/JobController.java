@@ -91,8 +91,8 @@ public class JobController {
     @GetMapping("/summary")
     @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody AlgorithmSummary getSummary(HttpSession session) {
-        AlgorithmSummary summary = (AlgorithmSummary) session.getAttribute("summary");
-        return summary;
+        //AlgorithmSummary summary = (AlgorithmSummary) session.getAttribute("summary");
+        return jobService.getSummary();
     }
 
     @GetMapping("/result")
