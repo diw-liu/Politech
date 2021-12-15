@@ -172,6 +172,7 @@ const HomeScreen = (props) =>{
     console.log(Object.keys(algoGraph).length);
     //if (Object.keys(algoGraph).length != 0){
       console.log("stop in homescreen")
+      console.log(Object.keys(algoGraph).length)
       return fetch("/job/stop")
               //.then(data => data.json())
     //} 
