@@ -35,7 +35,7 @@ const HomeScreen = (props) =>{
 
   const [view, setView] = useState(INITIAL_VIEW_STATE)
   const [plan, setPlan] = useState(0)
-  const [showModal, setShowModal] = useState(true)
+  const [showModal, setShowModal] = useState(false)
   const [gen, setGen] = useState(false);
   const [saved, setSaved] = useState(false);
   const [algoGraph, setAlgoGraph] = useState({});
