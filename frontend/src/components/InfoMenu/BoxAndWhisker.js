@@ -25,10 +25,13 @@ const BoxAndWhisker = (props) => {
         setBasis(basisMap[key]);
         setBoxes(props.plots.filter(single => single.basis == key).sort((a, b) => (a.max > b.max) ? 1 : -1));
         console.log(boxes);
+    }
+
+    useEffect(() => {
         var districtStats = [];
         for (let i = 0; i < boxes.length; i++) {
             districtStats.push({
-                label: "District " + i,
+                label: "District " + (i + 1),
                 y: [(boxes[i].min),
                     (boxes[i].lowerQuartile),
                     (boxes[i].upperQuartile),
@@ -38,10 +41,7 @@ const BoxAndWhisker = (props) => {
         }
         setEnsemble(districtStats);
         console.log(ensemble);
-    }
-
-    useEffect(() => {
-    }, []);
+    }, [basis, boxes]);
 
     function getData(data,k){
         let dataPoints = [];
@@ -62,7 +62,9 @@ const BoxAndWhisker = (props) => {
         },
         axisY: {
             title : basis,
-            gridThickness: 0
+            gridThickness: 0,
+            minimum: 0,
+            maximum: 1
         },
         data: [
             {
