@@ -28,7 +28,7 @@ const BoxAndWhisker = (props) => {
         var districtStats = [];
         for (let i = 0; i < boxes.length; i++) {
             districtStats.push({
-                label: "District " + i,
+                label: "District " + (i + 1),
                 y: [(boxes[i].min),
                     (boxes[i].lowerQuartile),
                     (boxes[i].upperQuartile),

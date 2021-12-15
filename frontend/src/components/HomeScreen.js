@@ -36,12 +36,14 @@ const HomeScreen = (props) =>{
   const [view, setView] = useState(INITIAL_VIEW_STATE)
   const [plan, setPlan] = useState(0)
   const [showModal, setShowModal] = useState(false) // HERE IS WHERE I CHANGED THE FALSE TO TRUE
+  
   const [gen, setGen] = useState(false);
-  const [saved, setSaved] = useState(false);
+  // const [saved, setSaved] = useState(false);
+  // const [algoModal, setAlgoModal] = useState(false);
+  // const [summaryFetch, setSummaryFetch] = useState(false);
   const [algoGraph, setAlgoGraph] = useState({});
 
   const [popType, setPopType] = useState(0)
-
 
   useEffect(() =>{
     fetch("/api/all",{
@@ -117,6 +119,70 @@ const HomeScreen = (props) =>{
     setView(getView(name))
   }
 
+  const Loading = async () => {
+    console.log(showModal)
+    console.log("Loading")
+    setShowModal(true)
+    
+    // await getStateTesting()
+    
+    // setTimeout(function(){
+    //   getStartTesting()
+    // }, 3000);
+  }
+  // fetching start before setShowModal is true
+  useEffect(async () => {
+    console.log("Set")
+    if(showModal){
+      await getPlanTesting()
+      getStartTesting()
+      getSummaryTesting()
+    }
+  }, [showModal])
+
+  const getStartTesting = async () =>{
+    return fetch("/job/start?goal=0.09&lower=0&higher=7&age=0");
+  }
+
+  const getSummaryTesting = async () =>{
+    const response = await fetch("/job/summary");
+    console.log(response)
+    const contentType = response.headers.get("content-type");
+    console.log(contentType)
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+
+      console.log("ss")
+      const myJson = await response.json();
+      setAlgoGraph(myJson); 
+
+    } else {
+
+      console.log("se")
+      setAlgoGraph({})
+
+    }
+  }
+  // Lagging behind for the result and unable to terminate before, necessary 
+  useEffect(async () => {
+    console.log("inside algo")
+    console.log(algoGraph)
+    if(showModal){
+      setTimeout(getSummaryTesting , 10000);
+    }
+  }, [algoGraph])
+  // useEffect(async () =>{
+  //   if (showModal == false){
+  //     await getPlanTesting()
+  //     getStartTesting()
+  //     getSummaryTesting()
+  //   }
+    
+  // }, [showModal]);
+
+  // const getStateTesting = async () =>{
+  //   return fetch("/api/state?name=MD")
+  //           .then(data => data.json())
+  // }
   const pause = async () => {
     await getPauseTesting()
   }
@@ -126,29 +192,11 @@ const HomeScreen = (props) =>{
   }
 
   const stop = async () => {
-    const data = await getStopTesting()
-    
-    if (data) {setShowModal(false)}
+    // controller.abort()
+    await getStopTesting()
+    setShowModal(false)
   }
 
-  const loading = async () => {
-    // console.log(showModal)
-    // console.log("Loading")
-    setShowModal(true)
-    // await getStateTesting()
-    await getPlanTesting()
-    getStartTesting()
-    // setTimeout(function(){
-    //   getStartTesting()
-    // }, 3000);
-    getSummaryTesting()
-  }
-
-
-  // const getStateTesting = async () =>{
-  //   return fetch("/api/state?name=MD")
-  //           .then(data => data.json())
-  // }
   const getPlanTesting = async () =>{
     return fetch("/api/selectplan?id=24PL0")
             .then(data => data.json())
@@ -169,55 +217,47 @@ const HomeScreen = (props) =>{
   }
 
   const getStopTesting = async() => {
-    console.log(Object.keys(algoGraph).length);
-    //if (Object.keys(algoGraph).length != 0){
-      console.log("stop in homescreen")
-      console.log(Object.keys(algoGraph).length)
-      return fetch("/job/stop")
-              //.then(data => data.json())
-    //} 
+    return fetch("/job/stop")
   }
 
-  const getStartTesting = async () =>{
-    try {
-      const response = await fetch("/job/start?goal=0.08&lower=3&higher=7&age=0");
-      if (response.status === 200) {
-          console.log("Machine successfully found.");
-          // const myJson = await response.json(); //extract JSON from the http response
-          // console.log(myJson);               
-      } else {
-          console.log("not a 200 Start");
-      }
-    } catch (err) {
-        // catches errors both in fetch and response.json
-        console.log(err);
-    } finally {
-        // do it again in 2 seconds
-        if(showModal){
-          setTimeout(getStartTesting , 10000);
-        } 
-    }
-  }
+ 
 
-  const getSummaryTesting = async () =>{
-    try {
-      const response = await fetch("/job/summary");
-      if (response.status === 200) {
-          const myJson = await response.json(); //extract JSON from the http response
-          // console.log(myJson);  
-          setAlgoGraph(myJson)             
-      } else {
-          console.log("not a 200 Summary");
-      }
-    } catch (err) {
-        console.log(err);
-    } finally {
-      if(showModal){
-        setTimeout(getSummaryTesting , 10000);
-      } 
-        // do it again in 2 seconds
-    }
-  }
+    // try {
+
+    // }
+    // try {
+    //   // console.log(algoGraph)
+    //   // console.log()
+    //   const response = await fetch("/job/summary");
+    //   // console.log("summary try")
+    //   // console.log(response)
+    //   if (response.status === 200) {
+    //       const myJson = await response.json(); //extract JSON from the http response
+    //       // console.log("IC")
+    //       // console.log(myJson);  
+    //       console.log(algoGraph)
+    //       console.log()
+    //       setAlgoGraph(myJson);            
+    //   } else {
+    //       console.log("not a 200 Summary");
+    //   }
+    // } catch (err) {
+    //     console.log(err);
+    // } finally {
+    //   console.log(response)
+    //   if(showModal){
+    //     setTimeout(getSummaryTesting , 10000);
+    //   }
+    // }
+  // }
+  // useEffect(async () => {
+  //   console.log("Set")
+  //   if(showModal){
+  //     await getPlanTesting()
+  //     getStartTesting()
+  //     await getSummaryTesting()
+  //   }
+  // }, [algoGraph])
   
   return (
     <div >
@@ -230,7 +270,7 @@ const HomeScreen = (props) =>{
       { showInfo && (
         <div>
           <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} plan={plan} setPlan={setPlan} popType={popType} plots={plots} setPlots={setPlots}/>
-          <LeftBar stateName={stateName} plan={plan} loading={loading}
+          <LeftBar stateName={stateName} plan={plan} loading={Loading}
                 setGen={setGen} showModal={showModal} setShowModal={setShowModal} enactedInfo={enactedInfo} 
                 layers={layers} setLayers={setLayers} popType={popType} setPopType={setPopType}/>
           <LayerSelector flag={flag} setFlag={setFlag}/>  
