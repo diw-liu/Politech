@@ -4,34 +4,37 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import {CanvasJSChart} from 'canvasjs-react-charts'
 
+const basisMap = {
+        "BLACK" : "African American",
+        "DEMOCRATIC" : "Democratic",
+        "REPUBLICAN" : "Republican"
+}
+
 const BoxAndWhisker = (props) => {
+
     
     console.log(props);
     console.log(props.plots);
+    const [basis, setBasis] = useState(basisMap["BLACK"]);
     const [ensemble, setEnsemble] = useState([]);
     const [enactedPoints, setEnactedPoints] = useState([]);
     const [selectedPointsAll, setSelectedPointsAll] = useState({"recombination_of_districts-0": []});
 
     const [plots, setPlots] = useState(props.plots);
 
-    function compare( a, b ) {
-        if ( a.min < b.min ){
-            return -1;
-        }
-        if ( a.min > b.min ){
-            return 1;
-        }
-        return 0;
-        }
-    var boxes = props.plots;
-    console.log(boxes);
-    console.log(boxes.sort( compare ))
+    console.log(plots);
+    console.log(plots[0].min)
+    const handleBasisSelect = (key) => {
+        setBasis(basisMap[key]);
+    }
 
     useEffect(() =>{
-        plots.sort();
-        setPlots(plots);
+        console.log("triggered");
+        // plots.sort();
+        // setPlots(plots);
+
         // var districtStats = [];
-        // for (let i = 0; i < props.plots.length; i++) {
+        // for (let i = 0; i < plots.length; i++) {
 
         // }
         
@@ -83,37 +86,56 @@ const BoxAndWhisker = (props) => {
             text : "Box and Whisker Plot"
         },
         axisY: {
-            title : "African American Population",
+            title : basis,
             gridThickness: 0
         },
-        data: [
-            {
-            type : "boxAndWhisker",
-            dataPoints : ensemble
-            },
-            {
-                type: "scatter",
-                name: "Enacted",
-                color: "steelblue",
-                markerType: "circle",
-                toolTipContent: "<span style=\"color:steelblue\">{labelPoints}</span>: {y}",
-                showInLegend: true,
-                dataPoints: getData(enactedPoints, "Enacted")
-            },
-            {
-                type: "scatter",
-                name: "Proposed",
-                color: "tomato",
-                markerType: "circle",
-                toolTipContent: "<span style=\"color:tomato\">{labelPoints}</span>: {y}",
-                showInLegend: true,
-                dataPoints: getData(Object.values(selectedPointsAll["recombination_of_districts-"+props.plan]),"Proposed")
-            }
-        ],
+        // data: [
+        //     {
+        //     type : "boxAndWhisker",
+        //     dataPoints : ensemble
+        //     },
+        //     {
+        //         type: "scatter",
+        //         name: "Enacted",
+        //         color: "steelblue",
+        //         markerType: "circle",
+        //         toolTipContent: "<span style=\"color:steelblue\">{labelPoints}</span>: {y}",
+        //         showInLegend: true,
+        //         dataPoints: getData(enactedPoints, "Enacted")
+        //     },
+        //     {
+        //         type: "scatter",
+        //         name: "Proposed",
+        //         color: "tomato",
+        //         markerType: "circle",
+        //         toolTipContent: "<span style=\"color:tomato\">{labelPoints}</span>: {y}",
+        //         showInLegend: true,
+        //         dataPoints: getData(Object.values(selectedPointsAll["recombination_of_districts-"+props.plan]),"Proposed")
+        //     }
+        // ],
     }
 
     return (
             <>
+            <br></br>
+                <div className="basis-selector">
+                    <DropdownButton
+                        title={basis}
+                        onSelect={handleBasisSelect}
+                    >
+                        <>
+                        <Dropdown.Item key={"BLACK"} eventKey={"BLACK"}>
+                        African American
+                        </Dropdown.Item>
+                        <Dropdown.Item key={"DEMOCRATIC"}eventKey={"DEMOCRATIC"}>
+                        Democratic
+                        </Dropdown.Item>
+                        <Dropdown.Item key={"REPUBLICAN"} eventKey={"REPUBLICAN"}>
+                        Republican
+                        </Dropdown.Item>
+                        </>
+                    </DropdownButton>
+                </div>
                 <CanvasJSChart options={options} />
             </>
     );
