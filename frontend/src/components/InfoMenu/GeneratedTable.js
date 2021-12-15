@@ -43,7 +43,7 @@ const GeneratedTable = (props) => {
                 justifyContent: "center",
                 alignItems: "center"
             }} src="localhost:8080/api/preview/MD/24PL2"></img> */}
-            <table class='table table-striped overflow-scroll'>
+            <table class='table table-striped overflow-scroll' style={{tableLayout: "fixed"}}>
                 <thead> 
                     <tr>
                         <th>Plan</th>
