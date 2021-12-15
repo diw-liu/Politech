@@ -40,6 +40,8 @@ const HomeScreen = (props) =>{
   const [saved, setSaved] = useState(false);
   const [algoGraph, setAlgoGraph] = useState({});
 
+  const [popType, setPopType] = useState(0)
+
 
   useEffect(() =>{
     fetch("/api/all",{
@@ -223,10 +225,10 @@ const HomeScreen = (props) =>{
       
       { showInfo && (
         <div>
-          <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} plan={plan} setPlan={setPlan} plots={plots} setPlots={setPlots}/>
+          <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} plan={plan} setPlan={setPlan} popType={popType} plots={plots} setPlots={setPlots}/>
           <LeftBar stateName={stateName} plan={plan} loading={loading}
-                setGen={setGen} showModal={showModal} setShowModal={setShowModal}
-                layers={layers} setLayers={setLayers} />
+                setGen={setGen} showModal={showModal} setShowModal={setShowModal} enactedInfo={enactedInfo} 
+                layers={layers} setLayers={setLayers} popType={popType} setPopType={setPopType}/>
           <LayerSelector flag={flag} setFlag={setFlag}/>  
         </div>)
       } 

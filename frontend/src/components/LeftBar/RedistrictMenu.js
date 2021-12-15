@@ -10,9 +10,9 @@ import AlgoModal from '../Map/AlgoModal';
 
 const RedistrictMenu = (props) => {
     const [stateName, setStateName] = useState(50)
-    const [popEq, setPopEq] = useState(0.7/2)
+    const [popEq, setPopEq] = useState(0)
     const [racDev, setRacDev] = useState(50)
-    const [majMin, setMajMin] = useState(4)
+    const [majMin, setMajMin] = useState(Math.round(props.enactedInfo.districts.length/2))
     const [effGap, setEffGap] = useState(0.5)
     const [compactness, setCompactness] = useState(0.5)
     
@@ -34,7 +34,7 @@ const RedistrictMenu = (props) => {
           </div>
           <div>
             <span style={{width:'100%'}}>Majority-minority districts: {majMin}</span>
-            <Slider style={{width:'100%'}} axis='x' x={majMin} onChange={ ({x}) => setMajMin(x) }/>
+            <Slider style={{width:'100%'}} axis='x' x={majMin} xmax={props.enactedInfo.districts.length} xstep={1} onChange={ ({x}) => setMajMin(x) }/>
           </div>
           <div>
             <span>Efficiency gap: {Math.round(effGap * 100)/100}</span>

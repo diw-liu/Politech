@@ -27,15 +27,20 @@ const DemoData = (props) => {
     }
     const length = props.enactedInfo.districts.length
     
-    if(Object.keys(props.enactedInfo).length != 0){ 
+    if (Object.keys(props.enactedInfo).length != 0){ 
         console.log(props.enactedInfo)
         for(var i = 0; i< length; i++){
             for(const variable in PopulationEnum){ 
-                count[PopulationEnum[variable]] += props.enactedInfo.districts[i].population[variable]
+                if (props.popType === 0) 
+                    count[PopulationEnum[variable]] += props.enactedInfo.districts[i].population[variable]
+                else if (props.popType === 1)
+                    count[PopulationEnum[variable]] += props.enactedInfo.districts[i].vap[variable]
             }
         }
     }
+
     console.log(count)
+
     return(
         <div>
             <h3>Demographic Data </h3>
@@ -54,7 +59,7 @@ const DemoData = (props) => {
                         </tr>
                     ))
                 }
-            (Total Population: {count["Total"]})
+            Total Population: {count["Total"].toLocaleString()}
             </table>
         </div>
     )
