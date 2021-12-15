@@ -242,7 +242,7 @@ public class Algorithm {
             return true;
         }
         // if not improved, 30% to keep move
-        if ((badMoves >= 5) || Math.random() < 0.3) {
+        if ((badMoves >= 5) || Math.random() < 0.1) {
             // undo move
             toGiveC.setParentDistrict(toGiveD);
             toGiveC.setPrecinct(toGiveP);

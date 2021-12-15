@@ -40,7 +40,7 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
-    @GetMapping("/start")
+    @PostMapping("/start")
     public Status startJob(@RequestParam double goal, @RequestParam int lower, @RequestParam int higher, @RequestParam int age, HttpServletRequest request){
 //        if (goal < 0.0 || goal > 1.0 ) { return Status.FAILED; }
         Constraints constraints = new Constraints(goal, lower, higher);
