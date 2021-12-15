@@ -127,6 +127,7 @@ const HomeScreen = (props) =>{
 
   const stop = async () => {
     const data = await getStopTesting()
+    
     if (data) {setShowModal(false)}
   }
 
@@ -154,24 +155,26 @@ const HomeScreen = (props) =>{
   }
 
   const getPauseTesting = async() => {
-    if (Object.keys(algoGraph).length != 0){
+    //if (Object.keys(algoGraph).length != 0){
       return fetch("/job/pause")
-              .then(data => data.json())
-    } 
+              //.then(data => data.json())
+    //} 
   }
 
   const getResumeTesting = async() => {
-    if (Object.keys(algoGraph).length != 0){
+    //if (Object.keys(algoGraph).length != 0){
       return fetch("/job/resume")
-              .then(data => data.json())
-    } 
+              //.then(data => data.json())
+    //} 
   }
 
   const getStopTesting = async() => {
-    if (Object.keys(algoGraph).length != 0){
+    console.log(Object.keys(algoGraph).length);
+    //if (Object.keys(algoGraph).length != 0){
+      console.log("stop in homescreen")
       return fetch("/job/stop")
-              .then(data => data.json())
-    } 
+              //.then(data => data.json())
+    //} 
   }
 
   const getStartTesting = async () =>{
