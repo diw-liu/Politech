@@ -5,6 +5,7 @@ import Map from './Map/Map';
 import StateSelector from './Map/StateSelector';
 import LayerSelector from './Map/LayerSelector';
 import AlgoModal from './Map/AlgoModal';
+import DownloadButton from './Map/DownloadButton';
 
 import { showState } from './Map/Preprocess'
 import { INITIAL_VIEW_STATE, getView } from './Map/ViewState'
@@ -13,7 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
 
-export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
+// export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
 
 const HomeScreen = (props) =>{
 
@@ -220,12 +221,12 @@ const HomeScreen = (props) =>{
                   .then(data => data.json())
     // console.log(data)
     var planDistrict = data;
-    for(const i in planDistrict.districts){
-      console.log(planDistrict.districts[i])
-      planDistrict.districts[i].geometry = planDistrict.districts[i].geometryString
-      delete planDistrict.districts[i].geometryString
-      console.log(planDistrict.districts[i])
-    }
+    // for(const i in planDistrict.districts){
+    //   console.log(planDistrict.districts[i])
+    //   planDistrict.districts[i].geometry = planDistrict.districts[i].geometryString
+    //   delete planDistrict.districts[i].geometryString
+    //   console.log(planDistrict.districts[i])
+    // }
     setPlanInfo(planDistrict)
   }
 
@@ -236,10 +237,10 @@ const HomeScreen = (props) =>{
     //} 
   }
 
-  var parse = require('wellknown');
-    fetch("api/geometryString")
-        .then(data => console.log(data))
-        .then(data => console.log(parse(data)))
+  // var parse = require('wellknown');
+  //   fetch("api/geometryString")
+  //       .then(data => console.log(data))
+  //       .then(data => console.log(parse(data)))
 
   const getResumeTesting = async() => {
     //if (Object.keys(algoGraph).length != 0){
@@ -259,7 +260,12 @@ const HomeScreen = (props) =>{
         setLayers={setLayers}  setStateName={setStateName}
         setEnactedGeo={setEnactedGeo} setEnactedInfo={setEnactedInfo}
         />   
-      
+      {
+        showInfo && (  
+            <div>
+                <DownloadButton planInfo={planInfo}/>
+            </div>)
+      }
       { showInfo && (
         <div>
           <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} 

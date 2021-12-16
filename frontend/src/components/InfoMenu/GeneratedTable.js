@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-
+import ReactTooltip from 'react-tooltip';
+import XMLParser from 'react-xml-parser';
+import SVG from 'react-inlinesvg';
 import Districts from '../../data/mock2.js';
-import '../../css/InfoMenu.css'
+import '../../css/InfoMenu.css';
 
 
 const GeneratedTable = (props) => {
@@ -12,21 +14,28 @@ const GeneratedTable = (props) => {
     console.log(props.districtings)
     console.log(props.districtings[0])
 
+    const getPreview = async (id) => {    
+        return fetch('/api/preview/' + 'MD' + '/' + id)
+                .then((data) => data.text())
+                .then((data) => setPreview(data))
+                .catch((error) => {
+                    console.log(error);
+                });
+    }
+
     const toggleActive = async (id, measure) =>{
         setHighLight(id)
         props.setPlan(id)
         props.setMeasure(measure)
         console.log(await props.getPlan())
+        getPreview(id)
         // console.log(id)
     }
 
     return(
         <div class='table-responsive overflow-scroll'>
-            {/* <img style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-            }} src="localhost:8080/api/preview/MD/24PL2"></img> */}
+            <button data-tip data-for='preview'>Preview ... </button>
+            <ReactTooltip id='preview' place='left'><SVG width={240} src={preview}/></ReactTooltip>
             <table class='table table-striped overflow-scroll' style={{tableLayout: "fixed"}}>
                 <thead> 
                     <tr>

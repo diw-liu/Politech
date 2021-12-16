@@ -266,4 +266,13 @@ class MapController {
         return ResponseEntity.ok()
                 .body(resource);
     }
+
+    @GetMapping("/geometryString")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ResponseBody public String getGeometryString(HttpSession session) {
+        State state = stateRepository.findByName("MD", State.class);
+        String geometryString = state.getGeometryString();
+        return geometryString;
+    }
+
 }
