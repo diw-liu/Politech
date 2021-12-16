@@ -145,7 +145,7 @@ const HomeScreen = (props) =>{
   useEffect(async () => {
     console.log("Set")
     if(showModal){
-      await getPlanTesting() 
+      await getPlanTesting()
       getStartTesting()
       getSummaryTesting()
     }
@@ -224,7 +224,7 @@ const HomeScreen = (props) =>{
     var url = "/api/selectplan?id="+plan
     const data = await fetch(url)
                   .then(data => data.json())
-    // console.log(data)
+    console.log(data)
     var planDistrict = data;
     // for(const i in planDistrict.districts){
     //   console.log(planDistrict.districts[i])

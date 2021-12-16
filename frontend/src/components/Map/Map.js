@@ -71,7 +71,8 @@ const Map = (props) => {
       console.log(props.flag)
       console.log(props.layers['district'])
       // delete Object.assign(props.enacted, {['geometry']: props.enacted['geometryString'] })['geometryString'];
-      const districtColor = new GeoJsonLayer({
+
+      var districtColor = new GeoJsonLayer({
         id: 'districtColor',
         data : props.enactedGeo,
         filled: true,
@@ -79,7 +80,20 @@ const Map = (props) => {
         extruded: false,
         getFillColor: d => districtMap(d.properties.cd),
         pointType: 'circle',
+      }) 
+
+      console.log(props.planInfo);
+      if (!('id' in props.planInfo)) {
+        districtColor = new GeoJsonLayer({
+        id: 'districtColor',
+        data : props.planInfo,
+        filled: true,
+        stroked: false,
+        extruded: false,
+        getFillColor: d => districtMap(d.properties.cd),
+        pointType: 'circle',
       })
+      }
 
       display.push(districtColor)
       
