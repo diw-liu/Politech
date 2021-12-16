@@ -17,5 +17,13 @@ public interface StateSummaryProjection {
     interface DistrictingId {
         String getId();
         Measures getMeasures();
+        List<DistrictReducedSummary> getDistricts();
+    }
+
+    interface DistrictReducedSummary {
+        String getCd();
+        Population getPopulation();
+        VotingAgePopulation getVap();
+        Election getElection();
     }
 }
