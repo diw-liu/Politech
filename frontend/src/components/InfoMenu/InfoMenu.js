@@ -76,7 +76,8 @@ const InfoMenu = (props) =>{
               </Tabs>
             </div>
             <div class='tab-pane fade' id='generated' role='tabpanel' aria-labelledby='generated-tab'>
-              <GeneratedTable stateName={props.stateName} districtings={props.districtings} getPlan ={props.getPlan} setMeasure={props.setMeasure} setPlan={props.setPlan}/>
+              <GeneratedTable stateName={props.stateName} districtings={props.districtings} getPlan={props.getPlan}
+               setMeasure={props.setMeasure} setPlan={props.setPlan} popType={props.popType} plan={props.plan}/>
             </div>
             <div class='tab-pane fade' id='plots' role='tabpanel' aria-labelledby='plots-tab'>
               <BoxAndWhisker stateName={props.stateName} plan={props.plan} setPlan={props.setPlan} plots={props.plots} setPlots={props.setPlots}/>

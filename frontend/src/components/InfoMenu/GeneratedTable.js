@@ -37,7 +37,8 @@ const demographicMapping = {
                     <PlansTable props={props}/>
                   </Tab>
                   <Tab eventKey="planDistricts" title="Districts">
-                    <PlanDistricts props={props}/>
+                    <PlanDistricts stateName={props.stateName} districtings={props.districtings} getPlan={props.getPlan}
+               setMeasure={props.setMeasure} setPlan={props.setPlan} popType={props.popType} plan={props.plan}/>
                   </Tab>
                 </Tabs>
               </div>

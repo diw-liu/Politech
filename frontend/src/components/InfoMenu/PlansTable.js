@@ -86,11 +86,14 @@ const PlansTable = (props) => {
         // console.log(id)
     }
 
+    useEffect(() => {
+    }, [preview]);
+
     return(
-        <>
+        <div>
+        <button data-tip data-for='preview'>Preview ... </button>
         <div class='table-responsive overflow-scroll'>
-            <button data-tip data-for='preview'>Preview ... </button>
-            <ReactTooltip id='preview' place='left'><SVG width={240} src={preview}/></ReactTooltip>
+            <ReactTooltip id='preview' place='bottom' backgroundColor='white'><SVG width={240} src={preview}/></ReactTooltip>
             <table class='table table-striped overflow-scroll' style={{tableLayout: "fixed", height: "60%"}}>
                 <thead> 
                     <tr>
@@ -119,7 +122,7 @@ const PlansTable = (props) => {
                 </tbody>
             </table>
         </div>
-        </>
+        </div>
     );
     
 }
