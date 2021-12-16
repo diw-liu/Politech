@@ -6,7 +6,6 @@ const PlanStatistics = (props) => {
   
   const measure = props.measure
   const flag = Object.keys(props.measure).length == 0 ? true : false
-  console.log(props.measure);
   // console.log(props.plan);
   
   return(

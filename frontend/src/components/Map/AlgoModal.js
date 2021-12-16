@@ -12,7 +12,8 @@ const AlgoModal = (props) => {
     const [iterations, setIterations] = useState(props.algoGraph["iterations"]);
     const [popEqList, setPopEqList] = useState([props.algoGraph["currentPopEq"]]);
     const [populations, setPopulations] = useState([]);
-
+    const [resultFlag, setResultFlag] = useState(false);
+    const [resultInfo, setResultInfo] = useState({})
     // console.log(Object.keys(props.algoGraph).length == 0);
     // console.log(props.algoGraph["districtPopulations"]);
     // console.log(props);
@@ -53,11 +54,16 @@ const AlgoModal = (props) => {
         props.resume()
     }
     
-    const handleStop = () =>{
-        props.stop()
+    const handleStop = async () =>{
+        console.log("oooooo")
+        await props.stop()
+        var okay = await fetch("/job/result").then(data => data.json())
+        console.log(okay)
+        setResultInfo(okay)
+        setResultFlag(true)
     }
 
-    const handleClose = () => {
+    const handleClose = async () => {
         props.close();
     }
 
@@ -106,10 +112,28 @@ const AlgoModal = (props) => {
                         </div>  
                         <div className="modal-body">
                             {(Object.keys(props.algoGraph).length == 0) ? <div> Waiting for algorithm setup to complete... </div> :
-
                             <div>
-                                {props.summaryBoolean ? <CanvasJSChart options={options}/> : <CanvasJSChart options={test}/>}
-                            </div>}
+
+                                <div>
+                                    { props.summaryBoolean ? <CanvasJSChart options={options}/> : <></>}
+                                </div>
+                                
+                                <div>
+                                    {/* { !resultFlag ? <></> :
+                                        <div>
+                                            <div>seconds: {resultInfo["seconds"]}</div>
+                                            <div>cyclesRan: {resultInfo["cyclesRan"]}</div>
+                                            <div>numPrecinctsChanged: {resultInfo["numPrecinctsChanged"]}</div>
+                                            <div>popeq: {resultInfo["popeq"]}</div>
+                                        </div>
+                                    } */}
+                                        <div>seconds: {resultFlag ? resultInfo["seconds"] : "In Progress"}</div>
+                                        <div>cyclesRan: {resultFlag ? resultInfo["cyclesRan"]: "In Progress"}</div>
+                                        <div>numPrecinctsChanged: {resultFlag ? resultInfo["numPrecinctsChanged"]: "In Progress"}</div>
+                                        <div>popeq: {resultFlag ? resultInfo["popeq"]: "In Progress"}</div>
+                                </div>
+                            </div>
+                            }
                         </div>
                         <div className="modal-footer">
                             {(Object.keys(props.algoGraph).length == 0) ? null 
