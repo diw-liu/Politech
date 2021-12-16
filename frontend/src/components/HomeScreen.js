@@ -208,9 +208,10 @@ const HomeScreen = (props) =>{
 
   const stop = async () => {
     // controller.abort()
+    setSummaryBoolean(false)
     await getStopTesting()
     // setShowModal(false)
-    setSummaryBoolean(false)
+    
   }
 
   const close = () => {

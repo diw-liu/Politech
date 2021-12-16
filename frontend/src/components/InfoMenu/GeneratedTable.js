@@ -1,118 +1,52 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import ReactTooltip from 'react-tooltip';
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 import ReactTable from "react-table";
 import { useTable, useSortBy } from 'react-table'
 import XMLParser from 'react-xml-parser';
 import SVG from 'react-inlinesvg';
 import Districts from '../../data/mock2.js';
 import '../../css/InfoMenu.css';
+import PlansTable from './PlansTable.js';
+import PlanDistricts from './PlanDistricts.js';
 
-
-const GeneratedTable = (props) => {
-
-    const [highLight, setHighLight] = useState();
-    const [preview, setPreview] = useState();
-    const data = useState(() => props.districtings.map(datum => {
-        return {
-            id: datum.measures.id.split("PL")[1],
-            objectiveFunction: datum.measures.objectiveFunction.toFixed(2),
-            opportunityDistricts: datum.measures.opportunityDistricts,
-            polsbyPopper: datum.measures.polsbyPopper.toFixed(2),
-            populationEquality: datum.measures.populationEquality.toFixed(2),
-            }
-    }));
-    const columns = useState([
-        {
-            Header: "Plan",
-            accessor: 'plan',
-        },
-        {
-            Header: "Objective Function",
-            accessor: 'objFunc',
-        },
-        {
-            Header: "Opportunity Districts",
-            accessor: 'oppDist',
-        },
-        {
-            Header: "Compactness",
-            accessor: 'compactness',
-        },
-        {
-            Header: "Population Equality",
-            accessor: 'popEq',
-        },
-    ]);
-    console.log(columns);   
-    console.log(data);
-
-    // var districts = Districts;
-    console.log(props.districtings)
-    console.log(props.districtings[0])
-
-    const getPreview = async (id) => {    
-        return fetch('/api/preview/' + props.stateName + '/' + id) // check if the stateName thing works
-                .then((data) => data.text())
-                .then((data) => setPreview(data))
-                .catch((error) => {
-                    console.log(error);
-                });
-    }
-
-    // useEffect(() => {
-    //     let tempData = props.districtings.map(datum => {
-    //     return {
-    //         id: datum.measures.id.split("PL")[1],
-    //         objectiveFunction: datum.measures.objectiveFunction.toFixed(2),
-    //         opportunityDistricts: datum.measures.opportunityDistricts,
-    //         polsbyPopper: datum.measures.polsbyPopper.toFixed(2),
-    //         populationEquality: datum.measures.populationEquality.toFixed(2),
-    //         }
-    //     });
-    //     setData(tempData);
-    //     console.log(data);
-    // }, [props.districtings]);
-    
-    const toggleActive = async (id, measure) =>{
-        setHighLight(id)
-        props.setPlan(id)
-        props.setMeasure(measure)
-        console.log(await props.getPlan())
-        getPreview(id)
-        // console.log(id)
-    }
-
-    return(
-        <div class='table-responsive overflow-scroll'>
-            <button data-tip data-for='preview'>Preview ... </button>
-            <ReactTooltip id='preview' place='left'><SVG width={240} src={preview}/></ReactTooltip>
-            <table class='table table-striped overflow-scroll' style={{tableLayout: "fixed"}}>
-                <thead> 
-                    <tr>
-                        <th>Plan</th>
-                        <th>Objective Function</th>
-                        <th>Opportunity Districts</th>
-                        <th>Polsby Popper</th>
-                        <th>Population Equality</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    props.districtings.slice(1).map(districting => (
-                        <tr key={districting.id} align="start" onClick = {() => toggleActive(districting.id, districting.measures)}
-                            style={{background: highLight == districting.id ? '#0d6efd' : 'white',
-                            color: highLight == districting.id ? 'white' : 'black'}}
-                            > 
-                            <td className="PlanNumber" style={{ textAlign: 'left' }}>{districting.measures.id.split("PL")[1]}</td>
-                            <td className="ObjectiveFunction" style={{ textAlign: 'right' }}>{districting.measures.objectiveFunction.toFixed(2)}</td>
-                            <td className="OpportunityDistricts" style={{ textAlign: 'right' }}>{districting.measures.opportunityDistricts}</td>
-                            <td className="GraphCompactness" style={{ textAlign: 'right' }}>{districting.measures.polsbyPopper.toFixed(2)}</td>
-                            <td className="PopulationEquality" style={{ textAlign: 'right' }}>{districting.measures.populationEquality.toFixed(2)}</td>
-                        </tr>
-                    ))
-                }
-                </tbody>
-            </table>
+const demographicMapping = {
+    "TOTAL": "Total",
+    "HISPANIC": "Hispanic",
+    "WHITE": "White Non-Hispanic",
+    "BLACK": "African American",
+    "ASIAN": "Asian",
+    "RACE_OTHER": "Other"
+  }
+  
+  const NAMES = {
+    "MD" : "Maryland",
+    "MI" : "Michigan",
+    "PA" : "Pennsylvania"
+  }
+  
+  const GeneratedTable = (props) =>{
+  
+    console.log(props);
+      return (
+        <div className='info-menu'>
+          <div class='container'>
+            <h2> Seawulf Generated Plans </h2>
+  
+            <div class='tab-content' id='pills-tabContent'>
+              <div class='tab-pane fade show active' id='allPlans' role='tabpanel' aria-labelledby='allPlans-tab'>
+                <Tabs>
+                  <Tab eventKey="State" title="State">
+                    <PlansTable props={props}/>
+                  </Tab>
+                  <Tab eventKey="Districts" title="Districts">
+                    <PlanDistricts enactedInfo={props.enactedInfo} popType={props.popType}/>
+                  </Tab>
+                </Tabs>
+              </div>
+            </div>
+          </div>
         </div>
     );
 }
