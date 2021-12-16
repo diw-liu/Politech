@@ -5,6 +5,7 @@ import Map from './Map/Map';
 import StateSelector from './Map/StateSelector';
 import LayerSelector from './Map/LayerSelector';
 import AlgoModal from './Map/AlgoModal';
+import DownloadButton from './Map/DownloadButton';
 
 import { showState } from './Map/Preprocess'
 import { INITIAL_VIEW_STATE, getView } from './Map/ViewState'
@@ -13,7 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
 
-export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
+// export const NAMES = ['Maryland', 'Michigan', 'Pennsylvania']
 
 const HomeScreen = (props) =>{
 
@@ -247,7 +248,12 @@ const HomeScreen = (props) =>{
         setLayers={setLayers}  setStateName={setStateName}
         setEnactedGeo={setEnactedGeo} setEnactedInfo={setEnactedInfo}
         />   
-      
+      {
+        showInfo && (  
+            <div>
+                <DownloadButton planInfo={planInfo}/>
+            </div>)
+      }
       { showInfo && (
         <div>
           <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} 

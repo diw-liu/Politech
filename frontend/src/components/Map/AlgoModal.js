@@ -96,7 +96,13 @@ const AlgoModal = (props) => {
                                 </div>}
                         </div>
                         <div className="modal-footer">
-                            {(Object.keys(props.algoGraph).length == 0) ? null : <div>Iterations: {iterations}</div>}
+                            {(Object.keys(props.algoGraph).length == 0) ? null 
+                                                                        : 
+                                                                        <div>
+                                                                            <div>Iterations: {iterations}</div>
+                                                                            <div>Current Score: {popEqList} </div>
+                                                                        </div>
+                                                                        }
                             <hr/>
                         </div>
                         <div className="modal-footer">
