@@ -54,6 +54,7 @@ const HomeScreen = (props) =>{
   // const [algoModal, setAlgoModal] = useState(false);
   // const [summaryFetch, setSummaryFetch] = useState(false);
   console.log(planInfo)
+  console.log(enactedInfo)
 
   useEffect(() =>{
     fetch("/api/all",{
@@ -109,6 +110,7 @@ const HomeScreen = (props) =>{
     setVap(data.vap)
     setDistrictings(data.districtings)
     setPlots(data.plots)
+    setMeasure(data.enacted.measures)
 
     setLayers({'district':district,'county':county,'precinct':precinct})
     setEnactedGeo(district)
@@ -203,7 +205,12 @@ const HomeScreen = (props) =>{
   const stop = async () => {
     // controller.abort()
     await getStopTesting()
-    setShowModal(false)
+    // setShowModal(false)
+  }
+
+  const close = () => {
+    setShowModal(false);
+
   }
 
   const getPlanTesting = async () =>{
@@ -228,6 +235,11 @@ const HomeScreen = (props) =>{
               //.then(data => data.json())
     //} 
   }
+
+  var parse = require('wellknown');
+    fetch("api/geometryString")
+        .then(data => console.log(data))
+        .then(data => console.log(parse(data)))
 
   const getResumeTesting = async() => {
     //if (Object.keys(algoGraph).length != 0){
@@ -268,11 +280,11 @@ const HomeScreen = (props) =>{
 
       {
         showModal != true ? <div></div>
-                          : <AlgoModal algoGraph={algoGraph} pause={pause} resume={resume} stop={stop} setShowModal={setShowModal}/>
+                          : <AlgoModal algoGraph={algoGraph} pause={pause} resume={resume} stop={stop} setShowModal={setShowModal} close={close}/>
       }
 
       <Map flag={flag} layers={layers} planInfo={planInfo} enactedGeo={enactedGeo} all={all}
-          view={view} showClick={showClick} showInfo={showInfo}
+          view={view} showClick={showClick} showInfo={showInfo} setStateName={setStateName} stateName={stateName}
           />
     </div>
     );

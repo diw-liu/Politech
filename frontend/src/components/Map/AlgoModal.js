@@ -58,7 +58,7 @@ const AlgoModal = (props) => {
     }
 
     const handleClose = () => {
-        props.setShowModal(false);
+        props.close();
     }
 
     const options = {
@@ -79,6 +79,22 @@ const AlgoModal = (props) => {
             dataPoints: populations
         }]
     }
+
+    const data = {
+    // labels: ["A", "B", "C", "D", "E", "F", "G"],
+    datasets: [{
+        label: 'My First Dataset',
+        data: [0.11, 0.1, 0.12, 0.097, 0.09001, 0.089, 0.1],
+        fill: true,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+    }]
+    };
+
+    const test = {
+        type: 'line',
+        data: data,
+    };
     
     return(
         <div>
@@ -89,14 +105,11 @@ const AlgoModal = (props) => {
                         <h4 className="modal-title">Algorithm Status </h4>
                         </div>  
                         <div className="modal-body">
-                            {(Object.keys(props.algoGraph).length == 0) ? <div> Waiting for algorithm setup to complete... </div> : 
-                                <div>
-                                    
-                                    <CanvasJSChart options={options}/>
-                                </div>}
+                            {(Object.keys(props.algoGraph).length == 0) ? <div> Waiting for algorithm setup to complete... </div> :
+                                    <CanvasJSChart options={options}/>}
                         </div>
                         <div className="modal-footer">
-                            {(Object.keys(props.algoGraph).length == 0) ? null : <div>Iterations: {iterations}</div>}
+                            {(Object.keys(props.algoGraph).length == 0) ? null : <div> Iterations: {iterations}</div>}
                             <hr/>
                         </div>
                         <div className="modal-footer">

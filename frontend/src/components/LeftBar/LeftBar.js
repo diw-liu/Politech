@@ -10,7 +10,14 @@ import PlanStatistics from './PlanStatistics';
 import PopulationSelector from './PopulationSelector';
 // import LayerSelector from '../Map/LayerSelector';
 
+const NAMES = {
+  "MD" : "Maryland",
+  "MI" : "Michigan",
+  "PA" : "Pennsylvania"
+}
+
 const LeftBar = (props) => {
+  console.log(props);
 
     return (
       <div className='left-bar'>
@@ -19,7 +26,7 @@ const LeftBar = (props) => {
         </Menu> */
         }
         <div class='container'>
-          <h2> { props.stateName } {props.plan}</h2>
+          <h3> { NAMES[props.stateName] } {props.plan.split("PL")[1] == "0" ? "Enacted" : "Plan " + props.plan.split("PL")[1]}</h3>
           <hr/>
           <PlanStatistics plan={props.plan} measure={props.measure}/>
           <hr/>

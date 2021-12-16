@@ -14,19 +14,19 @@ const PlanStatistics = (props) => {
         <table style={{ width: '100%' }}>
           <tr>
             <td> Objective Function </td>
-            <td style={{ textAlign: 'right' }}> {flag ? 0 : measure.objectiveFunction.toFixed(2)} </td> 
+            <td style={{ textAlign: 'right' }}> { measure.objectiveFunction.toFixed(2)} </td> 
           </tr> 
           <tr>
             <td> Opportunity Districts </td>
-            <td style={{ textAlign: 'right' }}> {flag ? 0 : measure.opportunityDistricts.toFixed(2)} </td> 
+            <td style={{ textAlign: 'right' }}> {measure.opportunityDistricts.toFixed(2)} </td> 
           </tr> 
           <tr>
             <td> Compactness Measure </td>
-            <td style={{ textAlign: 'right' }}> {flag ? 0 : measure.polsbyPopper.toFixed(2)} </td> 
+            <td style={{ textAlign: 'right' }}> {measure.polsbyPopper.toFixed(2)} </td> 
           </tr> 
           <tr>
             <td> Population Equality </td>
-            <td style={{ textAlign: 'right' }}> {flag ? 0 : measure.populationEquality.toFixed(2)} </td> 
+            <td style={{ textAlign: 'right' }}> {measure.populationEquality.toFixed(2)} </td> 
           </tr> 
         </table>
       </div>

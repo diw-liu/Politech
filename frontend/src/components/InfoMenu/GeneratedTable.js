@@ -33,8 +33,8 @@ const GeneratedTable = (props) => {
                         <th>Plan</th>
                         <th>Objective Function</th>
                         <th>Opportunity Districts</th>
+                        <th>Polsby Popper</th>
                         <th>Population Equality</th>
-                        <th>PolsbyPopper</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,11 +44,11 @@ const GeneratedTable = (props) => {
                             style={{background: highLight == districting.id ? '#0d6efd' : 'white',
                             color: highLight == districting.id ? 'white' : 'black'}}
                             > 
-                            <td className="PlanNumber" style={{ textAlign: 'left' }}>{districting.measures.id}</td>
-                            <td className="PopulationEquality" style={{ textAlign: 'right' }}>{districting.measures.objectiveFunction.toFixed(2)}</td>
-                            <td className="MajorityMinorityDistrictsNumber" style={{ textAlign: 'right' }}>{districting.measures.opportunityDistricts}</td>
+                            <td className="PlanNumber" style={{ textAlign: 'left' }}>{districting.measures.id.split("PL")[1]}</td>
+                            <td className="ObjectiveFunction" style={{ textAlign: 'right' }}>{districting.measures.objectiveFunction.toFixed(2)}</td>
+                            <td className="OpportunityDistricts" style={{ textAlign: 'right' }}>{districting.measures.opportunityDistricts}</td>
                             <td className="GraphCompactness" style={{ textAlign: 'right' }}>{districting.measures.polsbyPopper.toFixed(2)}</td>
-                            <td className="RacialDeviation" style={{ textAlign: 'right' }}>{districting.measures.populationEquality.toFixed(2)}</td>
+                            <td className="PopulationEquality" style={{ textAlign: 'right' }}>{districting.measures.populationEquality.toFixed(2)}</td>
                         </tr>
                     ))
                 }

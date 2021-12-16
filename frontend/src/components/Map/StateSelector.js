@@ -6,23 +6,28 @@ import { INITIAL_VIEW_STATE } from './ViewState'
 
 const defaultOption = 'Select a state...'
 
+const NAMES = {
+  "MD" : "Maryland",
+  "MI" : "Michigan",
+  "PA" : "Pennsylvania"
+}
+
 const StateSelector = (props) => {
 
   const handleStateSelect = (key) => {
     console.log(key)
-    // props.setStateName(key)
+    props.setStateName(key)
     props.showClick(key)
     // setSelected(NAMES[key])
   }
 
   const handleReset = () => {
-    // props.setStateName("")
+    props.setStateName("")
     props.setShowInfo(false)
     props.setView(INITIAL_VIEW_STATE)
     props.setLayers({})
     props.setEnactedInfo({})
     props.setEnactedGeo({})
-    // setSelected(defaultOption)
   }
 
   return (
@@ -30,7 +35,7 @@ const StateSelector = (props) => {
       <DropdownButton
           variant="outline-secondary"
           id="dropdown-basic-button"
-          title={props.stateName ? props.stateName : defaultOption}
+          title={props.stateName ? NAMES[props.stateName] : defaultOption}
           onSelect={handleStateSelect}
       >
         <>

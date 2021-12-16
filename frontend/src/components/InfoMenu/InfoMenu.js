@@ -20,9 +20,15 @@ const demographicMapping = {
   "RACE_OTHER": "Other"
 }
 
+const NAMES = {
+  "MD" : "Maryland",
+  "MI" : "Michigan",
+  "PA" : "Pennsylvania"
+}
+
 const InfoMenu = (props) =>{
 
-
+  console.log(props);
   // useEffect(() =>{
   //   fetch("/api/voting")
   //     .then(res => res.json())
@@ -43,7 +49,7 @@ const InfoMenu = (props) =>{
     return (
       <div className='info-menu'>
         <div class='container'>
-          <h1> { props.stateName } </h1>
+          <h2> { NAMES[props.stateName] } </h2>
           <ul class='nav nav-pills' role='tablist'>
             <li class='nav-item' role='presentation'>
               <button class='nav-link' data-bs-toggle='tab' data-bs-target='#enacted' role='tab' type='button' aria-selected='true'> Enacted Plan </button>
@@ -65,7 +71,7 @@ const InfoMenu = (props) =>{
                   <DemoData enactedInfo={props.enactedInfo} popType={props.popType}/>
                 </Tab>
                 <Tab eventKey="Districts" title="Districts">
-                  <EnactedTable enactedInfo={props.enactedInfo}/>
+                  <EnactedTable enactedInfo={props.enactedInfo} popType={props.popType}/>
                 </Tab>
               </Tabs>
             </div>

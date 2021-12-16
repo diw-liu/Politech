@@ -45,6 +45,7 @@ const Map = (props) => {
                       getElevation: 30,
                       onClick: (info) => { 
                         console.log(info.layer.id)
+                        props.setStateName(info.layer.id)
                         props.showClick(info.layer.id)
                       }
             }));
