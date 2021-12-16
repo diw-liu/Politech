@@ -41,7 +41,11 @@ const PlanDistricts = (props) => {
     }
 
     var districting = props.districtings.filter(function(d) {
-        return d.id == props.plan;
+        if (d.id == props.plan) {
+            console.log(d.id);
+            return d.id == props.plan;
+        }
+        
     })
 
     const length = props.districtings[0].districts.length
