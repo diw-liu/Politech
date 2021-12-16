@@ -15,7 +15,7 @@ const getJSON = async (name) => {
 }
 
 export const showState = async (state, flag) =>{
-    console.log(state)
+    // console.log(state)
     // let name = "MD"
     // switch(id){
     //     case "0":
@@ -113,8 +113,8 @@ export const showState = async (state, flag) =>{
 }
 
 export const redistrict = (object, id) =>{
-    console.log("okay")
-    console.log(object)
+    // console.log("okay")
+    // console.log(object)
     let name = "MD"
     switch(id){
         case "0":

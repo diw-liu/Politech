@@ -28,7 +28,7 @@ const NAMES = {
 
 const InfoMenu = (props) =>{
 
-  console.log(props);
+  // console.log(props);
   // useEffect(() =>{
   //   fetch("/api/voting")
   //     .then(res => res.json())

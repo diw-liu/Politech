@@ -54,7 +54,7 @@ const BoxAndWhisker = (props) => {
             });
         }
         setEnsemble(districtStats);
-        console.log(ensemble);
+        // console.log(ensemble);
         getEnactedData();
         if (props.stateName == "MD" && props.plan.split("PL")[1] != "0") {
             getSelectedData();
@@ -64,7 +64,7 @@ const BoxAndWhisker = (props) => {
     const handleBasisSelect = (key) => {
         setBasis(basisMap[key]);
         setBoxes(props.plots.filter(single => single.basis == key).sort((a, b) => (a.max > b.max) ? 1 : -1));
-        console.log(boxes);
+        // console.log(boxes);
     }
 
     
