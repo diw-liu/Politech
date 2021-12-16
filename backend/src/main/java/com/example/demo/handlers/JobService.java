@@ -55,6 +55,7 @@ public class JobService {
     Age age; // make it global so it can be reused after resume
     HttpSession session; // make it global so it can be reused after resume
     boolean algoRunnningLock; // locks when the algo is in processing status
+    AlgorithmResult algorithmResult;
     final int interationThreshold = 1000000;
     private long timeStart;
     private long timeEnd;
@@ -72,6 +73,7 @@ public class JobService {
     public int getInterationThreshold() { return interationThreshold; }
     public int getIterations() { return this.iterations; }
     public AlgorithmSummary getSummary() { return this.summary; }
+    public AlgorithmResult getResult(){ return this.algorithmResult; }
 
     public void loadPlan(HttpSession session) {
         String id = (String) session.getAttribute("selected-name");
@@ -244,7 +246,7 @@ public class JobService {
                 }
             }
         }
-        AlgorithmResult algorithmResult = new AlgorithmResult(timeSeconds, iterations, changedPrecincts, this.summary.getCurrentPopEq());
+        this.algorithmResult = new AlgorithmResult(timeSeconds, iterations, changedPrecincts, this.summary.getCurrentPopEq());
         session.setAttribute("result", algorithmResult);
         return algorithmResult;
     }
