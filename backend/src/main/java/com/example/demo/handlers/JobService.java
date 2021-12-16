@@ -74,10 +74,10 @@ public class JobService {
     public AlgorithmSummary getSummary() { return this.summary; }
 
     public void loadPlan(HttpSession session) {
-        String id = (String) session.getAttribute("selected");
+        String id = (String) session.getAttribute("selected-name");
         Optional<Districting> planResponse = districtingRepository.findById(id, Districting.class);
         Districting plan = planResponse.get();
-        session.removeAttribute("selected");
+//        session.removeAttribute("selected");
         session.setAttribute("selected", plan);
     }
 
@@ -332,7 +332,8 @@ public class JobService {
         if(this.status == Status.PROCESSING){ // if algo is complete naturally(not by stop or pause), return completed status
             this.status = Status.COMPLETED;
         }
-
+        timeEnd = System.nanoTime();
+        createResult();
     }
 
 

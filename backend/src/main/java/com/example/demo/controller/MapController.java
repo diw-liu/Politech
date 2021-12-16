@@ -170,10 +170,37 @@ class MapController {
     @GetMapping("/selectplan")
     @Produces(MediaType.APPLICATION_JSON)
     @ResponseBody
-    public DistrictingDataProjection getPlan(@RequestParam String id, HttpSession session) {
+    public JSONObject getPlan(@RequestParam String id, HttpSession session) {
         DistrictingDataProjection ddp = mapService.fetchPlanSummary(id);
-        session.setAttribute("selected", ddp.getId());
-        return ddp; // TODO - change this later to be something else
+        session.setAttribute("selected-name", ddp.getId());
+
+        JSONObject featureCollection = new JSONObject();
+        featureCollection.put("type", "FeatureCollection");
+        JSONObject crsprops = new JSONObject();
+        JSONObject crs = new JSONObject();
+        crsprops.put("name", "urn:ogc:def:crs:EPSG::4269");
+        crs.put("type", "name");
+        crs.put("properties", crsprops);
+        featureCollection.put("crs", crs);
+
+        featureCollection.put("districting", ddp);
+
+        List<Feature> features = new ArrayList<Feature>();
+        WKTReader reader = new WKTReader();
+        GeoJSONWriter writer = new GeoJSONWriter();
+
+        for (DistrictingDataProjection.DistrictData dd : ddp.getDistricts()) {
+            Map<String, Object> properties = new HashMap<String, Object>();
+            try{
+                Geometry pgeo = reader.read(dd.getGeometryString());
+                properties.put("cd", dd.getCd());
+                features.add(new Feature(writer.write(pgeo), properties));
+            } catch (Exception e){
+                System.out.println("Error reading District LONGTEXT to Geometry using JTS");
+            }
+        }
+        featureCollection.put("features", features);
+        return featureCollection;
     }
 
     @GetMapping("/all")
