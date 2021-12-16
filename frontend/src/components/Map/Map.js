@@ -47,7 +47,7 @@ const Map = (props) => {
                       getLineWidth: 1,
                       getElevation: 30,
                       onClick: (info) => { 
-                        console.log(info.layer.id)
+                        // console.log(info.layer.id)
                         props.setStateName(info.layer.id)
                         props.showClick(info.layer.id)
                       }
@@ -82,7 +82,7 @@ const Map = (props) => {
         pointType: 'circle',
       }) 
 
-      console.log(props.planInfo);
+      // console.log(props.planInfo);
       if (!('id' in props.planInfo)) {
         districtColor = new GeoJsonLayer({
         id: 'districtColor',

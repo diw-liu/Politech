@@ -98,8 +98,8 @@ public class JobController {
     @GetMapping("/result")
     @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody AlgorithmResult getResult(HttpSession session) {
-        AlgorithmResult result = (AlgorithmResult) session.getAttribute("result");
-        return result;
+        //AlgorithmResult result = (AlgorithmResult) session.getAttribute("result");
+        return jobService.getResult();
     }
 
     @GetMapping("/pause")

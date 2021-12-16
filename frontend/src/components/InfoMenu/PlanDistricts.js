@@ -9,8 +9,8 @@ const PlanDistricts = (props) => {
     } else {
         typeToUse = "vap"
     }
-    console.log(props.districtings)
-    console.log(props.plan)
+    // console.log(props.districtings)
+    // console.log(props.plan)
 
     return (
         <div>   
