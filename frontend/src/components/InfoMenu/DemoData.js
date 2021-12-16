@@ -28,7 +28,6 @@ const DemoData = (props) => {
     const length = props.enactedInfo.districts.length
     
     if (Object.keys(props.enactedInfo).length != 0){ 
-        console.log(props.enactedInfo)
         for(var i = 0; i< length; i++){
             for(const variable in PopulationEnum){ 
                 if (props.popType === 0) 
@@ -38,8 +37,6 @@ const DemoData = (props) => {
             }
         }
     }
-
-    console.log(count)
 
     return(
         <div>

@@ -4,8 +4,8 @@ import districts from '../../data/mock.js';
 
 const EnactedTable = (props) => {
     // const [districts, setDistricts] = useState(districts);
-    const [numDistricts, setNumDistricts] = useState(Math.round(Math.random() * 5) + 5);
-    console.log(props.enactedInfo)
+    // const [numDistricts, setNumDistricts] = useState(Math.round(Math.random() * 5) + 5);
+    // console.log(props.enactedInfo)
     return(
         <div>
             <table style={{ width: '100%' }}>
