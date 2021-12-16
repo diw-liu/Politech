@@ -155,6 +155,10 @@ const HomeScreen = (props) =>{
 
   const getSummaryTesting = async () =>{
     const response = await fetch("/job/summary");
+    if (!response.ok) {
+      const message = `An error has occured: ${response.status}`;
+      console.log(message);
+    }
     console.log(response)
     const contentType = response.headers.get("content-type");
     console.log(contentType)
@@ -176,7 +180,7 @@ const HomeScreen = (props) =>{
     console.log("inside algo")
     console.log(algoGraph)
     if(showModal){
-      setTimeout(getSummaryTesting , 10000);
+      setTimeout(getSummaryTesting , 2000);
     }
   }, [algoGraph])
   // useEffect(async () =>{
