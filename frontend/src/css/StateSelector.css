@@ -26,6 +26,15 @@
     right: 40%;
     width: 16%;
 }
+.DownloadButton {
+    z-index: 2; 
+    background: white; 
+    border-radius: 16px;
+    margin-left: 300px;
+    padding: 16px;
+    position: absolute;
+    display: flex;
+}
 .reset {
     z-index: 2;
     float: right;
