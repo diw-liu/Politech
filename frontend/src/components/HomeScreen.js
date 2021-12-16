@@ -225,14 +225,30 @@ const HomeScreen = (props) =>{
     const data = await fetch(url)
                   .then(data => data.json())
     console.log(data)
-    var planDistrict = data;
+    // var planDistrict = data;
     // for(const i in planDistrict.districts){
     //   console.log(planDistrict.districts[i])
     //   planDistrict.districts[i].geometry = planDistrict.districts[i].geometryString
     //   delete planDistrict.districts[i].geometryString
     //   console.log(planDistrict.districts[i])
     // }
-    setPlanInfo(planDistrict)
+    setPlanInfo(data)
+  }
+
+  const dummyTesting = async (id) =>{
+    console.log("call d")
+    var url = "/api/selectplan?id="+id
+    const data = await fetch(url)
+                  .then(data => data.json())
+    console.log(data)
+    // var planDistrict = data;
+    // for(const i in planDistrict.districts){
+    //   console.log(planDistrict.districts[i])
+    //   planDistrict.districts[i].geometry = planDistrict.districts[i].geometryString
+    //   delete planDistrict.districts[i].geometryString
+    //   console.log(planDistrict.districts[i])
+    // }
+    setPlanInfo(data)
   }
 
   const getPauseTesting = async() => {
@@ -268,14 +284,14 @@ const HomeScreen = (props) =>{
       {
         showInfo && (  
             <div>
-                <DownloadButton planInfo={planInfo}/>
+                <DownloadButton measure={measure}/>
             </div>)
       }
       { showInfo && (
         <div>
           <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} 
                 plan={plan} setPlan={setPlan} popType={popType} plots={plots} setPlots={setPlots}
-                getPlan={getPlanTesting} setMeasure={setMeasure}/>
+                getPlan={getPlanTesting} setMeasure={setMeasure} dummyTesting={dummyTesting}/>
           <LeftBar stateName={stateName} plan={plan} enactedInfo={enactedInfo} measure={measure}
                   popType={popType} setPopType={setPopType} popEq={popEq} setPopEq={setPopEq}
                   oppoDist={oppoDist} setOppoDist={setOppoDist} loading={Loading}

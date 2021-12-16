@@ -11,7 +11,7 @@ import '../../css/InfoMenu.css';
 import PlansTable from './PlansTable.js';
 import PlanDistricts from './PlanDistricts.js';
 
-const demographicMapping = {
+  const demographicMapping = {
     "TOTAL": "Total",
     "HISPANIC": "Hispanic",
     "WHITE": "White Non-Hispanic",
@@ -34,7 +34,7 @@ const demographicMapping = {
               <div class='tab-pane fade show active' id='allPlans' role='tabpanel' aria-labelledby='allPlans-tab'>
                 <Tabs>
                   <Tab eventKey="allPlans" title="All Plans">
-                    <PlansTable props={props}/>
+                    <PlansTable props={props} dummyTesting={props.dummyTesting}/>
                   </Tab>
                   <Tab eventKey="planDistricts" title="Districts">
                     <PlanDistricts stateName={props.stateName} districtings={props.districtings} getPlan={props.getPlan} enactedInfo={props.enactedInfo}

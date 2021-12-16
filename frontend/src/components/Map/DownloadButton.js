@@ -4,12 +4,15 @@ import React, { useState } from 'react';
 const fs = require('fs')
 
 const DownloadButton = (props) => {
-    console.log(props.planInfo.id)
 
-    const exportToJson = () => {
-      const filename = props.planInfo.id+'.json';
+    const exportToJson = async () => {
+      const data = await fetch("/job/redistricted")
+                              .then(data => data.json())
+      const filename = props.measure.id+'.json';
+
       const contentType = "application/json;charset=utf-8;";
-      const objectData = JSON.stringify(props.planInfo);
+      const objectData = JSON.stringify(data);
+      
       if (window.navigator && window.navigator.msSaveOrOpenBlob) {
         var blob = new Blob([decodeURIComponent(encodeURI(objectData))], { type: contentType });
         navigator.msSaveOrOpenBlob(blob, filename);
