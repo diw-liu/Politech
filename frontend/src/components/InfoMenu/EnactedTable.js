@@ -7,7 +7,7 @@ const EnactedTable = (props) => {
     // const [districts, setDistricts] = useState(districts);
     // const [numDistricts, setNumDistricts] = useState(Math.round(Math.random() * 5) + 5);
     // console.log(props.enactedInfo)
-    console.log(props);
+    // console.log(props);
     var typeToUse = "";
     if (props.popType == 0) {
         typeToUse = "population"

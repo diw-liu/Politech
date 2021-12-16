@@ -11,11 +11,11 @@ import '../../css/InfoMenu.css';
 
 const PlansTable = (props) => {
 
-    console.log(props);
+    // console.log(props);
 
     const [highLight, setHighLight] = useState();
     const [preview, setPreview] = useState();
-    console.log(props);
+    // console.log(props);
     // const data = useState(() => props.props.districtings.map(datum => {
     //     return {
     //         id: datum.measures.id.split("PL")[1],

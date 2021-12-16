@@ -17,18 +17,18 @@ const Map = (props) => {
     //   console.log(variable);
     //   console.log(props.layers[variable]);
     // }
-    console.log("enacted info")
-    console.log(props.enactedInfo)
-    console.log("enacted geo")
-    console.log(props.enactedGeo);
-    console.log(Object.keys(props.layers).length == 0);
-    console.log(props.flag)
+    // console.log("enacted info")
+    // console.log(props.enactedInfo)
+    // console.log("enacted geo")
+    // console.log(props.enactedGeo);
+    // console.log(Object.keys(props.layers).length == 0);
+    // console.log(props.flag)
     
     // }
 
     if (Object.keys(props.layers).length == 0){
       if(Object.keys(props.all).length != 0){
-        console.log(props.all.features)
+        // console.log(props.all.features)
         for(var i = 0; i < props.all.features.length; i++){
           var name = props.all.features[i].properties.state
           display.push(new GeoJsonLayer({
@@ -47,7 +47,7 @@ const Map = (props) => {
                       getLineWidth: 1,
                       getElevation: 30,
                       onClick: (info) => { 
-                        console.log(info.layer.id)
+                        // console.log(info.layer.id)
                         props.setStateName(info.layer.id)
                         props.showClick(info.layer.id)
                       }
@@ -67,9 +67,9 @@ const Map = (props) => {
         return temp
       }
 
-      console.log(props.enactedGeo)
-      console.log(props.flag)
-      console.log(props.layers['district'])
+      // console.log(props.enactedGeo)
+      // console.log(props.flag)
+      // console.log(props.layers['district'])
       // delete Object.assign(props.enacted, {['geometry']: props.enacted['geometryString'] })['geometryString'];
 
       var districtColor = new GeoJsonLayer({
@@ -82,7 +82,7 @@ const Map = (props) => {
         pointType: 'circle',
       }) 
 
-      console.log(props.planInfo);
+      // console.log(props.planInfo);
       if (!('id' in props.planInfo)) {
         districtColor = new GeoJsonLayer({
         id: 'districtColor',

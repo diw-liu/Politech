@@ -55,8 +55,8 @@ const HomeScreen = (props) =>{
   // const [saved, setSaved] = useState(false);
   // const [algoModal, setAlgoModal] = useState(false);
   // const [summaryFetch, setSummaryFetch] = useState(false);
-  console.log(planInfo)
-  console.log(enactedInfo)
+  // console.log(planInfo)
+  // console.log(enactedInfo)
 
   useEffect(() =>{
     fetch("/api/all",{
@@ -94,7 +94,7 @@ const HomeScreen = (props) =>{
     setGen(true)
 
     const data = await getState(name)
-    console.log(data)
+    // console.log(data)
     // const district = await getDistrict()
     // const county = await getCounty()
     // const precinct = await getPrecinct()
@@ -117,7 +117,7 @@ const HomeScreen = (props) =>{
     setLayers({'district':district,'county':county,'precinct':precinct})
     setEnactedGeo(district)
 
-    console.log(data.districting)
+    // console.log(data.districting)
     setGen(false)
 
     // console.log(district)
@@ -136,14 +136,14 @@ const HomeScreen = (props) =>{
   }
 
   const Loading = async () => {
-    console.log(showModal)
-    console.log("Loading")
+    // console.log(showModal)
+    // console.log("Loading")
     setShowModal(true)
     setSummaryBoolean(true);
   }
   // fetching start before setShowModal is true
   useEffect(async () => {
-    console.log("Set")
+    // console.log("Set")
     if(showModal){
       await getPlanTesting()
       getStartTesting()
@@ -157,7 +157,7 @@ const HomeScreen = (props) =>{
   // age = radio 
   const getStartTesting = async () =>{
     var url = "/job/start?goal="+popEq+"&lower=0&higher="+oppoDist+"&age="+popType;
-    console.log(url)
+    // console.log(url)
     return fetch("/job/start?goal=0.07&lower=0&higher=7&age=0", {
       method: 'POST',
       headers: {
@@ -174,24 +174,24 @@ const HomeScreen = (props) =>{
     const response = await fetch("/job/summary");
     if (!response.ok) {
       const message = `An error has occured: ${response.status}`;
-      console.log(message);
+      // console.log(message);
     }
-    console.log(response)
+    // console.log(response)
     const contentType = response.headers.get("content-type");
-    console.log(contentType)
+    // console.log(contentType)
     if (contentType && contentType.indexOf("application/json") !== -1) {
-      console.log("ss")
+      // console.log("ss")
       const myJson = await response.json();
       setAlgoGraph(myJson); 
     } else {
-      console.log("se")
+      // console.log("se")
       setAlgoGraph({})
     }
   }
   // Lagging behind for the result and unable to terminate before, necessary 
   useEffect(async () => {
-    console.log("inside algo")
-    console.log(algoGraph)
+    // console.log("inside algo")
+    // console.log(algoGraph)
     if(showModal && summaryBoolean){
       setSummaryBoolean(true);
       setTimeout(getSummaryTesting , 2000);
@@ -220,11 +220,11 @@ const HomeScreen = (props) =>{
   }
 
   const getPlanTesting = async () =>{
-    console.log("call")
+    // console.log("call")
     var url = "/api/selectplan?id="+plan
     const data = await fetch(url)
                   .then(data => data.json())
-    console.log(data)
+    // console.log(data)
     var planDistrict = data;
     // for(const i in planDistrict.districts){
     //   console.log(planDistrict.districts[i])
