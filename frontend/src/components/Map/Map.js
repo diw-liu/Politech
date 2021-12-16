@@ -10,15 +10,19 @@ const Map = (props) => {
     // Set your mapbox access token here
     var display = [];
 
-    // console.log(props.planInfo)
-    // var planDistrict = props.planInfo;
-    // for(const i in planDistrict.districts){
-    //   console.log(planDistrict.districts[i])
-    //   planDistrict.districts[i].geometry = planDistrict.districts[i].geometryString
-    //   delete planDistrict.districts[i].geometryString
-    //   console.log(planDistrict.districts[i])
+    // let state = fetch("/api/MD").then(function(data) {return data.json()});
+    // let precintData = state.then(function(data) {console.log(data[1]); });
+    // if (props.layers.length != undefined){
+    // for (const variable in props.layers) {
+    //   console.log(variable);
+    //   console.log(props.layers[variable]);
     // }
-    // console.log(planDistrict)
+    console.log(props.enactedInfo);
+    console.log(Object.keys(props.layers).length == 0);
+    console.log(props.flag)
+    
+    // }
+
     if (Object.keys(props.layers).length == 0){
       if(Object.keys(props.all).length != 0){
         console.log(props.all.features)
@@ -48,18 +52,6 @@ const Map = (props) => {
       }
     }
     else{
-      // display.push(new GeoJsonLayer({
-      //         id: "Sublayer",
-      //         data : props.planInfo,
-      //         stroked: true,
-      //         filled: false,
-      //         extruded: false,
-      //         pointType: 'circle',
-      //         lineWidthScale: 20,
-      //         lineWidthMinPixels: 2,
-      //         getLineColor: [228,220,220],
-      //         getLineWidth: 1,
-      //       }));
       let map = {};
 
       const districtMap = (Id) => {
@@ -71,10 +63,10 @@ const Map = (props) => {
         return temp
       }
 
-      // console.log(props.enactedGeo)
-      // console.log(props.flag)
-      // console.log(props.layers['district'])
-      // // delete Object.assign(props.enacted, {['geometry']: props.enacted['geometryString'] })['geometryString'];
+      console.log(props.enactedGeo)
+      console.log(props.flag)
+      console.log(props.layers['district'])
+      // delete Object.assign(props.enacted, {['geometry']: props.enacted['geometryString'] })['geometryString'];
       const districtColor = new GeoJsonLayer({
         id: 'districtColor',
         data : props.enactedGeo,
@@ -102,27 +94,27 @@ const Map = (props) => {
                   getLineColor: [228,220,220],
                   getLineWidth: 1,
                 }));
-          console.log(variable);
-          console.log(props.layers[variable]);
+          // console.log(variable);
+          // console.log(props.layers[variable]);
         }
 
       }
 
-      for(var i = 0; i < props.layers.length; i++){
-        if(props.flag[i]){
-          display.push(new GeoJsonLayer({
-            id: "Sublayer",
-            data : props.layers[i],
-            stroked: true,
-            filled: false,
-            extruded: false,
-            pointType: 'circle',
-            lineWidthScale: 20,
-            lineWidthMinPixels: 2,
-            getLineColor: [228,220,220],
-            getLineWidth: 1,
-          }));
-        }
+      // for(var i = 0; i < props.layers.length; i++){
+      //   if(props.flag[i]){
+      //     display.push(new GeoJsonLayer({
+      //       id: "Sublayer",
+      //       data : props.layers[i],
+      //       stroked: true,
+      //       filled: false,
+      //       extruded: false,
+      //       pointType: 'circle',
+      //       lineWidthScale: 20,
+      //       lineWidthMinPixels: 2,
+      //       getLineColor: [228,220,220],
+      //       getLineWidth: 1,
+      //     }));
+      //   }
       
     }
    
@@ -146,6 +138,5 @@ const Map = (props) => {
           <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
         </DeckGL>
     )
-  }
 }
 export default Map;
