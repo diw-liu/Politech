@@ -17,69 +17,69 @@ const PopulationEnum = {
 }
 
 const PlanDistricts = (props) => {
+    console.log(props)
 
     // popType
     // getPlan
     // districtings
     // stateName
 
-    var countVote = {
-        Democratic: {total:0, districts:0},
-        Republican:  {total:0, districts:0},
-        Other:  {total:0, districts:0},
-        Total: {total:0, districts:0},
-    }
+    // var countVote = {
+    //     Democratic: {total:0, districts:0},
+    //     Republican:  {total:0, districts:0},
+    //     Other:  {total:0, districts:0},
+    //     Total: {total:0, districts:0},
+    // }
 
-    var countDemo = {
-        White: 0,
-        African_American: 0,
-        Hispanic: 0,
-        Asian_American: 0,
-        Native_American: 0,
-        Other: 0,
-        Total: 0
-    }
+    // var countDemo = {
+    //     White: 0,
+    //     African_American: 0,
+    //     Hispanic: 0,
+    //     Asian_American: 0,
+    //     Native_American: 0,
+    //     Other: 0,
+    //     Total: 0
+    // }
 
-    var districting = props.districtings.filter(function(d) {
-        if (d.id == props.plan) {
-            console.log(d.id);
-            return d.id == props.plan;
-        }
-        
-    })
+    // var districting = props.districtings.filter(function(d) {
+    //     if (d.id == props.plan) {
+    //         console.log(d.id);
+    //         return d.id == props.plan;
+    //     }
+    // })
 
-    const length = props.districtings[0].districts.length
+    // const length = props.districtings[0].districts.length
 
-    if(Object.keys(props.enactedInfo).length != 0){
-        for(var i = 0; i< length; i++){
-            var party = ""
-            var vote = 0
-            for(const variable in ElectionEnum){
-                const temp = districting.districts[i].election[variable]
-                if(temp > vote){
-                    party = variable
-                    vote = temp
-                }
-                countVote[ElectionEnum[variable]]['total'] += temp
-                countVote['Total']['total'] += temp
-            }
-            if(party != ""){
-                countVote[ElectionEnum[party]]['districts']+= 1
-                countVote['Total']['districts'] += 1
-            }
-        }
-    }
+    // if(Object.keys(props.enactedInfo).length != 0){
+    //     for(var i = 0; i< length; i++){
+    //         var party = ""
+    //         var vote = 0
+    //         for(const variable in ElectionEnum){
+    //             const temp = districting.districts[i].election[variable]
+    //             if(temp > vote){
+    //                 party = variable
+    //                 vote = temp
+    //             }
+    //             countVote[ElectionEnum[variable]]['total'] += temp
+    //             countVote['Total']['total'] += temp
+    //         }
+    //         if(party != ""){
+    //             countVote[ElectionEnum[party]]['districts']+= 1
+    //             countVote['Total']['districts'] += 1
+    //         }
+    //     }
+    // }
 
-    if (Object.keys(props.enactedInfo).length != 0){ 
-        for(var i = 0; i< length; i++){
-            for(const variable in PopulationEnum){ 
-                if (props.popType === 0) 
-                    countDemo[PopulationEnum[variable]] += districting.districts[i].population[variable]
-                else if (props.popType === 1)
-                    countDemo[PopulationEnum[variable]] += districting.districts[i].vap[variable]
-            }
-        }
-    }
+    // if (Object.keys(props.enactedInfo).length != 0){ 
+    //     for(var i = 0; i< length; i++){
+    //         for(const variable in PopulationEnum){ 
+    //             if (props.popType === 0) 
+    //                 countDemo[PopulationEnum[variable]] += districting.districts[i].population[variable]
+    //             else if (props.popType === 1)
+    //                 countDemo[PopulationEnum[variable]] += districting.districts[i].vap[variable]
+    //         }
+    //     }
+    // }
 
     return(
         <div>
