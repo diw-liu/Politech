@@ -18,7 +18,7 @@ const PlanStatistics = (props) => {
           </tr> 
           <tr>
             <td> Opportunity Districts </td>
-            <td style={{ textAlign: 'right' }}> {measure.opportunityDistricts.toFixed(2)} </td> 
+            <td style={{ textAlign: 'right' }}> {measure.opportunityDistricts} </td> 
           </tr> 
           <tr>
             <td> Compactness Measure </td>

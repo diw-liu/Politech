@@ -27,8 +27,7 @@ const BoxAndWhisker = (props) => {
     const [basis, setBasis] = useState(basisMap["BLACK"]);
     const [ensemble, setEnsemble] = useState([]);
     const [enactedData, setEnactedData] = useState([]);
-    const [enactedPoints, setEnactedPoints] = useState([]);
-    // const [selectedPointsAll, setSelectedPointsAll] = useState({"recombination_of_districts-0": []});
+    const [selectedPoints, setSelectedPoints] = useState([]);
     const [boxes, setBoxes] = useState(props.plots.filter( single => single.basis == 'BLACK').sort((a, b) => (a.min > b.min) ? 1 : -1));
 
     // const [enactedData,setEnactedData] = useState([]);
@@ -36,7 +35,12 @@ const BoxAndWhisker = (props) => {
         var data = require('../../data/' + props.stateName + "/" + REVERSE[basis] + "/" + KEYS[props.stateName] + "PL0.json");
         setEnactedData(Object.values(data).sort((a, b) => (a < b) ? -1 : 1));
     }
-    
+
+    const getSelectedData=()=>{
+        var data = require('../../data/' + props.stateName + "/" + REVERSE[basis] + "/" + props.plan + ".json");
+        setSelectedPoints(Object.values(data).sort((a, b) => (a < b) ? -1 : 1));
+    }
+
     useEffect(() => {
         var districtStats = [];
         for (let i = 0; i < boxes.length; i++) {
@@ -52,7 +56,10 @@ const BoxAndWhisker = (props) => {
         setEnsemble(districtStats);
         console.log(ensemble);
         getEnactedData();
-    }, [basis, boxes]);
+        if (props.stateName == "MD" && props.plan.split("PL")[1] != "0") {
+            getSelectedData();
+        }
+    }, [basis, boxes, props.plan]);
 
     const handleBasisSelect = (key) => {
         setBasis(basisMap[key]);
@@ -99,15 +106,15 @@ const BoxAndWhisker = (props) => {
                 showInLegend: true,
                 dataPoints: getData(enactedData, "Enacted")
             },
-        //     {
-        //         type: "scatter",
-        //         name: "Proposed",
-        //         color: "tomato",
-        //         markerType: "circle",
-        //         toolTipContent: "<span style=\"color:tomato\">{labelPoints}</span>: {y}",
-        //         showInLegend: true,
-        //         dataPoints: getData(Object.values(selectedPointsAll["recombination_of_districts-"+props.plan]),"Proposed")
-        //     }
+            {
+                type: "scatter",
+                name: "Proposed",
+                color: "tomato",
+                markerType: "circle",
+                toolTipContent: "<span style=\"color:tomato\">{labelPoints}</span>: {y}",
+                showInLegend: true,
+                dataPoints: getData(selectedPoints,"Proposed")
+            }
         ],
     }
 

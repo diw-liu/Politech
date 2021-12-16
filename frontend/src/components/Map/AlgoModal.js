@@ -58,7 +58,6 @@ const AlgoModal = (props) => {
     }
 
     const handleClose = () => {
-        console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
         props.close();
     }
 
@@ -89,7 +88,7 @@ const AlgoModal = (props) => {
         fill: true,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1
-    }]
+        }]
     };
 
     const test = {
@@ -107,7 +106,10 @@ const AlgoModal = (props) => {
                         </div>  
                         <div className="modal-body">
                             {(Object.keys(props.algoGraph).length == 0) ? <div> Waiting for algorithm setup to complete... </div> :
-                                    <CanvasJSChart options={options}/>}
+
+                            <div>
+                                {props.summaryBoolean ? <CanvasJSChart options={options}/> : <CanvasJSChart options={test}/>}
+                            </div>}
                         </div>
                         <div className="modal-footer">
                             {(Object.keys(props.algoGraph).length == 0) ? null 
