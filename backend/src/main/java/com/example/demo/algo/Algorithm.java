@@ -241,8 +241,8 @@ public class Algorithm {
             badMoves = 0; // reset badmoves counter
             return true;
         }
-        // if not improved, 30% to keep move
-        if ((badMoves >= 5) || Math.random() < 0.1) {
+        // if not improved, 90% to keep move
+        if ((badMoves >= 5) || Math.random() < 0.9) {
             // undo move
             toGiveC.setParentDistrict(toGiveD);
             toGiveC.setPrecinct(toGiveP);
