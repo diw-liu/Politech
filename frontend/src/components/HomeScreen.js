@@ -141,7 +141,7 @@ const HomeScreen = (props) =>{
   }, [showModal])
 
   const getStartTesting = async () =>{
-    return fetch("/job/start?goal=0.09&lower=0&higher=7&age=0", {
+    return fetch("/job/start?goal=0.07&lower=0&higher=7&age=0", {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -232,9 +232,6 @@ const HomeScreen = (props) =>{
   const getStopTesting = async() => {
     return fetch("/job/stop")
   }
-
- 
-
     // try {
 
     // }

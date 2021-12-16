@@ -18,8 +18,8 @@ const DemoData = (props) => {
     // }
     var count = {
         White: 0,
-        Hispanic: 0,
         African_American: 0,
+        Hispanic: 0,
         Asian_American: 0,
         Native_American: 0,
         Other: 0,

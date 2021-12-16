@@ -10,7 +10,7 @@ const AlgoModal = (props) => {
     const [algoGraph, setAlgoGraph] = useState(props.algoGraph)
     const [graphInfo, setGraphInfo] = useState(props.algoGraph["districtPopulations"]);
     const [iterations, setIterations] = useState(props.algoGraph["iterations"]);
-    const [popEqList, setPopEqList] = useState(props.algoGraph["currentPopEq"]);
+    const [popEqList, setPopEqList] = useState([props.algoGraph["currentPopEq"]]);
     const [populations, setPopulations] = useState([]);
 
     // console.log(Object.keys(props.algoGraph).length == 0);
@@ -30,11 +30,6 @@ const AlgoModal = (props) => {
         setPopEqList(props.algoGraph["currentPopEq"])
 
         var populations1 = [];
-        // var totalPop = 0;
-        // console.log(graphInfo)
-        // for (let i = 1; i < Object.keys(graphInfo).length + 1; i++) {
-        //     totalPop += graphInfo[i];
-        // }
         if (graphInfo!= null && Object.keys(graphInfo).length != 0) {
             for (let i = 1; i < Object.keys(graphInfo).length + 1; i++) {
             populations1.push({
@@ -94,7 +89,11 @@ const AlgoModal = (props) => {
                         <h4 className="modal-title">Algorithm Status </h4>
                         </div>  
                         <div className="modal-body">
-                            {(Object.keys(props.algoGraph).length == 0) ? <div> Waiting for algorithm setup to complete... </div> : <CanvasJSChart options={options}/>}
+                            {(Object.keys(props.algoGraph).length == 0) ? <div> Waiting for algorithm setup to complete... </div> : 
+                                <div>
+                                    
+                                    <CanvasJSChart options={options}/>
+                                </div>}
                         </div>
                         <div className="modal-footer">
                             {(Object.keys(props.algoGraph).length == 0) ? null : <div>Iterations: {iterations}</div>}
