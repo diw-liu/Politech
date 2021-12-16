@@ -30,24 +30,18 @@ const demographicMapping = {
   
     console.log(props);
       return (
-        <div className='info-menu'>
-          <div class='container'>
-            <h2> Seawulf Generated Plans </h2>
-  
             <div class='tab-content' id='pills-tabContent'>
               <div class='tab-pane fade show active' id='allPlans' role='tabpanel' aria-labelledby='allPlans-tab'>
                 <Tabs>
-                  <Tab eventKey="State" title="State">
+                  <Tab eventKey="allPlans" title="All Plans">
                     <PlansTable props={props}/>
                   </Tab>
-                  <Tab eventKey="Districts" title="Districts">
-                    <PlanDistricts enactedInfo={props.enactedInfo} popType={props.popType}/>
+                  <Tab eventKey="planDistricts" title="Districts">
+                    <PlanDistricts props={props}/>
                   </Tab>
                 </Tabs>
               </div>
             </div>
-          </div>
-        </div>
     );
 }
  
