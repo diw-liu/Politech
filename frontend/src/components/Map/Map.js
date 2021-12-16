@@ -147,4 +147,5 @@ const Map = (props) => {
         </DeckGL>
     )
   }
-  export default Map;
+}
+export default Map;
