@@ -55,7 +55,7 @@ const PlanDistricts = (props) => {
             var party = ""
             var vote = 0
             for(const variable in ElectionEnum){
-                const temp = districting.districts[i].election[variable]
+                const temp = districting[0].districts[i].election[variable]
                 if(temp > vote){
                     party = variable
                     vote = temp
@@ -74,16 +74,16 @@ const PlanDistricts = (props) => {
         for(var i = 0; i< length; i++){
             for(const variable in PopulationEnum){ 
                 if (props.popType === 0) 
-                    countDemo[PopulationEnum[variable]] += districting.districts[i].population[variable]
+                    countDemo[PopulationEnum[variable]] += districting[0].districts[i].population[variable]
                 else if (props.popType === 1)
-                    countDemo[PopulationEnum[variable]] += districting.districts[i].vap[variable]
+                    countDemo[PopulationEnum[variable]] += districting[0].districts[i].vap[variable]
             }
         }
     }
 
     return(
         <div>
-            {/* <div>
+            {<div>
             <h3>Voting Data</h3>
             <table style={{ width: '100%' }}>
                 <tr className="item">
@@ -105,10 +105,10 @@ const PlanDistricts = (props) => {
                     ))
                 }
             </table>
-            </div> */}
+            </div> }
 
             <hr/>
-{/* 
+{
             <div>
             <h3>Demographic Data </h3>
             <table style={{ width: '100%' }}>
@@ -132,7 +132,7 @@ const PlanDistricts = (props) => {
                     <td style={{ textAlign: 'right' }}>{}</td>
                 </tr>
             </table>
-            </div> */}
+            </div> }
         </div>
     )
     
