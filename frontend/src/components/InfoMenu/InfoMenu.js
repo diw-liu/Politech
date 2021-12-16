@@ -22,9 +22,6 @@ const demographicMapping = {
 
 const InfoMenu = (props) =>{
 
-  const [parts, setParties] = useState([]);
-  const [demos, setDemos] = useState([]);
-  const [totalPopDem, setTotalPopDem] = useState([]);
 
   // useEffect(() =>{
   //   fetch("/api/voting")
@@ -58,22 +55,7 @@ const InfoMenu = (props) =>{
               <button class='nav-link' data-bs-toggle='tab' data-bs-target='#plots' role='tab' type='button' aria-selected='false'> Box and Whiskers </button>
             </li>
           </ul>
-          {/* <Tabs>
-            <Tab eventKey="Enacted" title="Enacted Plan">
-            </Tab>
-            <Tab eventKey="Generated" title="Generated Plans">
-            </Tab>
-            <Tab eventKey="Saved" title="Saved Plans">
-            </Tab>
-          </Tabs> */}
-          {/* <Tabs>
-            <Tab eventKey="State" title="State">
-              
-            </Tab>
-            <Tab eventKey="Districts" title="Districts">
 
-            </Tab>
-          </Tabs> */}
           <div class='tab-content' id='pills-tabContent'>
             <div class='tab-pane fade show active' id='enacted' role='tabpanel' aria-labelledby='enacted-tab'>
               <Tabs>
@@ -88,7 +70,7 @@ const InfoMenu = (props) =>{
               </Tabs>
             </div>
             <div class='tab-pane fade' id='generated' role='tabpanel' aria-labelledby='generated-tab'>
-              <GeneratedTable districtings={props.districtings} setPlan={props.setPlan}/>
+              <GeneratedTable districtings={props.districtings} getPlan ={props.getPlan} setMeasure={props.setMeasure} setPlan={props.setPlan}/>
             </div>
             <div class='tab-pane fade' id='plots' role='tabpanel' aria-labelledby='plots-tab'>
               <BoxAndWhisker stateName={props.stateName} plan={props.plan} setPlan={props.setPlan} plots={props.plots} setPlots={props.setPlots}/>

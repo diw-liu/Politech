@@ -19,31 +19,41 @@ const HomeScreen = (props) =>{
 
   const [showInfo, setShowInfo] = useState(false)
 
+  const [plan, setPlan] = useState(0)
   const [enactedInfo, setEnactedInfo] = useState({})
+  const [planInfo,setPlanInfo] = useState({})
   const [enactedGeo, setEnactedGeo] = useState({})
+
   const [all, setAll] = useState({})
   const [layers, setLayers] = useState({})
   const [flag, setFlag] = useState({'district':true,'county':false,'precinct':true})
  
   const [districtings, setDistrictings] = useState([])
+  const [measure, setMeasure] = useState({})
   const [election, setElection] = useState({})
   const [population, setPopulation] = useState({})
   const [vap, setVap]  = useState({})
   const [plots, setPlots] = useState({})
 
+  var temp = Object.keys(measure).length == 0 ? 0 : (measure.populationEquality.toFixed(2))
+  const [popEq, setPopEq] = useState(temp)
+  temp = Object.keys(measure).length == 0 ? 0 : (measure.opportunityDistricts.toFixed(2))
+  const [oppoDist, setOppoDist] = useState(temp)
+  const [popType, setPopType] = useState(0)
+
   const [stateName, setStateName] = useState('')
 
   const [view, setView] = useState(INITIAL_VIEW_STATE)
-  const [plan, setPlan] = useState(0)
   const [showModal, setShowModal] = useState(false) // HERE IS WHERE I CHANGED THE FALSE TO TRUE
   
   const [gen, setGen] = useState(false);
+  const [algoGraph, setAlgoGraph] = useState({});
+  
+
   // const [saved, setSaved] = useState(false);
   // const [algoModal, setAlgoModal] = useState(false);
   // const [summaryFetch, setSummaryFetch] = useState(false);
-  const [algoGraph, setAlgoGraph] = useState({});
-
-  const [popType, setPopType] = useState(0)
+  console.log(planInfo)
 
   useEffect(() =>{
     fetch("/api/all",{
@@ -91,6 +101,8 @@ const HomeScreen = (props) =>{
       getPrecinct()
     ]);
 
+    setPlan(data.enacted.id)
+    setPlanInfo(data.enacted)
     setEnactedInfo(data.enacted)
     setElection(data.election)
     setPopulation(data.population)
@@ -104,12 +116,12 @@ const HomeScreen = (props) =>{
     console.log(data.districting)
     setGen(false)
 
-    console.log(district)
-    console.log(county)
-    console.log(precinct)
-    console.log(layers)
-    console.log(enactedInfo)
-    console.log(population)
+    // console.log(district)
+    // console.log(county)
+    // console.log(precinct)
+    // console.log(layers)
+    // console.log(enactedInfo)
+    // console.log(population)
     // setState(data)
     // const temp = await getDistrict(name)
     // console.log(temp)
@@ -123,24 +135,24 @@ const HomeScreen = (props) =>{
     console.log(showModal)
     console.log("Loading")
     setShowModal(true)
-    
-    // await getStateTesting()
-    
-    // setTimeout(function(){
-    //   getStartTesting()
-    // }, 3000);
   }
   // fetching start before setShowModal is true
   useEffect(async () => {
     console.log("Set")
     if(showModal){
-      await getPlanTesting()
+      await getPlanTesting() 
       getStartTesting()
       getSummaryTesting()
     }
   }, [showModal])
 
+  // Pop == goal
+  // Oppo = higher
+  // Lower = 0 
+  // age = radio 
   const getStartTesting = async () =>{
+    var url = "/job/start?goal="+popEq+"&lower=0&higher="+oppoDist+"&age="+popType;
+    console.log(url)
     return fetch("/job/start?goal=0.09&lower=0&higher=7&age=0", {
       method: 'POST',
       headers: {
@@ -159,16 +171,12 @@ const HomeScreen = (props) =>{
     const contentType = response.headers.get("content-type");
     console.log(contentType)
     if (contentType && contentType.indexOf("application/json") !== -1) {
-
       console.log("ss")
       const myJson = await response.json();
       setAlgoGraph(myJson); 
-
     } else {
-
       console.log("se")
       setAlgoGraph({})
-
     }
   }
   // Lagging behind for the result and unable to terminate before, necessary 
@@ -179,19 +187,7 @@ const HomeScreen = (props) =>{
       setTimeout(getSummaryTesting , 10000);
     }
   }, [algoGraph])
-  // useEffect(async () =>{
-  //   if (showModal == false){
-  //     await getPlanTesting()
-  //     getStartTesting()
-  //     getSummaryTesting()
-  //   }
-    
-  // }, [showModal]);
 
-  // const getStateTesting = async () =>{
-  //   return fetch("/api/state?name=MD")
-  //           .then(data => data.json())
-  // }
   const pause = async () => {
     await getPauseTesting()
   }
@@ -207,8 +203,19 @@ const HomeScreen = (props) =>{
   }
 
   const getPlanTesting = async () =>{
-    return fetch("/api/selectplan?id=24PL0")
-            .then(data => data.json())
+    console.log("call")
+    var url = "/api/selectplan?id="+plan
+    const data = await fetch(url)
+                  .then(data => data.json())
+    // console.log(data)
+    var planDistrict = data;
+    for(const i in planDistrict.districts){
+      console.log(planDistrict.districts[i])
+      planDistrict.districts[i].geometry = planDistrict.districts[i].geometryString
+      delete planDistrict.districts[i].geometryString
+      console.log(planDistrict.districts[i])
+    }
+    setPlanInfo(planDistrict)
   }
 
   const getPauseTesting = async() => {
@@ -228,45 +235,6 @@ const HomeScreen = (props) =>{
   const getStopTesting = async() => {
     return fetch("/job/stop")
   }
-
- 
-
-    // try {
-
-    // }
-    // try {
-    //   // console.log(algoGraph)
-    //   // console.log()
-    //   const response = await fetch("/job/summary");
-    //   // console.log("summary try")
-    //   // console.log(response)
-    //   if (response.status === 200) {
-    //       const myJson = await response.json(); //extract JSON from the http response
-    //       // console.log("IC")
-    //       // console.log(myJson);  
-    //       console.log(algoGraph)
-    //       console.log()
-    //       setAlgoGraph(myJson);            
-    //   } else {
-    //       console.log("not a 200 Summary");
-    //   }
-    // } catch (err) {
-    //     console.log(err);
-    // } finally {
-    //   console.log(response)
-    //   if(showModal){
-    //     setTimeout(getSummaryTesting , 10000);
-    //   }
-    // }
-  // }
-  // useEffect(async () => {
-  //   console.log("Set")
-  //   if(showModal){
-  //     await getPlanTesting()
-  //     getStartTesting()
-  //     await getSummaryTesting()
-  //   }
-  // }, [algoGraph])
   
   return (
     <div >
@@ -278,10 +246,13 @@ const HomeScreen = (props) =>{
       
       { showInfo && (
         <div>
-          <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} plan={plan} setPlan={setPlan} popType={popType} plots={plots} setPlots={setPlots}/>
-          <LeftBar stateName={stateName} plan={plan} loading={Loading}
-                setGen={setGen} showModal={showModal} setShowModal={setShowModal} enactedInfo={enactedInfo} 
-                layers={layers} setLayers={setLayers} popType={popType} setPopType={setPopType}/>
+          <InfoMenu enactedInfo={enactedInfo} districtings={districtings} stateName={stateName} 
+                plan={plan} setPlan={setPlan} popType={popType} plots={plots} setPlots={setPlots}
+                getPlan={getPlanTesting} setMeasure={setMeasure}/>
+          <LeftBar stateName={stateName} plan={plan} enactedInfo={enactedInfo} measure={measure}
+                  popType={popType} setPopType={setPopType} popEq={popEq} setPopEq={setPopEq}
+                  oppoDist={oppoDist} setOppoDist={setOppoDist} loading={Loading}
+                  />
           <LayerSelector flag={flag} setFlag={setFlag}/>  
         </div>)
       } 
@@ -296,7 +267,7 @@ const HomeScreen = (props) =>{
                           : <AlgoModal algoGraph={algoGraph} pause={pause} resume={resume} stop={stop} setShowModal={setShowModal}/>
       }
 
-      <Map flag={flag} layers={layers} enactedInfo={enactedInfo} enactedGeo={enactedGeo} all={all}
+      <Map flag={flag} layers={layers} planInfo={planInfo} enactedGeo={enactedGeo} all={all}
           view={view} showClick={showClick} showInfo={showInfo}
           />
     </div>

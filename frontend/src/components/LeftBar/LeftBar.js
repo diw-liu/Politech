@@ -11,6 +11,7 @@ import PopulationSelector from './PopulationSelector';
 // import LayerSelector from '../Map/LayerSelector';
 
 const LeftBar = (props) => {
+
     return (
       <div className='left-bar'>
         {/* <Menu>
@@ -18,13 +19,15 @@ const LeftBar = (props) => {
         </Menu> */
         }
         <div class='container'>
-          <h2> {props.stateName} {(props.plan == 0) ? 'Enacted' : props.plan }</h2>
+          <h2> { props.stateName } {props.plan}</h2>
           <hr/>
-          <PlanStatistics plan={props.plan}/>
+          <PlanStatistics plan={props.plan} measure={props.measure}/>
           <hr/>
           <PopulationSelector popType={props.popType} setPopType={props.setPopType}/>
           <hr/>
-          <RedistrictMenu enactedInfo={props.enactedInfo} setGen={props.setGen} loading={props.loading}/>
+          <RedistrictMenu popType={props.popType} maxDists={props.enactedInfo.districts.length} measure={props.measure}
+                popEq={props.popEq} setPopEq={props.setPopEq} oppoDist={props.oppoDist} setOppoDist={props.setOppoDist}
+                loading={props.loading}/>
         </div>
       </div>
     );

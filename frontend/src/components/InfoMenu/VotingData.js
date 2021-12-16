@@ -19,7 +19,7 @@ const VotingData = (props) => {
         Total: {total:0, districts:0},
     }
     const length = props.enactedInfo.districts.length
-    
+
     if(Object.keys(props.enactedInfo).length != 0){ 
         // console.log(props.enactedInfo)
         for(var i = 0; i< length; i++){
@@ -35,8 +35,10 @@ const VotingData = (props) => {
                 count[ElectionEnum[variable]]['total'] += temp
                 count['Total']['total'] += temp
             }
-            count[ElectionEnum[party]]['districts']+= 1
-            count['Total']['districts'] += 1
+            if(party != ""){
+                count[ElectionEnum[party]]['districts']+= 1
+                count['Total']['districts'] += 1
+            }
             // console.log(props.enactedInfo.districts[i])
             // console.log(party+" "+ vote)
         }
