@@ -86,12 +86,20 @@ const PlansTable = (props) => {
         // console.log(id)
     }
 
+    const resetSelection = () => {
+        setHighLight()
+        setPreview()
+        props.props.setPlan(props.props.enactedInfo.id)
+        props.props.setMeasure(props.props.enactedInfo.measures)
+    }
+
     useEffect(() => {
     }, [preview]);
 
     return(
         <div>
-        <button data-tip data-for='preview'>Preview ... </button>
+        <button class='btn btn-secondary' data-tip data-for='preview' style={{width: '100%'}}>Hover for preview ... </button>
+        <button class='btn btn-warning' style={{width: '100%'}} onClick={() => resetSelection()}>Reset Plan</button>
         <div class='table-responsive overflow-scroll'>
             <ReactTooltip id='preview' place='bottom' backgroundColor='white'><SVG width={240} src={preview}/></ReactTooltip>
             <table class='table table-striped overflow-scroll' style={{tableLayout: "fixed", height: "60%"}}>
