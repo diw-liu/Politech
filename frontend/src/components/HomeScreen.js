@@ -46,6 +46,7 @@ const HomeScreen = (props) =>{
 
   const [view, setView] = useState(INITIAL_VIEW_STATE)
   const [showModal, setShowModal] = useState(false) // HERE IS WHERE I CHANGED THE FALSE TO TRUE
+  const [summaryBoolean, setSummaryBoolean] = useState(false)
   
   const [gen, setGen] = useState(false);
   const [algoGraph, setAlgoGraph] = useState({});
@@ -138,6 +139,7 @@ const HomeScreen = (props) =>{
     console.log(showModal)
     console.log("Loading")
     setShowModal(true)
+    setSummaryBoolean(true);
   }
   // fetching start before setShowModal is true
   useEffect(async () => {
@@ -190,7 +192,8 @@ const HomeScreen = (props) =>{
   useEffect(async () => {
     console.log("inside algo")
     console.log(algoGraph)
-    if(showModal){
+    if(showModal && summaryBoolean){
+      setSummaryBoolean(true);
       setTimeout(getSummaryTesting , 2000);
     }
   }, [algoGraph])
@@ -207,11 +210,12 @@ const HomeScreen = (props) =>{
     // controller.abort()
     await getStopTesting()
     // setShowModal(false)
+    setSummaryBoolean(false)
   }
 
   const close = () => {
+    setSummaryBoolean(false);
     setShowModal(false);
-
   }
 
   const getPlanTesting = async () =>{
@@ -286,7 +290,8 @@ const HomeScreen = (props) =>{
 
       {
         showModal != true ? <div></div>
-                          : <AlgoModal algoGraph={algoGraph} pause={pause} resume={resume} stop={stop} setShowModal={setShowModal} close={close}/>
+                          : <AlgoModal algoGraph={algoGraph} pause={pause} resume={resume} stop={stop} popEq={popEq}
+                          setShowModal={setShowModal} close={close} summaryBoolean={summaryBoolean} setSummaryBoolean={setSummaryBoolean}/>
       }
 
       <Map flag={flag} layers={layers} planInfo={planInfo} enactedGeo={enactedGeo} all={all}

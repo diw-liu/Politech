@@ -18,11 +18,11 @@ const RedistrictMenu = (props) => {
         <h2> Redistrict </h2>
         <hr/>
         <div>
-          <span>Population Equality: {props.popEq.toFixed(2)}</span>
-          <Slider style={{width:'100%'}} axis='x' x={props.popEq} xmax={0.7} xstep={0.001} onChange={ ({x}) => props.setPopEq(x) }/>
+          <span>Population Equality Goal: {props.popEq.toFixed(2)}</span>
+          <Slider style={{width:'100%'}} axis='x' x={props.popEq} xmax={0.1} xstep={0.001} onChange={ ({x}) => props.setPopEq(x) }/>
         </div>
         <div>
-          <span style={{width:'100%'}}>Majority-minority districts: {props.oppoDist}</span>
+          <span style={{width:'100%'}}>Maximum Opportunity Districts: {props.oppoDist}</span>
           <Slider style={{width:'100%'}} axis='x' x={props.oppoDist} xmax={props.maxDists} xstep={1} onChange={ ({x}) => props.setOppoDist(x) }/>
         </div>
         <button style={{marginTop:'16px'}} className='btn btn-primary' onClick={handleLoading} > Redistrict </button>

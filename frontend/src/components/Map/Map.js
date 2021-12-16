@@ -17,7 +17,10 @@ const Map = (props) => {
     //   console.log(variable);
     //   console.log(props.layers[variable]);
     // }
-    console.log(props.enactedInfo);
+    console.log("enacted info")
+    console.log(props.enactedInfo)
+    console.log("enacted geo")
+    console.log(props.enactedGeo);
     console.log(Object.keys(props.layers).length == 0);
     console.log(props.flag)
     

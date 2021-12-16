@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import ReactTooltip from 'react-tooltip';
+import ReactTable from "react-table";
+import { useTable, useSortBy } from 'react-table'
 import XMLParser from 'react-xml-parser';
 import SVG from 'react-inlinesvg';
 import Districts from '../../data/mock2.js';
@@ -10,12 +12,46 @@ const GeneratedTable = (props) => {
 
     const [highLight, setHighLight] = useState();
     const [preview, setPreview] = useState();
+    const data = useState(() => props.districtings.map(datum => {
+        return {
+            id: datum.measures.id.split("PL")[1],
+            objectiveFunction: datum.measures.objectiveFunction.toFixed(2),
+            opportunityDistricts: datum.measures.opportunityDistricts,
+            polsbyPopper: datum.measures.polsbyPopper.toFixed(2),
+            populationEquality: datum.measures.populationEquality.toFixed(2),
+            }
+    }));
+    const columns = useState([
+        {
+            Header: "Plan",
+            accessor: 'plan',
+        },
+        {
+            Header: "Objective Function",
+            accessor: 'objFunc',
+        },
+        {
+            Header: "Opportunity Districts",
+            accessor: 'oppDist',
+        },
+        {
+            Header: "Compactness",
+            accessor: 'compactness',
+        },
+        {
+            Header: "Population Equality",
+            accessor: 'popEq',
+        },
+    ]);
+    console.log(columns);   
+    console.log(data);
+
     // var districts = Districts;
     console.log(props.districtings)
     console.log(props.districtings[0])
 
     const getPreview = async (id) => {    
-        return fetch('/api/preview/' + 'MD' + '/' + id)
+        return fetch('/api/preview/' + props.stateName + '/' + id) // check if the stateName thing works
                 .then((data) => data.text())
                 .then((data) => setPreview(data))
                 .catch((error) => {
@@ -23,6 +59,20 @@ const GeneratedTable = (props) => {
                 });
     }
 
+    // useEffect(() => {
+    //     let tempData = props.districtings.map(datum => {
+    //     return {
+    //         id: datum.measures.id.split("PL")[1],
+    //         objectiveFunction: datum.measures.objectiveFunction.toFixed(2),
+    //         opportunityDistricts: datum.measures.opportunityDistricts,
+    //         polsbyPopper: datum.measures.polsbyPopper.toFixed(2),
+    //         populationEquality: datum.measures.populationEquality.toFixed(2),
+    //         }
+    //     });
+    //     setData(tempData);
+    //     console.log(data);
+    // }, [props.districtings]);
+    
     const toggleActive = async (id, measure) =>{
         setHighLight(id)
         props.setPlan(id)

@@ -58,6 +58,7 @@ const AlgoModal = (props) => {
     }
 
     const handleClose = () => {
+        console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
         props.close();
     }
 
@@ -122,7 +123,7 @@ const AlgoModal = (props) => {
                             <button style={{marginTop:'16px'}} className='btn btn-warning' onClick={handlePause} > Pause </button>
                             <button style={{marginTop:'16px'}} className='btn btn-success' onClick={handleResume} > Resume </button>
                             <button style={{marginTop:'16px'}} className='btn btn-danger' onClick={handleStop} > Stop </button>
-                            <button style={{marginTop:'16px'}} className='btn btn-info' onClick={handleClose} > Close </button>
+                            <button id="close" style={{marginTop:'16px'}} className='btn btn-info'  onClick={handleClose} > Close </button>
                         </div>
                     </div>
                 </div>
